@@ -59,7 +59,16 @@ export class RegisterComponent implements OnInit {
         this.showLink=false;
         this.errorMessage='';
         this.user.firstTimeLogIn=true;
-        localStorage.setItem('user', JSON.stringify(this.user));
+        let currentUser={
+          "email": this.user.email,
+          "firstName": this.user.firstName,
+          "lastName": this.user.lastName,
+          "roleType": this.user.roleType,
+          "userId": this.user.userId,
+          "alreadyTexted": this.user.alreadyTexted,
+          "firstTimeLogin": this.user.firstTimeLogIn
+        }
+        localStorage.setItem('user', JSON.stringify(currentUser));
         this.router.navigate(['/home']);
       };
     }, (error) => { this.errorMessage="Something went wrong! Please try again later." });
