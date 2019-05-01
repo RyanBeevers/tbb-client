@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+  crossorigin="anonymous">
+<script src="Scripts/umd/popper.min.js"></script>
+
+<div class="background" (keyup)="calculate()">
+  <div class="row">
+    <div class="column left" [ngClass]="{ mediumWidth: !admin && !paid, smallWidth: admin, largeWidth : !admin && paid }">
+      <div class="page">
+        <img src='' style="height: 50px; width: 150px; margin-top: 10px; margin-left: 5%;display: inline-block;">
+        <h1 style="display: inline-block; margin-left: 21%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
+        <div id="sectionOne">
+          <div id="separator"></div>
+          <div id="businessInformation" style="margin-left: 7%; margin-top: 2%; display: inline-block">
+            <h4>{{customer.businessName}}</h4>
+            <label>{{customer.businessStreetAddress}}</label><label style="position: absolute; left: 350px;">{{customer.workPhone}}</label>
+            <br>
+            <label>{{customer.businessCity}}, {{customer.businessState}} {{customer.businessCountry}}</label><label style="position: absolute; left: 350px;">{{customer.email}}</label>
+            <br>
+            <label>{{customer.businessZip}}</label>
+          </div>
+          <div style="display: inline-block; float: right; margin-right: 15%; margin-top: 3%;">
+            <i class="fas fa-file-invoice-dollar" style="font-size: 120px; color: black;"></i>
+          </div>
+        </div>
+
+        <div id="sectionTwo">
+          <div id="separator"></div>
+          <br>
+          <h4 style="margin-left: 7%;">Invoice Tasks</h4>
+          <div style="width: 20%; margin-left: 8%; display: inline-block;">
+            <label style="color: grey; font-weight: bold">INVOICE ID</label>
+            <br>
+            <label>{{invoiceId}}</label>
+            <br>
+            <label style="color: grey; font-weight: bold">DATE OF ISSUE</label>
+            <br>
+            <label>{{dateOfIssue}}</label>
+          </div>
+          <table class="table">
+            <thead>
+            <tr style="color: black;">
+              <th scope="col" style="width: 60%; color: black">DESCRIPTION</th>
+              <th scope="col" style="color: black;">COST*</th>
+              <th scope="col" style="color: black;">EFFORT*</th>
+              <th scope="col" style="color: black;">TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let task of tasks">
+                <td style="color: black;">{{task.description}}</td>
+                <td style="color: black;">{{task.cost}}</td>
+                <td style="color: black;">{{task.effort}}</td>
+                <td style="color: black;">{{task.total}}</td>
+              </tr>
+            </tbody>
+            <hr>
+            <span style="margin-left: 10px; color: black;">*per hour</span>
+          </table>
+        </div>
+
+        <div id="sectionThree">
+          <div id="separator"></div>
+          <br>
+          <div style="margin-left: 7%; float: right; margin-right: 8%">
+            <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{subtotal}}</label>
+            <br>
+            <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{discount}}</label>
+            <hr>
+            <h4 *ngIf="!paid">Total Due: ${{total}}</h4>
+            <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{total}}</h4>
+          </div>
+          <br>
+          <label *ngIf="!paid" style="margin-left: 7%;">Please pay by: {{payByDate}}</label>
+          <label *ngIf="paid" style="margin-left: 7%;">Paid: {{dateOfIssue}}</label>
+          <img *ngIf="paid" src='https://s1.card-images.com/products/green-paid-stamp_CD5380_Z.jpg' style='height: 125px; widows: 125px; margin-left: 30%'>
+        </div>
+      </div>
+    </div>
+
+    <div class="column right" *ngIf="admin">
+      <div class="form">
+        <select style="color: black" class="form-control" [(ngModel)]="selectedBusinessName" (change)="setCustomer(selectedBusinessName)">
+          <option style="color: black" *ngFor="let customer of customers" [value]="customer.businessName">{{customer.businessName}}
+          </option>
+        </select>
+        <label>Invoice ID</label>
+        <br>
+        <input [(ngModel)]="invoiceId">
+        <label>Date Of Issue</label>
+        <br>
+        <input [(ngModel)]="dateOfIssue">
+        <br>
+        <div class="card">
+          <h5>Task</h5>
+          <label>Description</label>
+          <input [(ngModel)]="description">
+          <label>Cost Per Hour</label>
+          <input [(ngModel)]="cost">
+          <label>Effort in Hours</label>
+          <input [(ngModel)]="effort">
+          <button (click)="addTask()">Add</button>
+        </div>
+        <label>Discount</label>
+        <br>
+        <input [(ngModel)]="discount">
+        <br>
+        <label>Pay By Date</label>
+        <input [(ngModel)]="payByDate">
+        <br>
+        <button style="margin-top: 10px;" (click)="pay()">Save</button>
+        <button>Export</button>
+        <button>Send</button>
+      </div>
+    </div>
+  </div>
+</div>

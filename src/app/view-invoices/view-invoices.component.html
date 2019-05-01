@@ -1,0 +1,20 @@
+<h1 style="margin-left: 10%; margin-top: 2%; margin-bottom: 2%;">View Invoices</h1>
+<div id="table" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-bottom: 8%;">
+  <table class="table table-striped table-hover table-bordered table-dark">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let col of columns">{{col}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of invoices; index as i" (click)="viewInvoice(i)">
+        <td>{{invoice.invoiceId}}</td>
+        <td>{{submittedDate[i]}}</td>
+        <td>{{status[i]}}</td>
+        <td>{{datePaid[i]}}</td>
+        <td>${{invoice.invoiceTotal}}</td>
+        <td *ngIf="admin">{{invoice.customerId}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

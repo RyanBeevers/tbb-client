@@ -1,0 +1,52 @@
+<div id='main-container'>
+    <div class="card" style="display: inline-block; margin-left: 6%;" *ngFor="let card of cardTitle; index as i">
+        <h3>{{card}}</h3>
+      <img class="card-img-top"
+        src={{cardImg[i]}}
+        alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{cardTitle2[i]}}</h5>
+        <p class="card-text" style="color:white;">{{cardDesc[i]}}</p>
+      </div>
+      <div class="card-body">
+        <span class="card-link" style="position: relative; bottom: 0;margin-bottom: 20px;" data-toggle="modal" data-toggle="modal" data-target="#myModal" (click)="showModal(i)">
+          Click here for pricing!
+        </span>
+        <a (click)="setEditData(i)" *ngIf="admin" class="card-link" style="position: relative; bottom: 0; float: right;" routerLink="/new-task">Edit</a>
+      </div>
+    </div>
+    <div *ngIf="admin" class="card" style="display: inline-block">
+        <h3>Create New Task</h3>
+        <br>
+        <a routerLink="/new-task"><i style="font-size: 80px; color: rgb(99, 98, 98); margin-left: 40%; margin-right: 40%; padding-top: 20%;" class="fas fa-plus"></i></a>
+    </div>
+  
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{modalData[0]}}</h4>
+          <button type="button" class="close" (click)="hideModal()">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h4>Description</h4>
+          {{modalData[3]}}
+          <h4 style="padding-top: 20px;">Pricing</h4>
+          {{modalData[4]}}
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="hideModal()">Close</button>
+  
+          <!-- this button is hidden, used to close from typescript -->
+          <button type="button" id="close-modal" data-dismiss="modal" style="display: none">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

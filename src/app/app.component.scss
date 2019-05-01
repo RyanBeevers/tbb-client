@@ -1,0 +1,51 @@
+.nav-item{
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.nav-item:hover{
+    background-color: black;
+    border-radius: 10px;
+}
+#navbar{
+    color: white;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("https://markleisherproductions.com/wp-content/uploads/2015/10/grey-website-background-illusionapparel2.jpg");
+}
+#footer{
+    color: white;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("https://markleisherproductions.com/wp-content/uploads/2015/10/grey-website-background-illusionapparel2.jpg");
+}
+#selectBox select {
+	border-color: #888;
+}
+option{
+    color: white;
+    background-color: rgb(40, 40, 40);
+}
+.dropdown{
+    margin-top: 3px;
+}
+button:hover{
+    background-color: black;
+    border-radius: 10px;
+}
+.dropdown-item:hover{
+    background-color: #888;
+}
+button{
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+}
+.dropdown-menu{
+    background-color: black;
+}
+#accountIcon{
+    margin-right: 40px;
+}
+.moveDown{
+    top:30;
+}
+.moveUp{
+    top: 0;
+}

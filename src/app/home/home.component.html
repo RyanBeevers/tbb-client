@@ -1,0 +1,201 @@
+<div id='main-container'>
+  <div class="card" style="display: inline-block; margin-left: 8%;" routerLink="/view-invoices">
+      <h3>View Invoices</h3>
+    <img class="card-img-top"
+      src="https://content-static.upwork.com/blog/uploads/sites/3/2017/05/22152713/Creating-terms-and-conditions-for-invoices-feature.jpg"
+      alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+        content.</p>
+    </div>
+  </div>
+  <div class="card" style="display: inline-block">
+    <h3>Track Progress</h3>
+    <img class="card-img-top" src="https://www.stratagemcpa.com/wp-content/uploads/2018/03/file-23.jpg"
+      alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+        content.</p>
+    </div>
+  </div>
+  <div class="card" style="display: inline-block">
+    <h3>Add Task</h3>
+    <img class="card-img-top"
+      src="https://www.americangeosciences.org/sites/default/files/AGI_WF_ProfessionalWriting101.jpg"
+      alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+        content.</p>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" data-backdrop="static">
+  <div class="modal-dialog  modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: black; text-align: center">Register</h3>
+        <span style="color: black;">* Indicates Required</span>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="color: black;">
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <h4 style="color:black;">Personal Information</h4>
+          <hr>
+          <div class="row">
+            <div class="column left">
+              <div class="form-group">
+                <label style="color:black;">First Name*</label>
+                <input type="text" formControlName="firstName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" [(ngModel)]="this.user.firstName" />
+                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="color:black;">Email*</label>
+                <input disabled type="text" formControlName="email" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" [(ngModel)]="this.user.email" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
+              </div>
+            </div>
+            <div class="column right">
+              <div class="form-group">
+                <label style="color:black;">Last Name*</label>
+                <input type="text" formControlName="lastName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" [(ngModel)]="this.user.lastName" />
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                </div>
+              </div>
+              <div>
+                <label style="color:black;">Personal Phone</label>
+                <input type="text" class="form-control" [(ngModel)]="this.user.personalPhone" [ngModelOptions]="{standalone: true}"/>
+              </div>
+            </div>
+          </div>
+          <h4 style="color:black;">Business Information</h4>
+          <hr>
+          <div class="row">
+            <div class="column left">
+              <div class="form-group">
+                <label style="color:black;">Business Name*</label>
+                <input type="text" formControlName="businessName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessName.errors }" [(ngModel)]="this.user.businessName" />
+                <div *ngIf="submitted && f.businessName.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessName.errors.required">Business Name is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="color:black;">Business Street Address*</label>
+                <input type="text" formControlName="businessAddress" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessAddress.errors }"
+                  [(ngModel)]="this.user.businessStreetAddress" />
+                <div *ngIf="submitted && f.businessAddress.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessAddress.errors.required">Business Street Address is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="color:black;">Business State*</label>
+                <input type="text" formControlName="businessState" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessState.errors }" [(ngModel)]="this.user.businessState" />
+                <div *ngIf="submitted && f.businessState.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessState.errors.required">Business State is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="color:black;">Business Country*</label>
+                <input type="text" formControlName="businessCountry" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessCountry.errors }"
+                  [(ngModel)]="this.user.businessCountry" />
+                <div *ngIf="submitted && f.businessCountry.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessCountry.errors.required">Business Country is required</div>
+                </div>
+              </div>
+      
+            </div>
+            <div class="column right">
+              <div>
+                <label style="color:black;">Business Type</label>
+                <input type="text" class="form-control" [(ngModel)]="this.user.typeOfBusiness" [ngModelOptions]="{standalone: true}"/>
+              </div>
+      
+              <div class="form-group">
+                <label style="color:black;">Business City*</label>
+                <input type="text" formControlName="businessCity" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessCity.errors }" [(ngModel)]="this.user.businessCity" />
+                <div *ngIf="submitted && f.businessCity.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessCity.errors.required">Business City is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="color:black;">Business Zip*</label>
+                <input type="text" formControlName="businessZip" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessZip.errors }" [(ngModel)]="this.user.businessZip" />
+                <div *ngIf="submitted && f.businessZip.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessZip.errors.required">Business Zip is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="color:black;">Business Phone #*</label>
+                <input type="text" formControlName="businessPhone" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.businessPhone.errors }" [(ngModel)]="this.user.workPhone" />
+                <div *ngIf="submitted && f.businessPhone.errors" class="invalid-feedback">
+                  <div *ngIf="f.businessPhone.errors.required">Business Phone # is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4 style="color:black;">Password</h4>
+          <hr>
+              <div class="form-group">
+                <label style="color:black; margin-left: 32.5%;">Password*</label>
+                <input disabled style="width: 35% !important; margin-left: 32.5%;" type="password" formControlName="password" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [(ngModel)]="this.user.password" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+              </div>
+          <br>
+          <div class="form-group">
+            <button style="width: 14%; margin-right: 43%; margin-left: 43%"
+              (click)="register()" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+        <div>
+          <button style="width: 14%; margin-right: 43%; margin-left: 43%"
+            class="btn btn-danger" (click)="confirmCancel()">Cancel</button>
+        </div>
+        <br>
+        <div *ngIf="showConfirmCancel">
+          <div style="color: red; margin-right: 15%; margin-left: 15%; text-align: center; width: 70%">Are you sure you want to cancel your account registration?</div>
+          <div style="color: red; margin-right: 15%; margin-left: 15%; text-align: center; width: 70%">Your account will not be saved!</div>
+          <br>
+          <div style="width: 100%;">
+            <button class="btn btn-danger" style="width: 14%; margin-left:35%;" (click)="cancelAndReturn()">Yes, cancel</button>
+            <button style="margin-left: 2%; width: 14%" class="btn btn-primary" (click)="hideWarning()">Nevermind!</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+
+        <!-- this button is hidden, used to close from typescript -->
+        <button type="button" id="close-modal" data-dismiss="modal" style="display: none">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

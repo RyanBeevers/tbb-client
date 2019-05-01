@@ -1,0 +1,52 @@
+#main-container{
+    margin-bottom: 8%;
+}
+.card{
+    vertical-align: top;
+    margin-top: 3%;
+    margin-left: 5%;
+    width: 22rem;
+    background: rgba(153, 153, 153, 0.6);
+    border-style: solid;
+    border-color: rgb(59, 59, 59);
+    border-width: 0.5px;
+    height: 500px;
+}
+img{
+    width: 22rem; 
+    height: 150px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+h3{
+    padding-top: 10px;
+    padding-bottom: 8px;
+    color: rgb(94, 216, 238);
+    text-align: center
+}
+span{
+    color: rgb(94, 216, 238);
+    padding-top: 10px;
+}
+span:hover{
+    color: white;
+    cursor: pointer;
+}
+.modal-header{
+    color:black !important;
+}
+.modal-body{
+    color:black !important;
+}
+.btn-primary{
+    background-color: rgb(83, 83, 83);
+    color:rgb(94, 216, 238);
+    border-color: rgb(153, 153, 153);
+}
+.btn-primary:hover{
+    background-color: rgb(94, 216, 238);
+    border-color: transparent;
+    color: black;
+}

@@ -1,0 +1,73 @@
+<div id='main-container'>
+    <form id='form'>
+      <h4>Create New Task</h4>
+      <hr>
+      <div id='container1'>
+        <label>Task Title</label>
+        <br>
+        <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center" [(ngModel)]="cardTitle" [ngModelOptions]="{standalone: true}">
+        <br>
+        <label>Image Url</label>
+        <br>
+        <input style="width: 70%; margin-left: 4%; margin-right: 2%" [(ngModel)]="cardImg" [ngModelOptions]="{standalone: true}">
+        <img src='{{cardImg}}' style="width:20%; height: 20%; margin-right: 4%" alt="Your Image">     
+        <br>
+        <label>Task Title 2 (optional)</label>
+        <br>
+        <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center"  [(ngModel)]="cardTitle2" [ngModelOptions]="{standalone: true}">
+        <br>
+        <label>Task Description</label>
+        <br>
+        <textarea style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center; height: 140px" maxlength="290" [(ngModel)]="cardDesc" [ngModelOptions]="{standalone: true}"></textarea>
+        <br>
+        <label>Pricing Info</label>
+        <br>
+        <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center"  [(ngModel)]="cardPricingDetail" [ngModelOptions]="{standalone: true}">
+      </div>
+    </form>
+    <div>
+      <br>
+      <button style="margin-left: 41%; margin-right: 40%;" class="btn btn-secondary" data-toggle="modal" data-toggle="modal" data-target="#myModal" (click)="showModal()">Preview</button>
+      <button style="margin-left: 41%; margin-right: 40%;" class="btn btn-primary">Submit</button>
+      <a href="/services" style="margin-left: 40%; margin-right: 40%;"><button class="btn btn-danger">Cancel</button></a>
+    </div>
+  </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Preview</h4>
+              <button type="button" class="close" (click)="hideModal()">&times;</button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="card" style="display: inline-block; margin-left: 6%; background-color: rgb(54, 54, 54); margin-left: 14%;">
+                <h3>{{cardTitle}}</h3>
+              <img class="card-img-top"
+                src={{cardImg}}
+                alt="Your image is unavailable">
+              <div class="card-body">
+                <h5 class="card-title">{{cardTitle2}}</h5>
+                <p class="card-text" style="color:white;">{{cardDesc}}</p>
+              </div>
+              <div class="card-body">
+                <span class="card-link" style="position: relative; bottom: 0;margin-bottom: 20px;">
+                  Click here for pricing!
+                </span>
+              </div>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="hideModal()">Close</button>
+      
+              <!-- this button is hidden, used to close from typescript -->
+              <button type="button" id="close-modal" data-dismiss="modal" style="display: none">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
