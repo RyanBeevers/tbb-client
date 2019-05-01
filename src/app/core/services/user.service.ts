@@ -68,6 +68,11 @@ export class UserService {
     return this.http.post<ChallengeQuestions>(environment.url+'/challengeQuestions', user, httpOptions)
     .pipe(catchError(this.handleError));
   }
+  
+  verifyPassword(user: User): Observable<User>{
+    return this.http.post<User>(environment.url + '/customer/login', user, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
 
   logout(){
     localStorage.removeItem('user');
