@@ -69,17 +69,23 @@ export class UserService {
     .pipe(catchError(this.handleError));
   }
   
+<<<<<<< HEAD
   setChallengeQuestions(challengeQuestions: ChallengeQuestions): Observable<ChallengeQuestions>{
     return this.http.post<ChallengeQuestions>(environment.url+'/setChallengeQuestions', challengeQuestions, httpOptions)
     .pipe(catchError(this.handleError));
   }
   
+=======
+>>>>>>> 592061c31ef60a45774404e6cb057c3d9bf7d3f7
   verifyPassword(user: User): Observable<User>{
     return this.http.post<User>(environment.url + '/customer/login', user, httpOptions)
       .pipe(catchError(this.handleError));
   }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 592061c31ef60a45774404e6cb057c3d9bf7d3f7
 
   logout(){
     localStorage.removeItem('user');

@@ -57,7 +57,16 @@ export class LoginComponent implements OnInit {
     this.user.password = this.password;
     this.userService.login(this.user).pipe(first()).subscribe((user) => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
+        let currentUser={
+          "email": user.email,
+          "firstName": user.firstName,
+          "lastName": user.lastName,
+          "roleType": user.roleType,
+          "userId": user.userId,
+          "alreadyTexted": user.alreadyTexted,
+          "firstTimeLogin": user.firstTimeLogIn
+        }
+        localStorage.setItem('user', JSON.stringify(currentUser));
     };
     this.router.navigate(['/home']);
     }, (error) => { this.showErrorMessage=true; this.errorMessage="Username or Password is incorrect! Please try again." });
