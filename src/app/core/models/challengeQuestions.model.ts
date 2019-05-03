@@ -1,5 +1,5 @@
 export class ChallengeQuestions{
-    customerId?: number;
+    userId?: number;
     question?: string;
     answer?: string;
 }

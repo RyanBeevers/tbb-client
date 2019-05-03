@@ -1,4 +1,4 @@
-<div id='main-container'>
+  <div id='main-container'>
   <div class="card" style="display: inline-block; margin-left: 8%;" routerLink="/view-invoices">
       <h3>View Invoices</h3>
     <img class="card-img-top"
@@ -157,6 +157,45 @@
               </div>
             </div>
           </div>
+          <h4 style="color:black;">Challenge Questions</h4>
+          <hr>
+            <div class="form-group">
+              <label style="color:black; margin-left: 10%;">Challenge Question 1*</label>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{question1}}
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-item" style="color:black; cursor: pointer;" (click)="setQuestion1(i)" *ngFor="let question of challengeQuestions; let i = index">{{question}}</li>
+                </ul>
+              </div>
+              <div style="color:red; margin-left: 10%" *ngIf="question1Warning">You must choose a question...</div>
+              <input style="width: 80% !important; margin-left:10%; margin-top: 2%;" type="text" formControlName="challengeAnswer1" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.challengeAnswer1.errors }" [(ngModel)]="this.challengeAnswer1"/>
+              <div style="margin-left: 10%" *ngIf="submitted && f.challengeAnswer1.errors" class="invalid-feedback">
+                <div style="color:red;" *ngIf="f.challengeAnswer1.errors.required">Challenge Question Answer is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label style="color:black; margin-left: 10%;">Challenge Question 2*</label>
+              <div class="form-group">
+                <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{question2}}
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" style="color:black; cursor: pointer;" (click)="setQuestion2(i)" *ngFor="let question of challengeQuestions; let i = index">
+                      {{question}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div style="color:red; margin-left: 10%" *ngIf="sameQuestion">Challenge questions cannot be the same</div>
+              <div style="color:red; margin-left: 10%" *ngIf="question2Warning">You must choose a question...</div>
+              <input style="width: 80% !important; margin-left: 10%;" type="text" formControlName="challengeAnswer2" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.challengeAnswer2.errors }" [(ngModel)]="this.challengeAnswer2" />
+              <div style="margin-left: 10%" *ngIf="submitted && f.challengeAnswer2.errors" class="invalid-feedback">
+                <div style="color:red;" *ngIf="f.challengeAnswer2.errors.required">Challenge Question Answer is required</div>
+              </div>
+            </div>
           <h4 style="color:black;">Password</h4>
           <hr>
               <div class="form-group">
@@ -170,7 +209,7 @@
               </div>
           <br>
           <div class="form-group">
-            <button style="width: 14%; margin-right: 43%; margin-left: 43%"
+            <button [disabled]="sameQuestion" style="width: 14%; margin-right: 43%; margin-left: 43%"
               (click)="register()" class="btn btn-primary">Submit</button>
           </div>
         </form>
