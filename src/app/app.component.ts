@@ -49,7 +49,9 @@ export class AppComponent {
       this.iconClass = 'fas fa-exclamation-triangle'
     }
     this.messageMessage=message;
-
+    setTimeout(()=>{
+      this.closeAlert();
+    }, 7000);
   }
   closeAlert(){
     this.messageClass='';

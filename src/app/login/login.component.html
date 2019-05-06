@@ -1,5 +1,5 @@
 <div id='main-container'>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registerForm">
     <h3 style="text-align: center; padding-top: 5%;">Login</h3>
     <hr>
     <div class="form-group">
@@ -10,7 +10,7 @@
           <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
       </div>
     </div>
-      <div class="form-group">
+      <div classs="form-group">
         <label>Password</label>
         <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [(ngModel)]="this.password" />
         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
@@ -22,9 +22,9 @@
         </div>
     </div>
     <div class="form-group">
-      <button style="margin-left: 41%; margin-right: 40%;" class="btn btn-primary">Submit</button>
+      <button (click)="onSubmit()" style="margin-left: 41%; margin-right: 40%;" class="btn btn-primary">Submit</button>
     </div>
   </form>
   <a routerLink="/" style="margin-left: 40%; margin-right: 40%;"><button class="btn btn-danger">Cancel</button></a>
-  <div style="text-align: center; margin-top: 5px;"><button [disabled]="f.email.errors" (click)="setForgotPassword()">Forgot Password?</button></div>
+  <div style="text-align: center; margin-top: 5px;"><button class="btn btn-default" style="color: white" (click)="setForgotPassword()">Forgot Password?</button></div>
 </div>

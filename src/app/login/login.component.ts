@@ -4,6 +4,7 @@ import { UserService } from './../core/services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { AppComponent } from './../app.component'
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private appComponent: AppComponent,
   ) { }
 
 
@@ -79,11 +81,13 @@ export class LoginComponent implements OnInit {
     this.user.email = this.email;
     this.userService.getUserByEmail(this.user).pipe(first()).subscribe((user) => {
       if (user) {
+        this.appComponent.closeAlert();
+        localStorage.setItem('user', JSON.stringify(this.user))
         localStorage.setItem("formType", "forgot");
         localStorage.setItem('userId', JSON.stringify(user.userId));
-        this.router.navigate(['/forgot-password']);
+        this.router.navigate(['/reset-password']);
       }else{
-        console.log('no user... do something')
+        this.appComponent.alert('warning', 'Please enter your email to reset password!')
       };
     }, (error) => { this.showErrorMessage=true; this.errorMessage="Username or Password is incorrect! Please try again." });
 

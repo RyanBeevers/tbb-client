@@ -33,7 +33,12 @@ export class MyAccountComponent implements OnInit {
     if(!this.userService.isAuthenticated()){
       this.router.navigate(['/not-authorized']);
     }else{
-      this.user=this.userService.getUser();
+      this.user=JSON.parse(localStorage.getItem('user'));
+      this.userService.getUserByEmail(this.user).pipe(first()).subscribe((user) => {
+        if (user) {
+          this.user=user;
+        };
+      }, (error) => { this.appComponent.alert('danger', 'Something went wrong! Please try again later.'); window.scrollTo(0, 0) });
     }
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -65,7 +70,16 @@ export class MyAccountComponent implements OnInit {
   updateProfile(){
     this.userService.updateUser(this.user).pipe(first()).subscribe((user) => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
+        let secureUser: User = {
+          "userId": user.userId,
+          "firstName": user.firstName,
+          "lastName": user.lastName,
+          "roleType": user.roleType,    
+          "email": user.email,
+          "alreadyTexted": user.alreadyTexted,
+          "firstTimeLogIn": user.firstTimeLogIn,
+        }
+        localStorage.setItem('user', JSON.stringify(secureUser));
         this.appComponent.alert('success', 'Account has been updated!');
         window.scrollTo(0, 0)
       };
@@ -73,6 +87,6 @@ export class MyAccountComponent implements OnInit {
   }
   setPasswordChange(){
     localStorage.setItem("formType", "change");
-    this.router.navigate(['/forgot-password']);
+    this.router.navigate(['/reset-password']);
   }
 }

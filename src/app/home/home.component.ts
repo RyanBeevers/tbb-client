@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { ChallengeQuestions } from '../core/models/challengeQuestions.model';
+import { AppComponent } from '../app.component'
 
 // This lets me use jquery
 declare var $: any;
@@ -50,12 +51,14 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder,
+    private appComponent: AppComponent,
   ) { }
 
   ngOnInit() {
     window.scrollTo(0, 0)
     if(localStorage.getItem('user')){
       this.user = JSON.parse(localStorage.getItem('user'))
+      console.log(this.user)
       if(this.user.firstTimeLogIn){
           $("#myModal").modal('show');
         }
@@ -83,11 +86,6 @@ export class HomeComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
-
-
-  }
-  
-  register(){
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {
@@ -101,35 +99,51 @@ export class HomeComponent implements OnInit {
       this.question2Warning=true;
       return;
     }
-    
+  }
+  
+  register(){
     this.userService.register(this.user).pipe(first()).subscribe((user) => {
       if (user) {
-        this.hideModal();
-        localStorage.setItem('user', JSON.stringify(user));
+        // this.hideModal();
+        let secureUser: User = {
+            "userId": user.userId,
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "roleType": user.roleType,    
+            "email": user.email,
+            "alreadyTexted": user.alreadyTexted,
+            "firstTimeLogIn": user.firstTimeLogIn,
+        }
+        localStorage.setItem('user', JSON.stringify(secureUser));
         this.user=user;
-        let challenges = [];
-        let challengeQuestion1 = {
-          "question" : this.question1,
-          "answer" : this.challengeAnswer1,
-          "custId": this.user.userId
-        }
-        let challengeQuestion2 = {
-          "question" : this.question2,
-          "answer" : this.challengeAnswer2,
-          "custId": this.user.userId
-        }
-        challenges.push(challengeQuestion1, challengeQuestion2)
-        this.userService.setChallengeQuestions(challenges[0]).pipe(first()).subscribe((challengeQuestion) => {
-          if (challengeQuestion) {
-            console.log('yay')
-          }}, (error) => { this.showErrorMessage=true; this.errorMessage="sumthin happened" });
-          this.userService.setChallengeQuestions(challenges[1]).pipe(first()).subscribe((challengeQuestion) => {
-            if (challengeQuestion) {
-              console.log('yay')
-            }}, (error) => { this.showErrorMessage=true; this.errorMessage="sumthin happened" });
-      };
-    }, (error) => { this.showErrorMessage=true; this.errorMessage="Username or Password is incorrect! Please try again." });
+        this.setChallengeQuestions();
+      }
+    }, (error) => { this.showErrorMessage=true; this.errorMessage="There was a problem with your registration! Please try again later." });
   }
+
+  setChallengeQuestions(){
+    let challenges = [];
+    let challengeQuestion1 = {
+      "challengeQuestion" : this.question1,
+      "challengeAnswer" : this.challengeAnswer1,
+      "userId": this.user.userId
+    }
+    let challengeQuestion2 = {
+      "challengeQuestion" : this.question2,
+      "challengeAnswer" : this.challengeAnswer2,
+      "userId": this.user.userId
+    }
+    challenges.push(challengeQuestion1, challengeQuestion2)
+    this.userService.setChallengeQuestions(challenges[0]).pipe(first()).subscribe((challengeQuestion) => {
+    if (challengeQuestion) {
+    }}, (error) => { this.showErrorMessage=true; this.errorMessage="There was a problem with your registration! Please try again later." });
+    this.userService.setChallengeQuestions(challenges[1]).pipe(first()).subscribe((challengeQuestion) => {
+      if (challengeQuestion) {
+        this.appComponent.alert('success', 'Your account has been successfully created!')
+        this.hideModal();
+    }}, (error) => { this.showErrorMessage=true; this.errorMessage="There was a problem with your registration! Please try again later." });
+  };
+
   confirmCancel(){
     this.showConfirmCancel=true;
   }
@@ -179,5 +193,4 @@ export class HomeComponent implements OnInit {
       this.question2 = this.challengeQuestions[index];
     }
   }
-
 }

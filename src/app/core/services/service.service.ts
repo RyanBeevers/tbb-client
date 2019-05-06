@@ -4,8 +4,6 @@ import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
-import { Invoice } from '../models/invoice.model';
-import { User } from '../models/user.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,12 +14,9 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class InvoiceService {
-  invoice: Invoice={};
-  user: User={};
-  
-  serviceinvoiceObservable : Observable<Invoice[]>;
-
+export class ServiceService {
+  service: Service = { };
+  serviceObservable : Observable<Service[]>;
   constructor( private http: HttpClient ) { }
 
   private handleError(error: HttpErrorResponse) {
@@ -40,14 +35,23 @@ export class InvoiceService {
     return throwError('Something went wrong; please try again later.');
   }
 
-  getAllInvoices(): Observable<Invoice> {
-    return this.http.get<Invoice>(environment.url + '/invoices')
-    .pipe(catchError(this.handleError));
-  }
-
-  getInvoicesByUser(user: User): Observable<Invoice> {
-    return this.http.post<Invoice>(environment.url + '/invoices/getByUser', user, httpOptions)
+  getServices(): Observable<Service> {
+    return this.http.get<Service>(environment.url + '/services')
     .pipe(catchError(this.handleError));
   }
   
+  newService(service: Service): Observable<Service> {
+    return this.http.post<Service>(environment.url + '/services/newService', service, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+  
+  updateService(service: Service): Observable<Service> {
+    return this.http.post<Service>(environment.url + '/services/update', service, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  deleteService(service: Service): Observable<Service> {
+    return this.http.put<Service>(environment.url + '/services/deleteService', service, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
 }

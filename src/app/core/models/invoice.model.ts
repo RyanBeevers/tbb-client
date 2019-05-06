@@ -1,3 +1,5 @@
+import { User } from "./user.model";
+
 export class Invoice{
     customerId?: number;
     invoiceId?: number;
@@ -8,4 +10,5 @@ export class Invoice{
     invoicePaidDate?: Date;
     invoicePaidFlag?: boolean;
     taskIds?: Array<number>;
+    user?: User;
 }

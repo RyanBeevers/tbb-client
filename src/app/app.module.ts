@@ -11,7 +11,7 @@ import { ServicesComponent } from './services/services.component';
 import { ContactMeComponent } from './contact-me/contact-me.component';
 import { RegisterComponent } from './register/register.component';
 import { TextMeComponent } from './text-me/text-me.component';
-import { NewTaskComponent } from './new-task/new-task.component';
+import { NewServiceComponent } from './new-service/new-service.component';
 import { FormsModule } from '@angular/forms';
 import { ViewInvoicesComponent } from './view-invoices/view-invoices.component';
 import { CreateInvoiceComponent } from './create-invoice/create-invoice.component';
@@ -22,7 +22,7 @@ import { NotAuthorizedComponent } from './not-authorized/not-authorized.componen
 import { MyAccountComponent } from './my-account/my-account.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ContactMeComponent,
     RegisterComponent,
     TextMeComponent,
-    NewTaskComponent,
+    NewServiceComponent,
     ViewInvoicesComponent,
     CreateInvoiceComponent,
     CreateTaskComponent,
@@ -43,7 +43,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     MyAccountComponent,
     ViewInvoiceComponent,
     NotFoundComponent,
-    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,12 +9,12 @@
           <div id="sectionOne">
             <div id="separator"></div>
             <div id="businessInformation" style="margin-left: 7%; margin-top: 2%; display: inline-block">
-              <h4>{{businessName}}</h4>
-              <label>{{businessAddress}}</label><label style="position: absolute; left: 350px;">{{businessPhone}}</label>
+              <h4>{{customer.businessName}}</h4>
+              <label>{{customer.businessStreetAddress}}</label><label style="position: absolute; left: 350px;">{{customer.workPhone}}</label>
               <br>
-              <label>{{businessCityStateCountry}}</label><label style="position: absolute; left: 350px;">{{businessEmail}}</label>
+              <label>{{customer.businessCity}}, {{customer.businessState}} {{customer.businessCountry}}</label><label style="position: absolute; left: 350px;">{{customer.email}}</label>
               <br>
-              <label>{{businessZipCode}}</label>
+              <label>{{customer.businessZip}}</label>
             </div>
             <div style="display: inline-block; float: right; margin-right: 15%; margin-top: 3%;">
               <i class="fas fa-file-invoice-dollar" style="font-size: 120px; color: black;"></i>
@@ -60,7 +60,7 @@
             <div id="separator"></div>
             <br>
             <div style="margin-left: 7%; float: right; margin-right: 8%">
-              <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{invoice.invoiceTotal}}</label>
+              <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{invoice.invoiceTotal + invoice.invoiceDiscount}}</label>
               <br>
               <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{invoice.invoiceDiscount}}</label>
               <hr>

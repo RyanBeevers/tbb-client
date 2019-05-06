@@ -1,8 +1,8 @@
-export class service{
+export class Service{
   serviceId?: number;
   cardTitle?: string;
   cardImg?: string;
   cardTitle2?: string;
-  cardDesc?: strubg;
+  cardDesc?: string;
   cardPricingDetail?: number;
 }

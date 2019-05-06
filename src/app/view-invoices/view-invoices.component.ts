@@ -6,7 +6,7 @@ import { InvoiceService } from './../core/services/invoice.service'
 import { Invoice } from './../core/models/invoice.model'
 import { TaskServiceService } from './../core/services/task-service.service'
 import { Task } from './../core/models/task.model'
-import { formatDate } from '@angular/common';
+import { first } from 'rxjs/operators';
 
 // This lets me use jquery
 declare var $: any;
@@ -18,6 +18,7 @@ declare var $: any;
 })
 export class ViewInvoicesComponent implements OnInit {
   user: User = {};
+  appComponent: any;
 
   constructor(
     private userService: UserService,
@@ -29,46 +30,60 @@ export class ViewInvoicesComponent implements OnInit {
   admin;
   invoice: Invoice = {};
   task: Task = {};
-  columns=['Invoice ID', 'Submitted Date', 'Status', 'Date Paid', 'Cost']
-  invoices = [];
-  
-  submittedDate=[];
-  datePaid=[];
+  columns=['Invoice ID', 'Submitted Date', 'Due Date', 'Status', 'Date Paid', 'Cost']
   status=[];
+  invoices=[];
+  users=[];
+  viewingUser = 'All';
 
   ngOnInit() {
     window.scrollTo(0, 0)
     if(!this.userService.isAuthenticated()){
       this.router.navigate(['/not-authorized']);
     }
-    this.user=this.userService.getUser();
-    this.admin=this.userService.isAdmin();
-    if(this.admin){
-      this.invoices=this.invoiceService.getAllInvoices();
+    this.user=JSON.parse(localStorage.getItem('user'));
+
+    if(this.user.roleType=='admin'){
+      this.loadManagerInvoices();
+      this.getAllUsers();
     }else{
-      this.invoices = this.invoiceService.getInvoiceByCustId(this.user.userId)
+      this.loadUserInvoices(this.user);
     }
-    this.formatTable();
+  }
+
+  loadManagerInvoices(){
+    this.viewingUser='All'
+    this.invoices = [];
+    this.invoiceService.getAllInvoices().pipe(first()).subscribe((invoices) => {
+      if (invoices) {
+        this.invoices.push(invoices);
+        this.formatTable();
+      }else{
+        this.appComponent.alert('warning', 'No Invoices Currently Available')
+      };
+    }, (error) => { this.appComponent.alert('danger', 'Error retrieving invoices! Please try again later!') });
+  }
+
+  loadUserInvoices(user){
+    this.invoices = [];
+    this.invoiceService.getInvoicesByUser(user).pipe(first()).subscribe((invoices) => {
+      if (invoices) {
+        this.invoices.push(invoices);
+        this.formatTable();
+      }else{
+        this.appComponent.alert('warning', 'No Invoices Currently Available')
+      };
+    }, (error) => { this.appComponent.alert('danger', 'Error retrieving invoices! Please try again later!') });
   }
 
   formatTable(){
-    if(this.admin){
-      this.columns.push('Customer ID')
+    this.columns=['Invoice ID', 'Submitted Date', 'Due Date', 'Status', 'Date Paid', 'Cost']
+    if(this.user.roleType=='admin'){
+      this.columns.push('Business')
+      this.columns.push('Customer Name')
     }
-    for(let i=0;i<this.invoices.length;i++){
-      let date = this.invoices[i].invoiceDateOfIssue;
-      let dateOfIssue = (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
-      this.submittedDate.push(dateOfIssue)
-
-      date=this.invoices[i].invoicePaidDate;
-      if(date){
-        dateOfIssue = (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
-        this.datePaid.push(dateOfIssue);
-      }else{
-        this.datePaid.push('')
-      }
-
-      let thisStatus = this.invoices[i].invoicePaidFlag;
+    for(let i=0;i<this.invoices[0].length;i++){
+      let thisStatus = this.invoices[0][i].invoicePaidFlag;
       if(thisStatus){
         this.status.push('Paid');
       }else{
@@ -76,10 +91,35 @@ export class ViewInvoicesComponent implements OnInit {
       }
     }
   }
-  viewInvoice(index){  
-    let invoiceId = this.invoices[index].invoiceId;
-    let invoice = this.invoiceService.getInvoiceById(invoiceId);
-    this.invoiceService.setInvoice(invoice);
-    this.router.navigate(['/view-invoice']);
+
+  viewInvoice(i){
+    localStorage.setItem('invoice', JSON.stringify(this.invoices[0][i]))
+    if(this.user.roleType=='admin' && !this.invoices[0][i].invoicePaidFlag){
+      this.router.navigate(['/create-invoices']);
+    }
+    else if(this.user.roleType=='admin' && this.invoices[0][i].invoicePaidFlag){
+      this.router.navigate(['/view-invoice']);
+    }
+    else{
+      this.router.navigate(['/view-invoice']);
+    }
+  }
+  getAllUsers(){
+    this.invoices = [];
+    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+      if (users) {
+        this.users.push(users);
+        console.log(this.users)
+      }else{
+        this.appComponent.alert('warning', 'No Users Currently Available for filter')
+      };
+    }, (error) => { this.appComponent.alert('danger', 'Error retrieving Users! Please try again later!') });
+  }
+
+  getUser(i){
+    let invoiceUser: User = {};
+    invoiceUser = this.users[0][i];
+    this.loadUserInvoices(invoiceUser);
+    this.viewingUser = invoiceUser.businessName;
   }
 }

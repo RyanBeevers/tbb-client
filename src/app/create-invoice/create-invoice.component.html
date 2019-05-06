@@ -11,12 +11,12 @@
         <div id="sectionOne">
           <div id="separator"></div>
           <div id="businessInformation" style="margin-left: 7%; margin-top: 2%; display: inline-block">
-            <h4>{{customer.businessName}}</h4>
-            <label>{{customer.businessStreetAddress}}</label><label style="position: absolute; left: 350px;">{{customer.workPhone}}</label>
+            <h4>{{invoiceCustomer.businessName}}</h4>
+            <label>{{invoiceCustomer.businessStreetAddress}}</label><label style="position: absolute; left: 350px;">{{invoiceCustomer.workPhone}}</label>
             <br>
-            <label>{{customer.businessCity}}, {{customer.businessState}} {{customer.businessCountry}}</label><label style="position: absolute; left: 350px;">{{customer.email}}</label>
+            <label>{{invoiceCustomer.businessCity}}, {{invoiceCustomer.businessState}} {{invoiceCustomer.businessCountry}}</label><label style="position: absolute; left: 350px;">{{invoiceCustomer.email}}</label>
             <br>
-            <label>{{customer.businessZip}}</label>
+            <label>{{invoiceCustomer.businessZip}}</label>
           </div>
           <div style="display: inline-block; float: right; margin-right: 15%; margin-top: 3%;">
             <i class="fas fa-file-invoice-dollar" style="font-size: 120px; color: black;"></i>
@@ -30,7 +30,8 @@
           <div style="width: 20%; margin-left: 8%; display: inline-block;">
             <label style="color: grey; font-weight: bold">INVOICE ID</label>
             <br>
-            <label>{{invoiceId}}</label>
+            <label *ngIf="invoiceCustomer.invoiceId">{{invoiceId}}</label>
+            <label *ngIf="!invoiceCustomer.invoiceId">TBD</label>
             <br>
             <label style="color: grey; font-weight: bold">DATE OF ISSUE</label>
             <br>
@@ -62,47 +63,35 @@
           <div id="separator"></div>
           <br>
           <div style="margin-left: 7%; float: right; margin-right: 8%">
-            <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{subtotal}}</label>
+            <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{invoiceCustomer.total+invoiceCustomer.discount}}</label>
             <br>
-            <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{discount}}</label>
+            <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{invoiceCustomer.discount}}</label>
             <hr>
-            <h4 *ngIf="!paid">Total Due: ${{total}}</h4>
-            <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{total}}</h4>
+            <h4 *ngIf="!paid">Total Due: ${{invoiceCustomer.total}}</h4>
+            <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{invoiceCustomer.total}}</h4>
           </div>
           <br>
           <label *ngIf="!paid" style="margin-left: 7%;">Please pay by: {{payByDate}}</label>
-          <label *ngIf="paid" style="margin-left: 7%;">Paid: {{dateOfIssue}}</label>
+          <label *ngIf="paid" style="margin-left: 7%;">Paid: {{invoiceCustomer.dateOfIssue}}</label>
           <img *ngIf="paid" src='https://s1.card-images.com/products/green-paid-stamp_CD5380_Z.jpg' style='height: 125px; widows: 125px; margin-left: 30%'>
         </div>
       </div>
     </div>
 
-    <div class="column right" *ngIf="admin">
+    <div class="column right">
       <div class="form">
-        <select style="color: black" class="form-control" [(ngModel)]="selectedBusinessName" (change)="setCustomer(selectedBusinessName)">
-          <option style="color: black" *ngFor="let customer of customers" [value]="customer.businessName">{{customer.businessName}}
-          </option>
-        </select>
-        <label>Invoice ID</label>
-        <br>
-        <input [(ngModel)]="invoiceId">
-        <label>Date Of Issue</label>
-        <br>
-        <input [(ngModel)]="dateOfIssue">
-        <br>
-        <div class="card">
-          <h5>Task</h5>
-          <label>Description</label>
-          <input [(ngModel)]="description">
-          <label>Cost Per Hour</label>
-          <input [(ngModel)]="cost">
-          <label>Effort in Hours</label>
-          <input [(ngModel)]="effort">
-          <button (click)="addTask()">Add</button>
+        <div class="dropdown">
+          <button *ngIf="this.user.roleType=='admin'" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{chosenBusiness}}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" *ngFor="let user of users[0]; index as i" style="color:white;" (click)="getUser(i)">{{user.businessName}}</a>
+          </div>
         </div>
+        <br>
         <label>Discount</label>
         <br>
-        <input [(ngModel)]="discount">
+        <input [(ngModel)]="invoiceCustomer.discount">
         <br>
         <label>Pay By Date</label>
         <input [(ngModel)]="payByDate">
