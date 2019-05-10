@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Service } from './../models/service.model'
+import { Task } from '../models/task.model'
+import { User } from '../models/user.model'
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
 import { Invoice } from '../models/invoice.model';
-import { User } from '../models/user.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,11 +16,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class InvoiceService {
-  invoice: Invoice={};
-  user: User={};
+export class TaskService {
   
-  serviceinvoiceObservable : Observable<Invoice[]>;
+  task: Task = { };
+  user: User = { };
+  invoice: Invoice = { };
+
+  serviceinvoiceObservable : Observable<Task[]>;
 
   constructor( private http: HttpClient ) { }
 
@@ -40,30 +42,34 @@ export class InvoiceService {
     return throwError('Something went wrong; please try again later.');
   }
 
-  getAllInvoices(): Observable<Invoice> {
-    return this.http.get<Invoice>(environment.url + '/invoices')
+  getAllTasks(): Observable<Task> {
+    return this.http.get<Task>(environment.url + '/tasks')
     .pipe(catchError(this.handleError));
   }
 
-  getInvoicesByUser(user: User): Observable<Invoice> {
-    return this.http.post<Invoice>(environment.url + '/invoices/getByUser', user, httpOptions)
-    .pipe(catchError(this.handleError));
-  }
-  
-  getInvoicesByInvoiceId(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(environment.url + '/invoices/getByInvoiceId', invoice, httpOptions)
+  getTasksByUserId(user: User): Observable<Task> {
+    return this.http.post<Task>(environment.url + '/tasks/getTasksByUserId', user, httpOptions)
     .pipe(catchError(this.handleError));
   }
 
-  createInvoice(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(environment.url + '/invoices/newInvoice', invoice, httpOptions)
+  getTasksByUserIdAndNoInvoice(user: User): Observable<Task> {
+    return this.http.post<Task>(environment.url + '/tasks/getTasksByUserIdAndNoInvoice', user, httpOptions)
     .pipe(catchError(this.handleError));
   }
 
-  updateInvoice(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(environment.url + '/invoices/updateInvoice', invoice, httpOptions)
+  getTasksByInvoice(invoice: Invoice): Observable<Task> {
+    return this.http.post<Task>(environment.url + '/tasks/getTasksByInvoice', invoice, httpOptions)
     .pipe(catchError(this.handleError));
   }
-  
-  
+
+  createTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(environment.url + '/tasks/newTask', task, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  updateTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(environment.url + '/tasks/updateTask', task, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
 }

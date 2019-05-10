@@ -4,7 +4,7 @@ import { UserService } from './../core/services/user.service';
 import { Router } from '@angular/router';
 import { InvoiceService } from './../core/services/invoice.service'
 import { Invoice } from './../core/models/invoice.model'
-import { TaskServiceService } from './../core/services/task-service.service'
+import { TaskService } from '../core/services/task.service'
 import { Task } from './../core/models/task.model'
 import { first } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ export class ViewInvoicesComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private taskService: TaskServiceService,
+    private taskService: TaskService,
     private invoiceService: InvoiceService,
   ) { }
 
@@ -104,17 +104,16 @@ export class ViewInvoicesComponent implements OnInit {
       this.router.navigate(['/view-invoice']);
     }
   }
-  getAllUsers(){
-    this.invoices = [];
-    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
-      if (users) {
-        this.users.push(users);
-        console.log(this.users)
-      }else{
-        this.appComponent.alert('warning', 'No Users Currently Available for filter')
-      };
-    }, (error) => { this.appComponent.alert('danger', 'Error retrieving Users! Please try again later!') });
-  }
+    getAllUsers(){
+      this.invoices = [];
+      this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+        if (users) {
+          this.users.push(users);
+        }else{
+          this.appComponent.alert('warning', 'No Users Currently Available for filter')
+        };
+      }, (error) => { this.appComponent.alert('danger', 'Error retrieving Users! Please try again later!') });
+    }
 
   getUser(i){
     let invoiceUser: User = {};

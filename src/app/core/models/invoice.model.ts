@@ -1,14 +1,12 @@
 import { User } from "./user.model";
 
 export class Invoice{
-    customerId?: number;
     invoiceId?: number;
-    invoiceDateOfIssue?: Date;
+    invoiceDateOfIssue?: String;
     invoiceDiscount?: number;
     invoiceTotal?: number;
-    invoicePayByDate?: Date;
-    invoicePaidDate?: Date;
+    invoicePayByDate?: String;
+    invoicePaidDate?: String;
     invoicePaidFlag?: boolean;
-    taskIds?: Array<number>;
     user?: User;
 }

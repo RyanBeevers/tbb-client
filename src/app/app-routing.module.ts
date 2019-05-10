@@ -10,13 +10,14 @@ import { RegisterComponent } from './register/register.component'
 import { TextMeComponent } from './text-me/text-me.component'
 import { NewServiceComponent } from './new-service/new-service.component'
 import { CreateInvoiceComponent } from './create-invoice/create-invoice.component'
-import { CreateTaskComponent } from './create-task/create-task.component'
+import { ViewTasksComponent } from './view-tasks/view-tasks.component'
 import { ViewInvoicesComponent } from './view-invoices/view-invoices.component'
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component'
 import { MyAccountComponent } from './my-account/my-account.component'
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent},
@@ -29,14 +30,15 @@ const routes: Routes = [
   { path: 'text-me', component: TextMeComponent},
   { path: 'new-service', component: NewServiceComponent},
   { path: 'create-invoices', component: CreateInvoiceComponent},
-  { path: 'create-task', component: CreateTaskComponent},
+  { path: 'view-tasks', component: ViewTasksComponent},
   { path: 'view-invoices', component: ViewInvoicesComponent},
   { path: 'not-authorized', component: NotAuthorizedComponent},
   { path: 'my-account', component: MyAccountComponent},
   { path: 'view-invoice', component: ViewInvoiceComponent},
   { path: 'reset-password', component: ResetPasswordComponent},
-  {path: '404', component: NotFoundComponent},
-  {path: '**', redirectTo: '/404'}
+  { path: 'new-task', component: NewTaskComponent},
+  { path: '404', component: NotFoundComponent},
+  { path: '**', redirectTo: '/404'},
 ];
 
 @NgModule({

@@ -15,7 +15,7 @@ import { NewServiceComponent } from './new-service/new-service.component';
 import { FormsModule } from '@angular/forms';
 import { ViewInvoicesComponent } from './view-invoices/view-invoices.component';
 import { CreateInvoiceComponent } from './create-invoice/create-invoice.component';
-import { CreateTaskComponent } from './create-task/create-task.component';
+import { ViewTasksComponent } from './view-tasks/view-tasks.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
@@ -23,6 +23,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 @NgModule({
   declarations: [
@@ -38,12 +39,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     NewServiceComponent,
     ViewInvoicesComponent,
     CreateInvoiceComponent,
-    CreateTaskComponent,
+    ViewTasksComponent,
     NotAuthorizedComponent,
     MyAccountComponent,
     ViewInvoiceComponent,
     NotFoundComponent,
     ResetPasswordComponent,
+    NewTaskComponent,
   ],
   imports: [
     BrowserModule,

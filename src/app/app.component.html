@@ -21,7 +21,7 @@
             Account Options
           </button>
           <div class="dropdown-menu" aria-labelledBy="dropdownMenuButton">
-            <a class="dropdown-item" routerLink="/create-task" style="color:white;"><i class="fas fa-tasks"></i>  Tasks<span class="sr-only">(current)</span></a>
+            <a class="dropdown-item" routerLink="/view-tasks" style="color:white;"><i class="fas fa-tasks"></i>  View Tasks<span class="sr-only">(current)</span></a>
             <a class="dropdown-item" routerLink="/view-invoices" style="color:white;"><i class="fas fa-receipt"></i>  View Invoices<span class="sr-only">(current)</span></a>
             <a *ngIf="userService.isAdmin()" class="dropdown-item" routerLink="/create-invoices" style="color:white;"><i class="fas fa-pencil-alt"></i>  Create Invoice<span class="sr-only">(current)</span></a>
           </div>

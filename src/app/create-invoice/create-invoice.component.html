@@ -4,7 +4,7 @@
 
 <div class="background" (keyup)="calculate()">
   <div class="row">
-    <div class="column left" [ngClass]="{ mediumWidth: !admin && !paid, smallWidth: admin, largeWidth : !admin && paid }">
+    <div class="column left">
       <div class="page">
         <img src='' style="height: 50px; width: 150px; margin-top: 10px; margin-left: 5%;display: inline-block;">
         <h1 style="display: inline-block; margin-left: 21%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
@@ -30,8 +30,8 @@
           <div style="width: 20%; margin-left: 8%; display: inline-block;">
             <label style="color: grey; font-weight: bold">INVOICE ID</label>
             <br>
-            <label *ngIf="invoiceCustomer.invoiceId">{{invoiceId}}</label>
-            <label *ngIf="!invoiceCustomer.invoiceId">TBD</label>
+            <label *ngIf="invoice.invoiceId">{{invoice.invoiceId}}</label>
+            <label *ngIf="!invoice.invoiceId">TBD</label>
             <br>
             <label style="color: grey; font-weight: bold">DATE OF ISSUE</label>
             <br>
@@ -46,12 +46,20 @@
               <th scope="col" style="color: black;">TOTAL</th>
             </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let task of tasks">
-                <td style="color: black;">{{task.description}}</td>
-                <td style="color: black;">{{task.cost}}</td>
-                <td style="color: black;">{{task.effort}}</td>
-                <td style="color: black;">{{task.total}}</td>
+            <tbody *ngIf="!edit">
+              <tr *ngFor="let task of completedTasks">
+                <td style="color: black;">{{task.taskDesc}}</td>
+                <td style="color: black;">${{task.taskCostPerHour}}</td>
+                <td style="color: black;">{{task.taskActualEffort}}</td>
+                <td style="color: black;">${{task.taskFinalCost}}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="edit">
+              <tr *ngFor="let task of completedTasks[0]">
+                <td style="color: black;">{{task.taskDesc}}</td>
+                <td style="color: black;">${{task.taskCostPerHour}}</td>
+                <td style="color: black;">{{task.taskActualEffort}}</td>
+                <td style="color: black;">${{task.taskFinalCost}}</td>
               </tr>
             </tbody>
             <hr>
@@ -63,12 +71,12 @@
           <div id="separator"></div>
           <br>
           <div style="margin-left: 7%; float: right; margin-right: 8%">
-            <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{invoiceCustomer.total+invoiceCustomer.discount}}</label>
+            <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{subtotal}}</label>
             <br>
-            <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{invoiceCustomer.discount}}</label>
+            <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{discount}}</label>
             <hr>
-            <h4 *ngIf="!paid">Total Due: ${{invoiceCustomer.total}}</h4>
-            <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{invoiceCustomer.total}}</h4>
+            <h4 *ngIf="!paid">Total Due: ${{total}}</h4>
+            <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{total}}</h4>
           </div>
           <br>
           <label *ngIf="!paid" style="margin-left: 7%;">Please pay by: {{payByDate}}</label>
@@ -80,8 +88,12 @@
 
     <div class="column right">
       <div class="form">
+          <p style="color: black; text-align: center">In this section, <b style="color: black;">Choose a customer...</b> from the dropdown. The customers information will be auto-populated
+            based on their profile information. Any tasks that are marked as <b style="color: black;">completed</b>, and not already
+            <b style="color: black;">associated with another invoice</b>, will be placed in this invoice.
+          </p>
         <div class="dropdown">
-          <button *ngIf="this.user.roleType=='admin'" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button [disabled]="edit" *ngIf="this.user.roleType=='admin'" style="padding-bottom: 15%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{chosenBusiness}}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -91,14 +103,16 @@
         <br>
         <label>Discount</label>
         <br>
-        <input [(ngModel)]="invoiceCustomer.discount">
+        <input (keyup)="calculate()" type="number" [(ngModel)]="discount">
+        <br>
+        <span *ngIf="subtotal">5%={{subtotal*0.05}}<br>10%={{subtotal*0.1}}<br>15%={{subtotal*0.15}}<br>20%={{subtotal*0.2}}</span>
+        <br>
         <br>
         <label>Pay By Date</label>
         <input [(ngModel)]="payByDate">
         <br>
-        <button style="margin-top: 10px;" (click)="pay()">Save</button>
-        <button>Export</button>
-        <button>Send</button>
+        <button *ngIf="!edit" style="margin-top: 7%;" (click)="save()" [disabled]="!total || total==0 || submitted">Save</button>
+        <button *ngIf="edit" style="margin-top: 7%;" (click)="update()" [disabled]="!total || total==0 || submitted">Update</button>
       </div>
     </div>
   </div>

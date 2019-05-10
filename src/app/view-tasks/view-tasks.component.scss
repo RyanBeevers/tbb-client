@@ -1,0 +1,51 @@
+label{
+    color:black !important;
+}
+span{
+    color: black !important;
+    position: absolute;
+    left: 25%;
+}
+input{
+    color: black !important;
+    position: absolute;
+    left: 25%;
+}
+#selectBox select {
+	border-color: #888;
+}
+option{
+    color: white;
+    background-color: rgb(40, 40, 40);
+}
+.dropdown{
+    margin-top: 3px;
+}
+/* button{
+    font-size: 20px;
+    background-color: black;
+    border: none;
+} */
+.dropdown-menu{
+    background-color: black;
+}
+.plusBack{
+    background-color: rgba(46, 46, 46, 0.8);
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 40px;
+}
+i:hover{
+    color: rgb(94, 216, 238);
+}
+
+.dropdown-menu{
+    background-color:#3F434C;
+}
+.dropdown-item:hover{
+    color: white;
+    background-color:#353A40;
+}
+button{
+    background-color: #353A40
+}

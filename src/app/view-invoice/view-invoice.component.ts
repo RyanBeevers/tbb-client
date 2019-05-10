@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { InvoiceService } from './../core/services/invoice.service'
 import { Invoice } from './../core/models/invoice.model'
 
+
 @Component({
   selector: 'app-view-invoice',
   templateUrl: './view-invoice.component.html',
@@ -27,6 +28,7 @@ export class ViewInvoiceComponent implements OnInit {
   
   task = {}
   tasks = []
+  paid=false;
 
   ngOnInit() {
     window.scrollTo(0, 0)
@@ -38,6 +40,7 @@ export class ViewInvoiceComponent implements OnInit {
     this.invoice=JSON.parse(localStorage.getItem('invoice'))
     localStorage.removeItem('invoice');
     this.customer=this.invoice.user;
+    this.paid=this.invoice.invoicePaidFlag;
   }
   pay(){
     // if(this.admin){
