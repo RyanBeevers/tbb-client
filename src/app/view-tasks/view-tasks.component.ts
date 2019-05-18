@@ -29,11 +29,12 @@ export class ViewTasksComponent implements OnInit {
   task: Task = { };
   tasks = [];
   columns=['Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Estimated Cost', '']
+
   users = [];
-  // taskUser = 'All';
   viewingUser = 'All';
   taskUser: User = { };
   processing=false;
+  selectedTask: Task = {};
 
   ngOnInit() {
     window.scrollTo(0, 0)
@@ -43,18 +44,33 @@ export class ViewTasksComponent implements OnInit {
     this.getAllUsers();
     this.user = JSON.parse(localStorage.getItem('user'));
     if(this.user.roleType=='admin'){
+      this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
       this.getAllTasks();
     }
     else{
+      this.columns=['Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
       this.getTasksByUserId(this.user);
     }
   }
 
   getAllTasks(){
     this.viewingUser = 'All'
-    this.columns=['Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Estimated Cost', '']
+    this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
     this.tasks = [];
     this.taskService.getAllTasks().pipe(first()).subscribe((tasks) => {
+      if (tasks) {
+        this.tasks.push(tasks);
+        console.log(this.tasks)
+      }else{
+        this.appComponent.alert('warning', 'No Tasks Currently Available')
+      };
+    }, (error) => { this.appComponent.alert('danger', 'Error retrieving Tasks! Please try again later!') });
+  }
+
+  getTasksByUserId(user){
+    this.columns=['Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
+    this.tasks = [];
+    this.taskService.getTasksByUserId(user).pipe(first()).subscribe((tasks) => {
       if (tasks) {
         this.tasks.push(tasks);
       }else{
@@ -63,8 +79,8 @@ export class ViewTasksComponent implements OnInit {
     }, (error) => { this.appComponent.alert('danger', 'Error retrieving Tasks! Please try again later!') });
   }
 
-  getTasksByUserId(user){
-    this.columns=['Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Estimated Cost', '']
+  getTasksByUserIdAdmin(user){
+    this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Estimated Cost', '']
     this.tasks = [];
     this.taskService.getTasksByUserId(user).pipe(first()).subscribe((tasks) => {
       if (tasks) {
@@ -94,7 +110,7 @@ export class ViewTasksComponent implements OnInit {
   
   getUser(i){
     this.taskUser = this.users[0][i];
-    this.getTasksByUserId(this.taskUser);
+    this.getTasksByUserIdAdmin(this.taskUser);
     this.viewingUser = this.taskUser.businessName;
   }
   
@@ -150,6 +166,17 @@ export class ViewTasksComponent implements OnInit {
     }else{
       this.getTasksByUserId(this.user)
     }
+  }
+
+  showModal(i):void {
+    this.selectedTask = this.tasks[0][i]
+    $("#myModal").modal('show');
+  }
+  sendModal(): void {
+    this.hideModal();
+  }
+  hideModal():void {
+    document.getElementById('close-modal').click();
   }
 
 }

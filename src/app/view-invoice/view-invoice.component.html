@@ -1,11 +1,16 @@
+<div *ngIf="user.roleType == 'admin'" id="buttonBackground">
+  <button [disabled]="processing" *ngIf="paid" class="btn btn-primary" (click)="export();">Export to PDF <i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
+  <button [disabled]="processing" *ngIf="paid" class="btn btn-primary" (click)="emailAndExport();">Export & Email Client<i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
+</div>
+<div *ngIf="user.roleType != 'admin'" id="buttonBackground1">
+  <button [disabled]="processing" class="btn btn-primary1" (click)="export();">Export to PDF<i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
+</div>
 <div class="background" (keyup)="calculate()">
-    <div class="row">
-  
-  
-      <div class="column left" [ngClass]="{ mediumWidth: !admin && !paid, adminView: admin, largeWidth : !admin && paid }">
+  <div class="row" >
+      <div class="column left" [ngClass]="{ mediumWidth: !admin && !paid, adminView: admin, largeWidth : !admin && paid}"  id="contentToConvert">
         <div class="page">
           <img src='' style="height: 50px; width: 150px; margin-top: 10px; margin-left: 5%;display: inline-block;">
-          <h1 style="display: inline-block; margin-left: 21%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
+          <h1 style="display: inline-block; margin-left: 29%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
           <div id="sectionOne">
             <div id="separator"></div>
             <div id="businessInformation" style="margin-left: 7%; margin-top: 2%; display: inline-block">
@@ -44,11 +49,11 @@
               </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let task of tasks">
-                  <td style="color: black;">{{task.description}}</td>
-                  <td style="color: black;">{{task.cost}}</td>
-                  <td style="color: black;">{{task.effort}}</td>
-                  <td style="color: black;">{{task.total}}</td>
+                <tr *ngFor="let task of tasks[0]">
+                    <td style="color: black;">{{task.taskDesc}}</td>
+                    <td style="color: black;">${{task.taskCostPerHour.toFixed(2)}}</td>
+                    <td style="color: black;">{{task.taskActualEffort}}</td>
+                    <td style="color: black;">${{task.taskFinalCost.toFixed(2)}}</td>
                 </tr>
               </tbody>
               <hr>
@@ -61,11 +66,12 @@
             <br>
             <div style="margin-left: 7%; float: right; margin-right: 8%">
               <label style="color: grey; font-weight: bold">SUBTOTAL   </label><label style="padding-left: 10px;">${{invoice.invoiceTotal + invoice.invoiceDiscount}}</label>
+            
               <br>
-              <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{invoice.invoiceDiscount}}</label>
+              <label style="color: grey; font-weight: bold">DISCOUNT   </label><label style="padding-left: 9px;">-${{invoice.invoiceDiscount.toFixed(2)}}</label>
               <hr>
-              <h4 *ngIf="!paid">Total Due: ${{invoice.invoiceTotal}}</h4>
-              <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{invoice.invoiceTotal}}</h4>
+              <h4 *ngIf="!paid">Total Due: ${{invoice.invoiceTotal.toFixed(2)}}</h4>
+              <h4 *ngIf="paid" style="text-decoration: line-through">Total Due: ${{invoice.invoiceTotal.toFixed(2)}}</h4>
             </div>
             <br>
             <label *ngIf="!paid" style="margin-left: 7%;">Please pay by: {{invoice.invoicePayByDate}}</label>
@@ -75,7 +81,7 @@
         </div>
       </div>
       <div *ngIf="!admin && !paid" style="background-color: rgb(50,50,50,0.8); margin-bottom: 5%; padding: 10px; width: 35%; margin-top: 6%; height:350px; position: sticky; top: 20%;">
-        <h4 style="color: white; padding-left: 25%;">Make Your Payment</h4>
+        <h4 style="color: white; padding-left: 30%;">Make Your Payment</h4>
       <form action="//httpbin.org/post" method="POST">
         <input type="hidden" name="token" />
         <div class="group">
@@ -96,7 +102,7 @@
             <input id="postal-code" name="postal_code" class="field" placeholder="Regular field placeholder" />
           </label>
         </div>
-        <button type="submit" (click)="pay()">Pay ${{total}}</button>
+        <button class="paymentSubmit" type="submit" (click)="pay()">Pay ${{total}}</button>
         <div class="outcome">
           <div class="error"></div>
           <div class="success">
@@ -107,5 +113,8 @@
       </div>
     </div>
   </div>
+    
+
+
   
   

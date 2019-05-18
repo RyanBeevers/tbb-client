@@ -27,6 +27,7 @@ export class ResetPasswordComponent implements OnInit {
   userChallengeQuestions;
   userChallengeAnswers;
   userAnsweredChallengeAnswers=[];
+  formType;
 
   constructor(
     private userService: UserService,
@@ -37,10 +38,11 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    let formType=localStorage.getItem('formType');
-    if(formType=='change'){
+    this.formType=localStorage.getItem('formType');
+    if(this.formType=='change'){
       this.formName="Change"
       this.showChange=true;
+      this.user=JSON.parse(localStorage.getItem('user'))
     }else{
       this.formName="Forgot"
       this.showChange=false;
@@ -51,7 +53,6 @@ export class ResetPasswordComponent implements OnInit {
     this.userService.getUserByEmail(this.user).pipe(first()).subscribe((user) => {
       if (user) {
         this.user=user;
-        localStorage.removeItem('user');
       };
     }, (error) => { this.appComponent.alert('danger', 'Something went wrong! Please try again later.'); window.scrollTo(0, 0) });
     if(this.showChange){
@@ -130,8 +131,7 @@ export class ResetPasswordComponent implements OnInit {
         window.scrollTo(0, 0)
         localStorage.removeItem('formType');
         localStorage.removeItem('userId')
-        localStorage.removeItem('user')
-        this.router.navigate(['/logout']);
+        this.router.navigate(['/my-account']);
       };
     }, (error) => { this.appComponent.alert('danger', 'Something went wrong! Please try again later.'); window.scrollTo(0, 0) });
   }
@@ -154,5 +154,13 @@ export class ResetPasswordComponent implements OnInit {
         ]
       };
     }, (error) => { this.appComponent.alert('danger', 'Unable to retrieve challenge questions! Please try again later.'); window.scrollTo(0, 0) });
+  }
+
+  cancel(){
+    if(this.formName=='Change'){
+      this.router.navigate(['/my-account'])
+    }else{
+      this.router.navigate(['/logout'])
+    }
   }
 }

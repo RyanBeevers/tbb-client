@@ -19,7 +19,7 @@
     </div>
   </div>
   <div style="color: white" id='main-picture-box'>
-    <div id="picture-text" style="color: rgb(94, 216, 238)">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+    <div id="picture-text" style="color: rgb(94, 216, 238)">"A good system shortens the road to the goal" -Brison Swett Marden</div>
   </div>
   <div style="padding-bottom: 50px; margin-left: 12%; margin-right: 12%;">
     <div class="card" style="width: 18rem; display:inline-block">
@@ -34,21 +34,31 @@
         <a *ngIf="username && !alreadyTexted" clsdd="card-text" href="/text-me" style="color: white;"><i class="fas fa-sms" style="margin-right: 5px; color: white;"></i>Send me a text</a>
         <a *ngIf="username && alreadyTexted" href="#" clsdd="card-text" style="color: white;" (click)="alreadySentText()"><i class="fas fa-sms" style="margin-right: 5px; color: white;"></i>Send me a text</a>
         <br> -->
-        <a href="/contact-me" style="position: absolute; bottom: 0; margin-bottom: 15px;" class="btn btn-primary">Contact Me</a>
+        <a routerLink="contact-me" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px" class="btn btn-primary">Contact Me</a>
       </div>
     </div>
     <div class="card" style="width: 18rem; display:inline-block">
       <div class="card-body">
-        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px;">Go somewhere</a>
+        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Services Offered</h5>
+        <p class="card-text">Here you  can see some details about the services I provide along with
+          some standard pricing information!
+        </p>
+        <a routerLink="services" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px">Services</a>
       </div>
     </div>
-    <div class="card" style="width: 18rem; display:inline-block">
+    <div *ngIf="!userService.isAuthenticated()" class="card" style="width: 18rem; display:inline-block">
       <div class="card-body">
-        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px;">Go somewhere</a>
+        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Login or Register</h5>
+        <p class="card-text">Create an account and connect with me! Easily keep track of tasks and invoices!</p>
+        <a routerLink="login" class="btn btn-primary" style="position: absolute; bottom: 8; margin-bottom: 15px; width: 120px">Login</a>
+        <a routerLink="register" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px;">Register</a>
+      </div>
+    </div>
+    <div *ngIf="userService.isAuthenticated()" class="card" style="width: 18rem; display:inline-block">
+      <div class="card-body">
+        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">My Account</h5>
+        <p class="card-text">Edit your personal or business information here!</p>
+        <a routerLink="my-account" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px">My Account</a>
       </div>
     </div>
   </div>

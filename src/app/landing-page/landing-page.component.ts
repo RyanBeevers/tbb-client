@@ -15,7 +15,7 @@ export class LandingPageComponent implements OnInit {
     private appComponent: AppComponent,
   ) {}
 
-  private alreadyTexted = false;;
+  private alreadyTexted = false;
   private username = undefined;
   private showLogInWarningMessage = false;
   private showAlreadySent = false;
@@ -35,10 +35,12 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0)
-    if (this.userService.isAuthenticated){
+    if (localStorage.getItem('user')){
       this.user = this.userService.getUser();
       this.alreadyTexted = this.user.alreadyTexted;
       this.username = this.user.email;
+    }else{
+      this.user=undefined;
     }
   }
 }

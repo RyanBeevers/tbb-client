@@ -72,4 +72,9 @@ export class TaskService {
     .pipe(catchError(this.handleError));
   }
 
+  deleteTask(task: Task): Observable<Task> {
+    return this.http.put<Task>(environment.url + '/tasks/deleteTask', task, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
 }

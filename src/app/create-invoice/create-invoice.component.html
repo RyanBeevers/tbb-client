@@ -4,7 +4,7 @@
 
 <div class="background" (keyup)="calculate()">
   <div class="row">
-    <div class="column left">
+    <div class="column left"  id="contentToConvert">
       <div class="page">
         <img src='' style="height: 50px; width: 150px; margin-top: 10px; margin-left: 5%;display: inline-block;">
         <h1 style="display: inline-block; margin-left: 21%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
@@ -113,6 +113,9 @@
         <br>
         <button *ngIf="!edit" style="margin-top: 7%;" (click)="save()" [disabled]="!total || total==0 || submitted">Save</button>
         <button *ngIf="edit" style="margin-top: 7%;" (click)="update()" [disabled]="!total || total==0 || submitted">Update</button>
+        <button style="margin-top: 7%;" [disabled]="processing || !submitted" (click)="export();">Export to PDF <i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
+        <button  style="margin-top: 7%;"[disabled]="processing || !submitted" (click)="emailAndExport();">Export & Email Client<i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
+
       </div>
     </div>
   </div>

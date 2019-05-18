@@ -79,7 +79,7 @@
         </div>
         <div>
           <label>Task Actual Effort</label>
-          <input [disabled]="!admin" title="Can only be changed by Task Worker" type="text" class="form-control"
+          <input [disabled]="!admin || !edit" title="Can only be changed by Task Worker" type="text" class="form-control"
             [(ngModel)]="taskActualEffort" [ngModelOptions]="{standalone: true}" (keyup)="calculateTotal()" />
         </div>
         <label>Estimated Cost</label>
@@ -90,7 +90,7 @@
           [ngModelOptions]="{standalone: true}">
         <label>Status</label>
         <div class="dropdown">
-          <button [disabled]="!admin" title="Can only be changed by Task Worker"
+          <button [disabled]="!admin || !edit" title="Can only be changed by Task Worker"
             class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false" style="width:70%; margin-left: 15%; margin-right: 15%;">
             {{task.taskStatus}}
@@ -103,10 +103,21 @@
         </div>
       </div>
     </div>
+    <div *ngIf="admin" style="margin-left: 6.6%;">Who's this for?<br>
+      <div class="dropdown">
+        <button style="width: 38%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{viewingUser}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" *ngFor="let user of users[0]; index as i" style="color:white;" (click)="getUser(i)">  {{user.businessName}}</a>
+        </div>
+      </div>
+    </div>
+
   <div *ngIf="!confirmDelete && !completed" class="form-group" style="text-align: center">
     <button (click)="onSubmit()" style="margin-left: 41%; margin-right: 40%;" class="btn btn-primary">Submit</button>
   </div>
-  <button *ngIf="edit && !confirmDelete && !completed" (click)="confirmDeleteTask()" class="btn btn-danger" style="margin-left: 46%; margin-right: 40%; margin-bottom: 1%;">Delete</button>
+  <button *ngIf="edit && !confirmDelete && !completed" (click)="confirmDeleteTask()" class="btn btn-danger" style="margin-left: 46%; margin-bottom: 1%;">Delete</button>
   </form>
   <div *ngIf="confirmDelete" style="text-align: center">
     Are you sure you want to delete this task?
@@ -114,6 +125,6 @@
     <button class="btn btn-danger" (click)="deleteTask()">Yes</button>
     <button class="btn btn-primary" (click)="confirmDeleteTask()">No</button>
   </div>
-  <a *ngIf="!confirmDelete && !completed" routerLink="/view-tasks" style="margin-left: 45.5%; margin-right: 40%;"><button class="btn btn-danger">Cancel</button></a>
+  <a *ngIf="!confirmDelete && !completed" routerLink="/view-tasks" style="margin-left: 45.5%; margin-right: 40%;"><button class="btn btn-default">Cancel</button></a>
   <a *ngIf="!confirmDelete && completed" routerLink="/view-tasks" style="margin-left: 45.5%; margin-right: 40%;"><button class="btn btn-danger">Return</button></a>
 </div>

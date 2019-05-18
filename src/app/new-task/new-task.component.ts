@@ -34,6 +34,9 @@ export class NewTaskComponent implements OnInit {
   taskActualEffort;
   confirmDelete=false;
   completed=false;
+  viewingUser = "Please select a user...";
+  users = [];
+  taskUser: User = {};
 
   constructor(
     private userService: UserService,
@@ -55,10 +58,12 @@ export class NewTaskComponent implements OnInit {
       this.admin=true;
     }
     this.loadServices();
+    this.getAllUsers();
 
     if(localStorage.getItem('selectedTask')){
       this.task=JSON.parse(localStorage.getItem('selectedTask'));
       localStorage.removeItem('selectedTask');
+      this.viewingUser = this.task.user.businessName;
 
       this.taskTitle = this.task.taskName;
       if(this.task.taskStatus =='Completed'){
@@ -91,8 +96,14 @@ export class NewTaskComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-      console.log('not valid...')
       return;
+    }
+
+    if(this.user.roleType=='admin'){
+      if(!this.taskUser.userId){
+        this.appComponent.alert('warning', 'Please select a user!');
+        return;
+      }
     }
 
     if(!this.edit){
@@ -158,6 +169,10 @@ export class NewTaskComponent implements OnInit {
   }
 
   submitNewTask(){
+    if(!this.taskUser.userId){
+      this.taskUser = this.user
+    }
+
     this.getUserDetails();
 
     let today = new Date();
@@ -165,9 +180,13 @@ export class NewTaskComponent implements OnInit {
     let day;
     if ((today.getMonth()+1)<10){
       month = '0' + (today.getMonth()+1);
+    }else{
+      month = today.getMonth()+1
     }
     if (today.getDate()<10){
       day = '0' + (today.getDate());
+    }else{
+      day = today.getDate()
     }
     let todaysDate = today.getFullYear()+'-'+month+'-'+day;
     this.task.taskSubmittedDate = todaysDate;
@@ -183,9 +202,8 @@ export class NewTaskComponent implements OnInit {
     this.task.taskStatus = this.task.taskStatus;
     this.task.taskEstimatedCost = this.estimatedCost;
     this.task.invoice = null;
-    this.task.user = this.user;
+    this.task.user = this.taskUser;
 
-    console.log(this.task);
 
     this.taskService.createTask(this.task).pipe(first()).subscribe((task) => {
       if (task) {
@@ -240,8 +258,6 @@ export class NewTaskComponent implements OnInit {
     this.task.user = this.task.user;
     this.task.invoice = null;
 
-    console.log(this.task);
-
     this.taskService.updateTask(this.task).pipe(first()).subscribe((task) => {
       if (task) {
         this.appComponent.alert('success', 'Task Successfully Updated!')
@@ -269,6 +285,25 @@ export class NewTaskComponent implements OnInit {
   }
 
   deleteTask(){
-    console.log('gonna delete')
+    this.taskService.deleteTask(this.task).pipe(first()).subscribe((task) => {
+      if (task) {
+        this.router.navigate(['/view-tasks']);
+        this.appComponent.alert('success', 'You have successfully deleted this task!')
+      }
+    }, (error) => { this.appComponent.alert('danger', 'Server error! Please try again later') });
+  }
+
+  getAllUsers(){
+    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+      if (users) {
+        this.users.push(users);
+      }else{
+        this.appComponent.alert('warning', 'No Users Currently Available for filter')
+      };
+    }, (error) => { this.appComponent.alert('danger', 'Error retrieving Users! Please try again later!') });
+  }
+  getUser(i){
+    this.taskUser = this.users[0][i];
+    this.viewingUser = this.taskUser.businessName;
   }
 }
