@@ -9,6 +9,13 @@
         <a class="dropdown-item" style="color:white;" (click)="loadManagerInvoices()">All</a>
       <a class="dropdown-item" *ngFor="let user of users[0]; index as i" style="color:white;" (click)="getUser(i)">{{user.businessName}}</a>
     </div>
+    <div class="btn-group" role="group" style="display: inline-block;">
+      <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="getAll()">All</button>
+      <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="getPastDue()">Past Due</button>
+      <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="getNotPaid()">Unpaid</button>
+      <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="getPaid()">Paid</button>
+      <button *ngIf="processing" type="button" class="btn btn-secondary"><i class="fas fa-spinner fa-spin"></i>   Processing Filter</button>
+    </div>
   </div>
 </div>
 <div id="table" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-bottom: 8%;">
@@ -28,10 +35,10 @@
         <td>${{invoice.invoiceTotal.toFixed(2)}}</td>
         <td *ngIf="this.user.roleType=='admin'">{{invoice.user.businessName}}</td>
         <td *ngIf="this.user.roleType=='admin'">{{invoice.user.firstName}} {{invoice.user.lastName}}</td>
-        <td style="width: 2%; text-align: center" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='admin' && !invoice.invoicePaidFlag" title="Edit Invoice"><i class="fas fa-edit"></i></td>
-        <td style="width: 2%; text-align: center" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='admin' && invoice.invoicePaidFlag" title="View Invoice"><i class="far fa-file-alt"></i></td>
-        <td style="width: 2%; text-align: center" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='user' && invoice.invoicePaidFlag" title="View Invoice"><i class="far fa-file-alt"></i></td>
-        <td style="width: 2%; text-align: center" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='user' && !invoice.invoicePaidFlag" title="Pay Invoice"><i class="fas fa-credit-card"></i></td>
+        <td style="width: 2%;" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='admin' && !invoice.invoicePaidFlag" title="Edit Invoice"><i class="fas fa-edit"></i></td>
+        <td style="width: 2%;" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='admin' && invoice.invoicePaidFlag" title="View Invoice"><i class="far fa-file-alt"></i></td>
+        <td style="width: 2%;" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='user' && invoice.invoicePaidFlag" title="View Invoice"><i class="far fa-file-alt"></i></td>
+        <td style="width: 2%;" style="cursor: pointer" (click)="viewInvoice(i)" *ngIf="this.user.roleType=='user' && !invoice.invoicePaidFlag" title="Pay Invoice"><i class="fas fa-credit-card"></i></td>
       </tr>
     </tbody>
   </table>

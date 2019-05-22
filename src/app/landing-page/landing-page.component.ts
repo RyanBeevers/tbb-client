@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from './../core/models/user.model';
 import { UserService } from './../core/services/user.service'
 import { AppComponent } from '../app.component';
+import { OktaService } from './../core/services/okta.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing-page',
@@ -13,12 +15,24 @@ export class LandingPageComponent implements OnInit {
   constructor(
     private userService: UserService,
     private appComponent: AppComponent,
+    public oktaService: OktaService,
   ) {}
 
   private alreadyTexted = false;
   private username = undefined;
   private showLogInWarningMessage = false;
   private showAlreadySent = false;
+
+  ngOnInit() {
+    window.scrollTo(0, 0)
+    if (localStorage.getItem('user')){
+      this.user = this.userService.getUser();
+      this.alreadyTexted = this.user.alreadyTexted;
+      this.username = this.user.email;
+    }else{
+      this.user=undefined;
+    }
+  }
 
   showLogInWarning(){
     this.showLogInWarningMessage = true;
@@ -33,15 +47,8 @@ export class LandingPageComponent implements OnInit {
     this.showAlreadySent = false;
   }
 
-  ngOnInit() {
-    window.scrollTo(0, 0)
-    if (localStorage.getItem('user')){
-      this.user = this.userService.getUser();
-      this.alreadyTexted = this.user.alreadyTexted;
-      this.username = this.user.email;
-    }else{
-      this.user=undefined;
-    }
+  login(){
+    this.oktaService.login();
   }
 }
 

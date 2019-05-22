@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from './core/models/user.model'
 import { UserService } from './core/services/user.service'
+import { OktaService } from './core/services/okta.service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,11 @@ export class AppComponent {
   iconClass='';
   messageHeader='';
   messageMessage='';
+  closeAlertTimeout;
 
   constructor(
     private userService: UserService,
+    public oktaAuth: OktaService
   ) { }
   
   ngOnInit(){
@@ -31,6 +34,8 @@ export class AppComponent {
   }
 
   alert(messageClass, message){
+    clearTimeout(this.closeAlertTimeout)
+    window.scrollTo(0, 0)
     this.showAlert=true;
     this.messageClass='';
     if(messageClass=='danger'){
@@ -49,7 +54,7 @@ export class AppComponent {
       this.iconClass = 'fas fa-exclamation-triangle'
     }
     this.messageMessage=message;
-    setTimeout(()=>{
+    this.closeAlertTimeout = setTimeout(()=>{
       this.closeAlert();
     }, 7000);
   }

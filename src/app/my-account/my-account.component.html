@@ -1,146 +1,37 @@
 <div id='main-container'>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <h2 style="color: rgb(94, 216, 238); text-align: center; padding-top: 5%">My Account</h2>
-    <span style="color: white; float: right; padding-right: 10%;">* Indicates Required</span>
     <h4>Personal Information</h4>
     <hr>
     <div class="row">
       <div class="column left">
-        <div class="form-group">
-          <label>First Name</label>
-          <input type="text" formControlName="firstName" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" [(ngModel)]="this.user.firstName" />
-          <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-            <div *ngIf="f.firstName.errors.required">First Name is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="text" formControlName="email" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" [(ngModel)]="this.user.email" />
-          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.required">Email is required</div>
-            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-          </div>
-        </div>
+        <label>First Name: <b>{{this.user.firstName}}</b></label>
+        <label>Email: <b>{{this.user.email}}</b></label>
       </div>
       <div class="column right">
-        <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" formControlName="lastName" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" [(ngModel)]="this.user.lastName" />
-          <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-          </div>
-        </div>
-        <div>
-          <label style="color:white;">Personal Phone</label>
-          <input type="text" class="form-control" [(ngModel)]="this.user.personalPhone" [ngModelOptions]="{standalone: true}"/>
-        </div>
+        <label>Last Name: <b>{{this.user.lastName}}</b></label>
+        <label>Business Phone #: <b>{{this.user.workPhone}}</b></label>
       </div>
     </div>
     <h4>Business Information</h4>
     <hr>
     <div class="row">
       <div class="column left">
-        <div class="form-group">
-          <label>Business Name</label>
-          <input type="text" formControlName="businessName" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessName.errors }" [(ngModel)]="this.user.businessName" />
-          <div *ngIf="submitted && f.businessName.errors" class="invalid-feedback">
-            <div *ngIf="f.businessName.errors.required">Business Name is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Business Street Address</label>
-          <input type="text" formControlName="businessAddress" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessAddress.errors }"
-            [(ngModel)]="this.user.businessStreetAddress" />
-          <div *ngIf="submitted && f.businessAddress.errors" class="invalid-feedback">
-            <div *ngIf="f.businessAddress.errors.required">Business Street Address is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Business State</label>
-          <input type="text" formControlName="businessState" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessState.errors }" [(ngModel)]="this.user.businessState" />
-          <div *ngIf="submitted && f.businessState.errors" class="invalid-feedback">
-            <div *ngIf="f.businessState.errors.required">Business State is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Business Country</label>
-          <input type="text" formControlName="businessCountry" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessCountry.errors }"
-            [(ngModel)]="this.user.businessCountry" />
-          <div *ngIf="submitted && f.businessCountry.errors" class="invalid-feedback">
-            <div *ngIf="f.businessCountry.errors.required">Business Country is required</div>
-          </div>
-        </div>
-
+        <label>Business Name: <b>{{this.user.businessName}}</b></label>
+        <label>Business Street Address: <b>{{this.user.businessStreetAddress}}</b></label>
+        <label>Business City: <b>{{this.user.businessCity}}</b></label>
       </div>
       <div class="column right">
-        <div>
-          <label style="color:white;">Business Type</label>
-          <input type="text" class="form-control" [(ngModel)]="this.user.typeOfBusiness" [ngModelOptions]="{standalone: true}"/>
-        </div>
-        <div class="form-group">
-          <label>Business City</label>
-          <input type="text" formControlName="businessCity" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessCity.errors }" [(ngModel)]="this.user.businessCity" />
-          <div *ngIf="submitted && f.businessCity.errors" class="invalid-feedback">
-            <div *ngIf="f.businessCity.errors.required">Business City is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Business Zip</label>
-          <input type="text" formControlName="businessZip" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessZip.errors }" [(ngModel)]="this.user.businessZip" />
-          <div *ngIf="submitted && f.businessZip.errors" class="invalid-feedback">
-            <div *ngIf="f.businessZip.errors.required">Business Zip is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Business Phone #</label>
-          <input type="text" formControlName="businessPhone" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.businessPhone.errors }" [(ngModel)]="this.user.workPhone" />
-          <div *ngIf="submitted && f.businessPhone.errors" class="invalid-feedback">
-            <div *ngIf="f.businessPhone.errors.required">Business Phone # is required</div>
-          </div>
-        </div>
+        <label>Business State: <b>{{this.user.businessState}}</b></label>
+        <label>Business Country: <b>{{this.user.businessCountry}}</b></label>
+        <label>Business Zip: <b>{{this.user.businessZip}}</b></label>
       </div>
     </div>
-    <h4>Password</h4>
     <hr>
-    <div style="text-align: center">*You must verify your password before submitting changes. You may also change your password <span (click)="setPasswordChange()" id="changePasswordLink">here</span></div>
-    <div class="row">
-      <div class="column left">
-        <div class="form-group">
-          <label>Password</label>
-          <input disabled style="background-color: grey;" type="password" formControlName="password" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [(ngModel)]="this.user.password" />
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-          </div>
-        </div>
-      </div>
-      <div class="column right">
-          <label>Confirm Password</label>
-          <input type="password" formControlName="confirmPassword" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
-          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-            <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
-          </div>
-        </div>
-      </div>
     <br>
-    <div class="form-group">
-      <button [disabled]="f.confirmPassword.errors" style="width: 14%; margin-right: 43%; margin-left: 43%"
-        (click)="updateProfile()" class="btn btn-primary">Submit</button>
+    <div style="text-align: center">
+      If you would like to change any of your information please follow <a>this link...</a>
     </div>
-  </form>
+    <br>
   <button routerLink="/home" style="width: 14%; margin-right: 43%; margin-left: 43%"
-    class="btn btn-danger">Cancel</button>
+    class="btn btn-danger">Return Home</button>
 </div>

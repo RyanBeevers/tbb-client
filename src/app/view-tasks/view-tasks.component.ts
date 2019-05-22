@@ -178,5 +178,4 @@ export class ViewTasksComponent implements OnInit {
   hideModal():void {
     document.getElementById('close-modal').click();
   }
-
 }

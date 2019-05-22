@@ -9,16 +9,19 @@
       <div class="column left">
         <div *ngIf="!edit">
           <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            <button  [ngClass]="{ 'error': noSelectedService }" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               style="width:70%; margin-left: 15%; margin-right:15%; height: 9%; margin-top: 10%; margin-bottom: -1%">
-              Select a service
+              {{selectedServiceLabel}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" *ngFor="let service of services[0]; index as i" style="color: white;"
                 (click)="setService(i)">{{service.cardTitle}}</a>
               <a class="dropdown-item" style="color:white;" (click)="customService()">Custom service...</a>
             </div>
+          </div>
+          <div *ngIf="noSelectedService" class="invalid-feedback">
+            <div>Select a service is required</div>
           </div>
           <br>
           <div *ngIf="selectedService.cardTitle">
@@ -71,11 +74,15 @@
         </div>
         <div *ngIf="!edit" class="form-group">
           <label>Task Due Date</label>
-          <input type="date" formControlName="taskDueDate" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.taskDueDate.errors }" [(ngModel)]="this.task.taskDueDate" />
+          <input type="date" formControlName="taskDueDate" id="date" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.taskDueDate.errors || dateError }" [(ngModel)]="this.task.taskDueDate" />
           <div *ngIf="submitted && f.taskDueDate.errors" class="invalid-feedback">
             <div *ngIf="f.taskDueDate.errors.required">Task Due Date is required</div>
           </div>
+          <div *ngIf="dateError" class="invalid-feedback">
+            <div *ngIf="dateError">Task Due Date must be at least tomorrow!</div>
+          </div>
+          
         </div>
         <div>
           <label>Task Actual Effort</label>

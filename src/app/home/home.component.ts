@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { ChallengeQuestions } from '../core/models/challengeQuestions.model';
 import { AppComponent } from '../app.component'
+import { OktaService } from './../core/services/okta.service'
 
 // This lets me use jquery
 declare var $: any;
@@ -52,20 +53,53 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private appComponent: AppComponent,
+    private okta: OktaService
   ) { }
 
   ngOnInit() {
-    window.scrollTo(0, 0)
-    if(localStorage.getItem('user')){
-      this.user = JSON.parse(localStorage.getItem('user'))
-      console.log(this.user)
-      if(this.user.firstTimeLogIn){
-          $("#myModal").modal('show');
+    if(this.userService.getTokenUser()){
+      this.user = this.userService.getTokenUser();
+      let newUser: User = {};
+      newUser.email = this.user.email
+      this.userService.getUserByEmail(newUser).pipe(first()).subscribe((user) => {
+        if (!user) {
+          let newUser: User={ };
+          newUser.firstName = this.user.firstName;
+          newUser.lastName = this.user.lastName;
+          newUser.businessName = this.user.businessName;
+          newUser.businessStreetAddress = this.user.businessStreetAddress;
+          newUser.businessCity = this.user.businessCity;
+          newUser.businessState = this.user.businessState;
+          newUser.businessCountry = this.user.businessCountry;
+          newUser.businessZip = this.user.businessZip;
+          newUser.workPhone = this.user.workPhone;
+          newUser.userId = this.user.userId;
+          newUser.email = this.user.email;
+          newUser.alreadyTexted = false;
+          console.log(newUser)
+          this.userService.register(newUser).pipe(first()).subscribe((user)=>{
+            if(user){
+              this.appComponent.alert('success', 'You have successfully registered your account! Welcome!')
+            }else{
+              this.appComponent.alert('danger', 'Your account could not be created! Please try again later!')
+            }
+          })
         }
-      }
-    if(!this.userService.isAuthenticated()){
-      this.router.navigate(['/not-authorized']);
+      }, (error) => { this.appComponent.alert('danger', 'Something went wrong! Please try again later.'); window.scrollTo(0, 0) });
     }
+    else{
+      console.log('no auth user')
+    }
+    window.scrollTo(0, 0)
+    // if(localStorage.getItem('user')){
+    //   this.user = JSON.parse(localStorage.getItem('user'))
+    //   if(this.user.firstTimeLogIn){
+    //       $("#myModal").modal('show');
+    //     }
+    //   }
+    // if(!this.userService.isAuthenticated()){
+    //   this.router.navigate(['/not-authorized']);
+    // }
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

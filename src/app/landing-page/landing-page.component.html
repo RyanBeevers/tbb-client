@@ -48,10 +48,9 @@
     </div>
     <div *ngIf="!userService.isAuthenticated()" class="card" style="width: 18rem; display:inline-block">
       <div class="card-body">
-        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Login or Register</h5>
+        <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">New Here?</h5>
         <p class="card-text">Create an account and connect with me! Easily keep track of tasks and invoices!</p>
-        <a routerLink="login" class="btn btn-primary" style="position: absolute; bottom: 8; margin-bottom: 15px; width: 120px">Login</a>
-        <a routerLink="register" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px;">Register</a>
+        <a (click)="login()" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px;">Register</a>
       </div>
     </div>
     <div *ngIf="userService.isAuthenticated()" class="card" style="width: 18rem; display:inline-block">

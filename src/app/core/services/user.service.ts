@@ -8,6 +8,8 @@ import { ChallengeQuestions } from './../models/challengeQuestions.model'
 
 import { environment } from '../../../environments/environment';
 
+import { OktaService } from './okta.service'
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -75,8 +77,6 @@ export class UserService {
   }
   
   setChallengeQuestions(challengeQuestions: ChallengeQuestions): Observable<ChallengeQuestions>{
-    console.log('here...')
-    console.log(challengeQuestions)
     return this.http.post<ChallengeQuestions>(environment.url+'/challengeQuestions/setChallengeQuestion', challengeQuestions, httpOptions)
     .pipe(catchError(this.handleError));
   }
@@ -137,6 +137,36 @@ export class UserService {
         return false;
       }
     }
+  }
+
+  getTokenUser(){
+    let newUser;
+    if(localStorage.getItem('okta-token-storage')){
+      let token = JSON.parse(localStorage.getItem('okta-token-storage'))
+      if(token.idToken){
+        newUser = token.idToken.claims.user;
+      }else{
+        return null;
+      }
+    }
+    this.user.firstName = newUser.firstName;
+    this.user.lastName = newUser.lastName;
+    this.user.email = newUser.email;
+    this.user.businessCity = newUser.city;
+    this.user.businessCountry = newUser.countryCode;
+    this.user.workPhone = newUser.primaryPhone;
+    this.user.businessState = newUser.state;
+    this.user.businessStreetAddress = newUser.streetAddress;
+    this.user.businessZip = newUser.zipCode
+    this.user.businessName = newUser.organization;
+    this.user.userId = newUser.id;
+    if(newUser.userType){
+      this.user.roleType = 'admin'
+    }else{
+      this.user.roleType='user'
+    }
+    localStorage.setItem('user', JSON.stringify(this.user))
+    return this.user;
   }
 }
 

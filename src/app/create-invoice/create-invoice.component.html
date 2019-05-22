@@ -93,7 +93,7 @@
             <b style="color: black;">associated with another invoice</b>, will be placed in this invoice.
           </p>
         <div class="dropdown">
-          <button [disabled]="edit" *ngIf="this.user.roleType=='admin'" style="padding-bottom: 15%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button [disabled]="edit || submitted" *ngIf="this.user.roleType=='admin'" style="padding-bottom: 15%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{chosenBusiness}}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -103,13 +103,13 @@
         <br>
         <label>Discount</label>
         <br>
-        <input (keyup)="calculate()" type="number" [(ngModel)]="discount">
+        <input [disabled]="submitted" (keyup)="calculate()" type="number" [(ngModel)]="discount">
         <br>
         <span *ngIf="subtotal">5%={{subtotal*0.05}}<br>10%={{subtotal*0.1}}<br>15%={{subtotal*0.15}}<br>20%={{subtotal*0.2}}</span>
         <br>
         <br>
         <label>Pay By Date</label>
-        <input [(ngModel)]="payByDate">
+        <input [disabled]="submitted" [(ngModel)]="payByDate">
         <br>
         <button *ngIf="!edit" style="margin-top: 7%;" (click)="save()" [disabled]="!total || total==0 || submitted">Save</button>
         <button *ngIf="edit" style="margin-top: 7%;" (click)="update()" [disabled]="!total || total==0 || submitted">Update</button>

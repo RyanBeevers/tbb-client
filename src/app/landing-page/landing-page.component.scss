@@ -44,14 +44,17 @@
 }
 .btn-primary{
     background-color: rgb(83, 83, 83);
-    color:rgb(94, 216, 238);
+    color:rgb(94, 216, 238) !important;
     border-color: rgb(153, 153, 153);
 }
 .btn-primary:hover{
     background-color: rgb(94, 216, 238);
     border-color: transparent;
-    color: black;
+    color: black !important;
 }
 p{
     color: black;
+}
+span:hover{
+    color: black !important;
 }

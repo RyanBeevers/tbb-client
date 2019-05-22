@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateTaskComponent } from './create-task.component';
+import { OktaReturnComponent } from './okta-return.component';
 
-describe('CreateTaskComponent', () => {
-  let component: CreateTaskComponent;
-  let fixture: ComponentFixture<CreateTaskComponent>;
+describe('OktaReturnComponent', () => {
+  let component: OktaReturnComponent;
+  let fixture: ComponentFixture<OktaReturnComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateTaskComponent ]
+      declarations: [ OktaReturnComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateTaskComponent);
+    fixture = TestBed.createComponent(OktaReturnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

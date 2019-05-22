@@ -37,6 +37,10 @@ export class NewTaskComponent implements OnInit {
   viewingUser = "Please select a user...";
   users = [];
   taskUser: User = {};
+  dateError=false;
+  tomorrow;
+  selectedServiceLabel = 'Select a Service'
+  noSelectedService=false;
 
   constructor(
     private userService: UserService,
@@ -64,6 +68,7 @@ export class NewTaskComponent implements OnInit {
       this.task=JSON.parse(localStorage.getItem('selectedTask'));
       localStorage.removeItem('selectedTask');
       this.viewingUser = this.task.user.businessName;
+      this.taskUser = this.task.user;
 
       this.taskTitle = this.task.taskName;
       if(this.task.taskStatus =='Completed'){
@@ -91,11 +96,54 @@ export class NewTaskComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  onSubmit() {
-    this.submitted = true;
+  getTomorrow(){
+    let today = new Date();
+    let month;
+    let day;
+    if ((today.getMonth()+1)<10){
+      month = '0' + (today.getMonth()+1);
+    }else{
+      let month = today.getMonth()+1
+    }
+    if (today.getDate()+1<10){
+      day = '0' + (today.getDate()+1);
+    }else{
+      day = today.getDate()+1;
+    }
+    this.tomorrow = today.getFullYear()+'-'+month+'-'+day;
 
-    // stop here if form is invalid
+    if(this.task.taskDueDate){
+      let dateArr1 = this.task.taskDueDate.split('-');
+      let dateArr2 = this.tomorrow.split('-');
+
+      if(dateArr1[0]<dateArr2[0] || dateArr1[1]<dateArr2[1] || dateArr1[2]<dateArr2[2]){
+        this.dateError=true;
+        return false;
+      }else{
+        this.dateError=false;
+        return true;
+      }
+    }
+  }
+
+  onSubmit() {
+    console.log(this.task)
+    this.submitted = true;
+    if(!this.task.taskName){
+      if(this.selectedServiceLabel == 'Select a Service'){
+        this.noSelectedService=true;
+        this.appComponent.alert('warning', 'Please choose a service!');
+        return;
+      }
+    }
+    this.noSelectedService=false;
+    if(!this.getTomorrow()){
+      this.appComponent.alert('warning', 'Please choose a date past today!');
+      return;
+    }
+
     if (this.registerForm.invalid) {
+      this.appComponent.alert('warning', 'Please fill in all required fields!');
       return;
     }
 
@@ -105,7 +153,6 @@ export class NewTaskComponent implements OnInit {
         return;
       }
     }
-
     if(!this.edit){
       this.submitNewTask();
     }else{
@@ -125,6 +172,7 @@ export class NewTaskComponent implements OnInit {
   }
   
   customService(){
+    this.selectedServiceLabel='Custom Service'
     this.selectedService = {};
     this.custom=true;
   }
@@ -135,6 +183,7 @@ export class NewTaskComponent implements OnInit {
     let n = this.selectedService.cardPricingDetail;
     this.taskCostPerHour = n.toFixed(2);
     this.taskTitle = this.selectedService.cardTitle
+    this.selectedServiceLabel = this.selectedService.cardTitle;
   }
 
   setStatus(status){
@@ -230,8 +279,9 @@ export class NewTaskComponent implements OnInit {
     let todaysDate = today.getFullYear()+'-'+month+'-'+day;
     if(this.task.taskStatus == 'Completed'){
       this.task.taskCompletedDate = todaysDate;
-      if(!this.taskActualEffort || !this.actualCost){
-        this.appComponent.alert('warning', 'Actual Effort cannot be blank!')
+      if(!this.taskActualEffort || !this.actualCost || this.taskActualEffort == 0){
+        window.scrollTo(0, 0)
+        this.appComponent.alert('warning', 'Actual Effort cannot be Zero!')
         return;
       }
     }

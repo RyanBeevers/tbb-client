@@ -43,9 +43,16 @@ button{
 #accountIcon{
     margin-right: 40px;
 }
-.moveDown{
-    top:30;
-}
-.moveUp{
+
+.up{
     top: 0;
+}
+.down{
+    position: sticky;
+    top: 50px;
+}
+
+.aLink:hover{
+    text-decoration: underline !important;
+    cursor: pointer;
 }

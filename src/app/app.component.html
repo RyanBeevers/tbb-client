@@ -1,4 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-light" id="navbar" style="position: sticky; z-index: 99; top:0;">
+<div *ngIf='showAlert' [ngClass]="messageClass" role="alert" id="alertMessage"
+  style="width: 100%; color: black; right: 0; z-index: 99; position: sticky; top:0px; margin-bottom: 0px">
+  <strong style="color: black;"><i style="color: black" [ngClass]="iconClass"></i> {{messageHeader}}</strong> {{messageMessage}}
+  <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true" style="color: black;">&times;</span>
+  </button>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light" id="navbar" style="position: sticky; z-index: 99;" [ngClass]="{up: !showAlert, down: showAlert}">
   <a class="navbar-brand" routerLink="/" style="font-size: 23px; color: rgb(94, 216, 238);">The Busy Beevers</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -30,27 +38,24 @@
     </ul>
     <span *ngIf="userService.isAuthenticated()" style="padding-right: 30px;">Welcome, {{userService.getFirstName()}} {{userService.getLastName()}}<span *ngIf="this.user.roleType == 'admin'">(ADMIN)</span></span>
     <div *ngIf="!userService.isAuthenticated()">
-      <a routerLink="/login" style="color: rgb(94, 216, 238);">Login</a>
+      <a class="aLink" (click)="oktaAuth.login()" style="color: rgb(94, 216, 238);">Login</a>
       <span style='margin-left: 10px; margin-right: 10px'>or</span>
-      <a routerLink="/register" style="padding-right: 40px; color: rgb(94, 216, 238);">Register</a>
+      <a class="aLink" (click)="oktaAuth.login()" style="padding-right: 40px; color: rgb(94, 216, 238);">Register</a>
+    </div>
+    <div *ngIf="oktaAuth.loggingOut">
+      <button>Logging Out...<i class="fas fa-spinner fa-spin"></i></button>
     </div>
     <div class="dropdown" *ngIf="userService.isAuthenticated()" id="accountIcon"> 
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><i id="myAccount" style="margin-left: 15px;" class="fas fa-user-circle"></i>
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a routerLink="/login" (click)="userService.logout()" style="color: white; padding-right: 40px; margin-left: 10px;">Logout</a></li>
+          <li><a (click)="oktaAuth.logout()" style="color: white; padding-right: 40px; margin-left: 10px; cursor: pointer;">Logout</a></li>
           <li><a routerLink="/my-account"  style="color: white; padding-right: 40px; margin-left: 10px;">My Account</a></li>
         </ul>
       </div>
   </div>
 </nav>
-<div *ngIf='showAlert' [ngClass]="messageClass" role="alert" id="alertMessage"
-style="width: 100%; color: black; right: 0; z-index: 99; position: sticky; top:61px;">
-<strong style="color: black;"><i style="color: black" [ngClass]="iconClass"></i> {{messageHeader}}</strong> {{messageMessage}}
-<button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true" style="color: black;">&times;</span>
-</button>
-</div>
+
 
 <router-outlet id="router-outlet"></router-outlet>
 
