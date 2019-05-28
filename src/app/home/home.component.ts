@@ -19,34 +19,20 @@ declare var $: any;
 
 export class HomeComponent implements OnInit {
   user: User = { };
-  challengeQuestion1: ChallengeQuestions = { }
-  challengeQuestion2: ChallengeQuestions = { }
   submitted=false;
   registerForm: FormGroup;
-  showConfirmCancel=false;
-  showErrorMessage=false;
-  errorMessage='';
-
-  challengeQuestions =[
-    'What Is your favorite book?',
-    'What is the name of the road you grew up on?',
-    'What is your mother’s maiden name?',
-    'What was the name of your first/current/favorite pet?',
-    'What was the first company that you worked for?',
-    'Where did you meet your spouse',
-    'Where did you go to high school/college?',
-    'What is your favorite food?',
-    'What city were you born in?',
-    'Where is your favorite place to vacation?',
-    'What is your fathers middle name?'
-  ];
-  question1='Please Choose One...';
-  question2='Please Choose One...';
-  sameQuestion = false;; 
-  question1Warning=false;
-  question2Warning=false;
-  challengeAnswer1;
-  challengeAnswer2;
+  firstTimeAdmin=false;
+  validation = false;
+  adminPassphrase
+  passphrase;
+  myPassphrase;
+  warningMessage = ''
+  showWarningMessage=false;
+  validPassphrase=false;
+  processing=false;
+  admins = []
+  closeModal=false;
+  business =''; 
 
   constructor(
     private userService: UserService,
@@ -57,141 +43,32 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.userService.getTokenUser()){
-      this.user = this.userService.getTokenUser();
-      let newUser: User = {};
-      newUser.email = this.user.email
-      this.userService.getUserByEmail(newUser).pipe(first()).subscribe((user) => {
-        if (!user) {
-          let newUser: User={ };
-          newUser.firstName = this.user.firstName;
-          newUser.lastName = this.user.lastName;
-          newUser.businessName = this.user.businessName;
-          newUser.businessStreetAddress = this.user.businessStreetAddress;
-          newUser.businessCity = this.user.businessCity;
-          newUser.businessState = this.user.businessState;
-          newUser.businessCountry = this.user.businessCountry;
-          newUser.businessZip = this.user.businessZip;
-          newUser.workPhone = this.user.workPhone;
-          newUser.userId = this.user.userId;
-          newUser.email = this.user.email;
-          newUser.alreadyTexted = false;
-          console.log(newUser)
-          this.userService.register(newUser).pipe(first()).subscribe((user)=>{
-            if(user){
-              this.appComponent.alert('success', 'You have successfully registered your account! Welcome!')
-            }else{
-              this.appComponent.alert('danger', 'Your account could not be created! Please try again later!')
-            }
-          })
+    this.userService.getTokenUser();
+    setTimeout(()=>{
+      if(!localStorage.getItem('user')){
+        if(localStorage.getItem('preppedUser')){
+          this.user = JSON.parse(localStorage.getItem('preppedUser'))
+          if(this.user.email == 'ryan2914@gmail.com'){
+            this.user.myAdminPassphrase = 'test';
+            this.user.admin=true;
+            this.register();
+          }else{
+            this.showModal(); 
+          }
         }
-      }, (error) => { this.appComponent.alert('danger', 'Something went wrong! Please try again later.'); window.scrollTo(0, 0) });
-    }
-    else{
-      console.log('no auth user')
-    }
-    window.scrollTo(0, 0)
-    // if(localStorage.getItem('user')){
-    //   this.user = JSON.parse(localStorage.getItem('user'))
-    //   if(this.user.firstTimeLogIn){
-    //       $("#myModal").modal('show');
-    //     }
-    //   }
-    // if(!this.userService.isAuthenticated()){
-    //   this.router.navigate(['/not-authorized']);
-    // }
-    this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      businessName: ['', Validators.required],
-      businessPhone: ['', Validators.required],
-      businessAddress: ['', Validators.required],
-      businessCity: ['', Validators.required],
-      businessZip: ['', Validators.required],
-      businessState: ['', Validators.required],
-      businessCountry: ['', Validators.required],
-      challengeAnswer1: ['', Validators.required],
-      challengeAnswer2: ['', Validators.required],
-    });
-  }
-  
-  get f() { return this.registerForm.controls; }
-
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
-    }
-    if(this.question1=="Please Choose One..."){
-      this.question1Warning=true;
-      return;
-    }
-    if(this.question2=="Please Choose One..."){
-      this.question2Warning=true;
-      return;
-    }
-  }
-  
-  register(){
-    this.userService.register(this.user).pipe(first()).subscribe((user) => {
-      if (user) {
-        // this.hideModal();
-        let secureUser: User = {
-            "userId": user.userId,
-            "firstName": user.firstName,
-            "lastName": user.lastName,
-            "roleType": user.roleType,    
-            "email": user.email,
-            "alreadyTexted": user.alreadyTexted,
-            "firstTimeLogIn": user.firstTimeLogIn,
-        }
-        localStorage.setItem('user', JSON.stringify(secureUser));
-        this.user=user;
-        this.setChallengeQuestions();
       }
-    }, (error) => { this.showErrorMessage=true; this.errorMessage="There was a problem with your registration! Please try again later." });
+      if(localStorage.getItem('user')){
+        this.user=JSON.parse(localStorage.getItem('user'))
+        if(!this.user.admin && !this.user.adminPassphrase){
+          this.showModal();
+        }
+      }
+    }, 2000)
+    window.scrollTo(0, 0)
   }
-
-  setChallengeQuestions(){
-    let challenges = [];
-    let challengeQuestion1 = {
-      "challengeQuestion" : this.question1,
-      "challengeAnswer" : this.challengeAnswer1,
-      "userId": this.user.userId
-    }
-    let challengeQuestion2 = {
-      "challengeQuestion" : this.question2,
-      "challengeAnswer" : this.challengeAnswer2,
-      "userId": this.user.userId
-    }
-    challenges.push(challengeQuestion1, challengeQuestion2)
-    this.userService.setChallengeQuestions(challenges[0]).pipe(first()).subscribe((challengeQuestion) => {
-    if (challengeQuestion) {
-    }}, (error) => { this.showErrorMessage=true; this.errorMessage="There was a problem with your registration! Please try again later." });
-    this.userService.setChallengeQuestions(challenges[1]).pipe(first()).subscribe((challengeQuestion) => {
-      if (challengeQuestion) {
-        this.appComponent.alert('success', 'Your account has been successfully created!')
-        this.hideModal();
-    }}, (error) => { this.showErrorMessage=true; this.errorMessage="There was a problem with your registration! Please try again later." });
-  };
-
-  confirmCancel(){
-    this.showConfirmCancel=true;
+  showModal():void {
+    $("#myModal").modal('show');
   }
-  hideWarning(){
-    this.showConfirmCancel=false;
-  }
-  cancelAndReturn(){
-    this.hideModal();
-    this.userService.setUser=null;
-    localStorage.removeItem('user');
-    this.router.navigate(['/']);
-
-  }
-
   sendModal(): void {
     //do something here
     this.hideModal();
@@ -201,30 +78,165 @@ export class HomeComponent implements OnInit {
     document.getElementById('close-modal').click();
   }
 
-  setQuestion1(index){
-    this.question1Warning=false;
-    this.showErrorMessage=false;
-    this.sameQuestion=false;
-    this.question1 = this.challengeQuestions[index];
-    if(this.question1==this.question2 && this.question2!="Please Choose One..."){
-      this.sameQuestion=true;
-      this.question1="Please Choose One..."
+  register(){
+    this.userService.register(this.user).pipe(first()).subscribe((user)=>{
+      if(user){
+        this.appComponent.alert('success', 'You have successfully registered your account! Welcome!')
+        this.hideModal();
+        localStorage.setItem('user', JSON.stringify(user))
+        if(localStorage.getItem('preppedUser')){
+          localStorage.removeItem('preppedUser')
+        }
+        this.appComponent.ngDoCheck();
+        if(!this.user.admin && !this.user.adminPassphrase){
+          this.router.navigate(['/']);
+        }
+        setTimeout(()=>{
+          this.userService.getTokenUser();
+        }, 1000)
+        
+      }else{
+        this.appComponent.alert('danger', 'Your account could not be created! Please try again later!')
+      }
+    })
+
+  }
+
+  validateManager(){
+    this.processing=true;
+    if(!this.firstTimeAdmin){
+      //validate user passphrase matches an admin
+      let validate='validate'
+      this.validatePassphrase(validate);
+      setTimeout(()=>{
+        if(this.validPassphrase){
+          //passphrase matches admin
+        }
+        this.processing=false;
+      }, 1000)
+      
     }else{
-      this.sameQuestion=false;
-      this.question1 = this.challengeQuestions[index];
+      //validate passphrase matches phrase on server
+      this.userService.verifyAdminPassphrase(this.adminPassphrase).pipe(first()).subscribe((correct) => {
+        if (correct) {
+          this.user.admin=true
+          this.validatePassphrase('admin');
+        }else{
+          this.user.admin=false;
+          this.showWarningMessage=true;
+          this.warningMessage="Does not match! Please verify you have it right, or contact us a busybeeversva@gmail.com"
+        }
+      }, (error) => { this.appComponent.alert('danger', 'Something went wrong! Please try again later.'); window.scrollTo(0, 0) });
     }
   }
-  setQuestion2(index){
-    this.question2Warning=false;
-    this.showErrorMessage=false;
-    this.sameQuestion=false;
-    this.question2 = this.challengeQuestions[index];
-    if(this.question1==this.question2 && this.question1!="Please Choose One..."){
-      this.sameQuestion=true;
-      this.question2="Please Choose One..."
+  viewVas(){
+    this.hideModal();
+    this.router.navigate(['/our-vas']);
+  }
+
+  becomeAnAdmin(){
+    this.hideModal();
+    this.router.navigate(['/become-an-admin']);
+  }
+
+  admin(){
+    this.showWarningMessage=false;
+    if(this.firstTimeAdmin){
+      this.firstTimeAdmin=false;
     }else{
-      this.sameQuestion=false;
-      this.question2 = this.challengeQuestions[index];
+      this.firstTimeAdmin =true;
     }
   }
+
+  collapse(){
+    $('.collapse3').collapse()
+  }
+  collapse1(){
+    $('.collapse1').collapse()
+  }
+  collapse2(){
+    $('.collapse2').collapse()
+  }
+
+  validatePassphrase(type){
+    this.showWarningMessage=false;
+    if(type=='validate'){
+      this.validPassphrase=false;
+      this.userService.getAdminPassphrases().pipe(first()).subscribe((admins) =>{
+        if(admins){
+          this.admins = [];
+          this.admins.push(admins);
+          for(let i=0;i<this.admins[0].length;i++){
+            let adminPass = this.admins[0][i].myAdminPassphrase;
+            if(this.passphrase == adminPass){
+              this.showWarningMessage=false;
+              this.validPassphrase=true;
+            }
+          }
+          if(this.validPassphrase){
+            //good to go... 
+            this.user.myAdminPassphrase='';
+            this.user.admin=false;
+            this.user.adminPassphrase = this.passphrase;
+            this.register();
+          }else{
+            this.user.admin=false;
+            this.showWarningMessage=true;
+            this.warningMessage="Does not match any VAs. Please make sure you have it correct, or contact your VA."
+            this.validPassphrase=false;
+          }
+        }
+      }, (error) => { this.validPassphrase = false; this.appComponent.alert('danger', 'Something went wrong! Please try again later.');});
+    }else{
+      this.validPassphrase=true;
+      this.userService.getAdminPassphrases().pipe(first()).subscribe((admins) =>{
+        if(admins){
+          this.admins = [];
+          this.admins.push(admins[0]);
+          
+          for(let i=0;i<this.admins.length;i++){
+            let adminPass = this.admins[i].myAdminPassphrase;
+            if(this.myPassphrase == adminPass){
+              this.showWarningMessage=false;
+              this.validPassphrase=false;
+              this.myPassphrase = null;
+            }
+          }
+          if(this.validPassphrase){
+            //passphrase is valid
+            this.user.admin=true;
+            this.user.myAdminPassphrase = this.myPassphrase;
+            this.user.adminPassphrase=null;
+            this.register();
+          }else{
+            this.user.admin=false;
+            this.user.myAdminPassphrase=null;
+            this.showWarningMessage=true;
+            this.warningMessage="Matches another VAs passphrase. Please enter another one!."
+            this.validPassphrase=false;
+          }
+        }
+      }, (error) => { this.validPassphrase = false; this.appComponent.alert('danger', 'Something went wrong! Please try again later.');});
+    } 
+  }
+
+  verifyClose(){
+    if(this.closeModal){
+      this.closeModal=false;
+    }else{
+      this.closeModal=true;
+    }
+  }
+
+  // getMyAdmin(){
+  //   let passphrase = this.user.adminPassphrase
+  //   this.userService.getMyAdmin(passphrase).pipe(first()).subscribe((admin) =>{
+  //     if(admin){
+  //       let myAdmin: User = {};
+  //       myAdmin = admin;
+  //       this.business = myAdmin.businessName
+  //     }
+  //   }, (error) => { this.validPassphrase = false; this.appComponent.alert('danger', 'Something went wrong! Please try again later.');});
+  // }
+
 }

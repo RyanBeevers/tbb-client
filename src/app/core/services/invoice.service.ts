@@ -49,6 +49,11 @@ export class InvoiceService {
     return this.http.post<Invoice>(environment.url + '/invoices/getByUser', user, httpOptions)
     .pipe(catchError(this.handleError));
   }
+
+  getInvoicesByAdminId(adminId): Observable<Invoice> {
+    return this.http.post<Invoice>(environment.url + '/invoices/getByAdminId', adminId, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
   
   getInvoicesByInvoiceId(invoice: Invoice): Observable<Invoice> {
     return this.http.post<Invoice>(environment.url + '/invoices/getByInvoiceId', invoice, httpOptions)

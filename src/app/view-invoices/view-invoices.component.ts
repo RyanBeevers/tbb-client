@@ -45,7 +45,7 @@ export class ViewInvoicesComponent implements OnInit {
     }
     this.user=JSON.parse(localStorage.getItem('user'));
 
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.loadManagerInvoices();
       this.getAllUsers();
     }else{
@@ -56,7 +56,7 @@ export class ViewInvoicesComponent implements OnInit {
   loadManagerInvoices(){
     this.viewingUser='All'
     this.invoices = [];
-    this.invoiceService.getAllInvoices().pipe(first()).subscribe((invoices) => {
+    this.invoiceService.getInvoicesByAdminId(this.user.userId).pipe(first()).subscribe((invoices) => {
       if (invoices) {
         this.invoices.push(invoices);
         this.formatTable();
@@ -81,7 +81,7 @@ export class ViewInvoicesComponent implements OnInit {
   formatTable(){
     this.status=[];
     this.columns=['Invoice ID', 'Submitted Date', 'Due Date', 'Status', 'Date Paid', 'Total']
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.columns.push('Business')
       this.columns.push('Customer Name')
     }
@@ -97,10 +97,10 @@ export class ViewInvoicesComponent implements OnInit {
 
   viewInvoice(i){
     localStorage.setItem('invoice', JSON.stringify(this.invoices[0][i]))
-    if(this.user.roleType=='admin' && !this.invoices[0][i].invoicePaidFlag){
+    if(this.user.admin && !this.invoices[0][i].invoicePaidFlag){
       this.router.navigate(['/create-invoices']);
     }
-    else if(this.user.roleType=='admin' && this.invoices[0][i].invoicePaidFlag){
+    else if(this.user.admin && this.invoices[0][i].invoicePaidFlag){
       this.router.navigate(['/view-invoice']);
     }
     else{
@@ -109,7 +109,7 @@ export class ViewInvoicesComponent implements OnInit {
   }
   getAllUsers(){
     this.invoices = [];
-    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+    this.userService.getUsersByAdmin(this.user.myAdminPassphrase).pipe(first()).subscribe((users) => {
       if (users) {
         this.users.push(users);
       }else{
@@ -127,7 +127,7 @@ export class ViewInvoicesComponent implements OnInit {
 
   getNotPaid(){
     this.processing=true;
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.loadManagerInvoices()
     }else{
       this.loadUserInvoices(this.user);
@@ -148,7 +148,7 @@ export class ViewInvoicesComponent implements OnInit {
 
   getPaid(){
     this.processing=true;
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.loadManagerInvoices()
     }else{
       this.loadUserInvoices(this.user);
@@ -167,7 +167,7 @@ export class ViewInvoicesComponent implements OnInit {
 
   getAll(){
     this.processing=true;
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.loadManagerInvoices()
     }else{
       this.loadUserInvoices(this.user);
@@ -179,7 +179,7 @@ export class ViewInvoicesComponent implements OnInit {
 
   getPastDue(){
     this.processing=true;
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.loadManagerInvoices()
     }else{
       this.loadUserInvoices(this.user);
@@ -202,8 +202,6 @@ export class ViewInvoicesComponent implements OnInit {
       };
       this.processing=false;
     }, 500)
-
-
   }
 
   checkDate(compareDate){
@@ -225,16 +223,13 @@ export class ViewInvoicesComponent implements OnInit {
     if(todaysDate){
       let dateArr1 = todaysDate.split('/');
       let dateArr2 = compareDate.split('/');
-
-      if(dateArr1[2]>dateArr2[2] || dateArr1[0]>dateArr2[0] || dateArr1[1]>dateArr2[1]){
-        console.log('past due')
-        return true;
+      if(dateArr1[0]<dateArr2[0] || dateArr1[1]<dateArr2[1]){
+        return false;
+      }else if(dateArr1[1]<=dateArr2[1] && dateArr1[2]<dateArr2[2]){
+        return false;
       }else{
-        console.log('not past due')
-
         return false;
       }
     }
   }
-
 }

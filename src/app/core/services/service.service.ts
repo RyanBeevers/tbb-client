@@ -35,8 +35,13 @@ export class ServiceService {
     return throwError('Something went wrong; please try again later.');
   }
 
-  getServices(): Observable<Service> {
-    return this.http.get<Service>(environment.url + '/services')
+  // getServices(): Observable<Service> {
+  //   return this.http.get<Service>(environment.url + '/services')
+  //   .pipe(catchError(this.handleError));
+  // }
+
+  getServices(adminId): Observable<Service> {
+    return this.http.post<Service>(environment.url + '/services', adminId, httpOptions)
     .pipe(catchError(this.handleError));
   }
   

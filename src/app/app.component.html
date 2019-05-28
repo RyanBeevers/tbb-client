@@ -7,7 +7,7 @@
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-light" id="navbar" style="position: sticky; z-index: 99;" [ngClass]="{up: !showAlert, down: showAlert}">
-  <a class="navbar-brand" routerLink="/" style="font-size: 23px; color: rgb(94, 216, 238);">The Busy Beevers</a>
+  <a class="navbar-brand" routerLink="/" style="font-size: 23px; color: rgb(94, 216, 238);">{{business}}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -15,7 +15,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" *ngIf="userService.isAuthenticated()" routerLink="/home" style="color:white;"><i class="fas fa-home"></i>  Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" *ngIf="user.admin || user.adminPassphrase" routerLink="/home" style="color:white;"><i class="fas fa-home"></i>  Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/services" style="color:white;"><i class="fas fa-concierge-bell"></i>  Services <span class="sr-only">(current)</span></a>
@@ -23,20 +23,23 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/contact-me" style="color:white;"><i class="fas fa-address-book"></i>  Contact Me<span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item">
+        <a *ngIf="user.firstName && !user.admin && !user.adminPassphrase" class="nav-link" routerLink="/home" style="color:white;"><i class="fas fa-user-plus"></i>  Complete Registration<span class="sr-only">(current)</span></a>
+      </li>
       <li>
-      <div *ngIf="userService.isAuthenticated()" class="dropdown">
+      <div *ngIf="this.user.admin || this.user.adminPassphrase" class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Account Options
           </button>
           <div class="dropdown-menu" aria-labelledBy="dropdownMenuButton">
             <a class="dropdown-item" routerLink="/view-tasks" style="color:white;"><i class="fas fa-tasks"></i>  Create/View Tasks<span class="sr-only">(current)</span></a>
             <a class="dropdown-item" routerLink="/view-invoices" style="color:white;"><i class="fas fa-receipt"></i>  View Invoices<span class="sr-only">(current)</span></a>
-            <a *ngIf="userService.isAdmin()" class="dropdown-item" routerLink="/create-invoices" style="color:white;"><i class="fas fa-pencil-alt"></i>  Create Invoice<span class="sr-only">(current)</span></a>
+            <a *ngIf="this.user.admin" class="dropdown-item" routerLink="/create-invoices" style="color:white;"><i class="fas fa-pencil-alt"></i>  Create Invoice<span class="sr-only">(current)</span></a>
           </div>
       </div>
     </li>
     </ul>
-    <span *ngIf="userService.isAuthenticated()" style="padding-right: 30px;">Welcome, {{userService.getFirstName()}} {{userService.getLastName()}}<span *ngIf="this.user.roleType == 'admin'">(ADMIN)</span></span>
+    <span *ngIf="userService.isAuthenticated()" style="padding-right: 30px;">Welcome, {{userService.getFirstName()}} {{userService.getLastName()}}<span *ngIf="this.user.admin">(ADMIN)</span></span>
     <div *ngIf="!userService.isAuthenticated()">
       <a class="aLink" (click)="oktaAuth.login()" style="color: rgb(94, 216, 238);">Login</a>
       <span style='margin-left: 10px; margin-right: 10px'>or</span>
@@ -51,6 +54,7 @@
         <ul class="dropdown-menu">
           <li><a (click)="oktaAuth.logout()" style="color: white; padding-right: 40px; margin-left: 10px; cursor: pointer;">Logout</a></li>
           <li><a routerLink="/my-account"  style="color: white; padding-right: 40px; margin-left: 10px;">My Account</a></li>
+          <li><a *ngIf="this.user.admin" routerLink="/my-links"  style="color: white; padding-right: 40px; margin-left: 10px;">My Links</a></li>
         </ul>
       </div>
   </div>
@@ -59,15 +63,71 @@
 
 <router-outlet id="router-outlet"></router-outlet>
 
-<nav class="navbar navbar-expand-lg navbar-light" id="footer" style="width: 100%; position: fixed; bottom: 0">
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/contact-me" style="color:white;">Contact Me<span class="sr-only">(current)</span></a>
-    </li>
-  </ul>
+<nav class="navbar navbar-expand-lg navbar-light just" id="footer" style="width: 100%; position: fixed; bottom: 0">
+<div class="collapse navbar-collapse" id="navbarSupportedContent1">
+  <div class="navbar-nav ml-auto" *ngIf="this.user.admin">
+    <ul class="navbar-nav" style="width: 100%">
+      <li class="nav-item" *ngIf="user.myWebsite">
+        <a class="nav-link" title="My Website" style="color:white;" href="{{user.myWebsite}}" target="_blank">
+          <i class="fas fa-external-link-alt" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="user.facebook">
+        <a class="nav-link" title="Facebook" style="color:white;" href="{{user.facebook}}" target="_blank">
+          <i class="fab fa-facebook" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="user.instagram">
+        <a class="nav-link" title="Instagram" style="color:white;" href="{{user.instagram}}" target="_blank">
+          <i class="fab fa-instagram" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="user.youtube">
+        <a class="nav-link" title="YouTube" style="color:white;" href="{{user.youtube}}" target="_blank">
+          <i class="fab fa-youtube" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="user.linkedIn">
+        <a class="nav-link" title="LinkedIn" style="color:white;" href="{{user.linkedIn}}" target="_blank">
+          <i class="fab fa-linkedin" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="user.twitter">
+        <a class="nav-link" title="Twitter" style="color:white;" href="{{user.twitter}}" target="_blank">
+          <i class="fab fa-twitter" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="user.email">
+      <a class="nav-link"  title="Email Me!" href="mailto:{{user.email}}" style="color: white;">
+        <i class="fas fa-envelope-open-text" style="margin-right: 5px; font-size: 37px"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div class="navbar-nav ml-auto" *ngIf="myAdmin">
+      <ul class="navbar-nav" style="width: 100%">
+      <li class="nav-item" *ngIf="myAdmin.myWebsite">
+        <a class="nav-link" title="My Website" style="color:white;" href="{{myAdmin.myWebsite}}" target="_blank">
+          <i class="fas fa-external-link-alt" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="myAdmin.facebook">
+        <a class="nav-link" title="Facebook" style="color:white;" href="{{myAdmin.facebook}}" target="_blank">
+          <i class="fab fa-facebook" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="myAdmin.instagram">
+        <a class="nav-link" title="Instagram" style="color:white;" href="{{myAdmin.instagram}}" target="_blank">
+          <i class="fab fa-instagram" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="myAdmin.youtube">
+        <a class="nav-link" title="YouTube" style="color:white;" href="{{myAdmin.youtube}}" target="_blank">
+          <i class="fab fa-youtube" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="myAdmin.linkedIn">
+        <a class="nav-link" title="LinkedIn" style="color:white;" href="{{myAdmin.linkedIn}}" target="_blank">
+          <i class="fab fa-linkedin" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="myAdmin.twitter">
+        <a class="nav-link" title="Twitter" style="color:white;" href="{{myAdmin.twitter}}" target="_blank">
+          <i class="fab fa-twitter" style="margin-right: 5px; font-size: 40px"></i></a>
+      </li>
+      <li class="nav-item" *ngIf="myAdmin.email">
+      <a class="nav-link" title="Email Me!" href="mailto:{{myAdmin.email}}" style="color: white;">
+        <i class="fas fa-envelope-open-text" style="margin-right: 5px; font-size: 37px"></i></a>
+      </li>
+    </ul>
+  </div>
 </div>
 </nav>

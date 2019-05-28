@@ -1,11 +1,20 @@
 <div class="card" style="width: 50%; margin-right: 25%; margin-left: 25%; margin-top: 2%; text-align: center">
   <div class="card-body">
     <h1 class="card-title" style="color: rgb(94, 216, 238); font-size: 35px;">Contact Me</h1>
-    <a class="card-text" style="color:white;" href="https://www.facebook.com/Busy-Beevers-Virtual-Assistant-577507756093532/" target="_blank"><i class="fab fa-facebook" style="color:#3b5998; margin-right: 5px;"></i>Connect with me on Facebook</a>
+    <a clsdd="card-text" href="mailto:{{email}}" style="color: white;"><i class="fas fa-envelope-open-text" style="margin-right: 5px; color: black"></i>Contact me by Email</a>
     <br>
-    <a clsdd="card-text" style="color:white;" href="https://www.linkedin.com/in/sara-beevers-34b1a7159/" target="_blank"><i class="fab fa-linkedin" style="margin-right: 5px; color: #0077B5;"></i>Connect with me on LinkedIn</a>
+    <a class="card-text" style="color:white;" href="{{facebook}}" target="_blank"><i class="fab fa-facebook" style="margin-right: 5px; color: #3b5998"></i>Connect with me on Facebook</a>
     <br>
-    <a clsdd="card-text" href="mailto:busybeeversva@gmail.com" style="color: white;"><i class="fas fa-envelope-open-text" style="margin-right: 5px; color: black;"></i>Contact me by Email</a>
+    <a clsdd="card-text" style="color:white;" href="{{linkedIn}}" target="_blank"><i class="fab fa-linkedin" style="margin-right: 5px; color: #0077B5"></i>Connect with me on LinkedIn</a>
+    <br *ngIf="twitter">
+    <a clsdd="card-text" *ngIf="twitter" style="color:white;" href="{{twitter}}" target="_blank"><i class="fab fa-twitter" style="margin-right: 5px; color: #38A1F3"></i>Connect with me on Twitter</a>
+    <br *ngIf="instagram">
+    <a clsdd="card-text" *ngIf="instagram" style="color:white;" href="{{instagram}}" target="_blank"><span class="instagram"><i class="fab fa-instagram" style="margin-left: 2px; margin-right: 7px;"></i></span>Connect with me on Instagram</a>
+    <br *ngIf="youtube">
+    <a clsdd="card-text" *ngIf="youtube" style="color:white;" href="{{youtube}}" target="_blank"><i class="fab fa-youtube" style="margin-right: 5px; color: #c4302b"></i>Connect with me on YouTube</a>
+    <br *ngIf="myWebsite">
+    <a clsdd="card-text" *ngIf="myWebsite" style="color:white;" href="{{myWebsite}}" target="_blank"><i class="fas fa-external-link-alt" style="margin-right: 5px; color: black;"></i>Connect with me on My Website</a>
+    <br>
     <!-- <br>
     <a *ngIf="!username" clsdd="card-text" href="#" style="color: white;" (click)="showLogInWarning()"><i class="fas fa-sms" style="margin-right: 5px; color: white;"></i>Send me a text</a>
     <a *ngIf="username && !alreadyTexted" clsdd="card-text" href="/text-me" style="color: white;"><i class="fas fa-sms" style="margin-right: 5px; color: white;"></i>Send me a text</a>

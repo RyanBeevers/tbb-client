@@ -19,6 +19,9 @@ export class LogoutComponent implements OnInit {
     ) { }
   
   ngOnInit() {
+    if(localStorage.getItem('myAdmin')){
+      localStorage.removeItem('myAdmin')
+    }
     this.userService.logout();
     this.okta.loggingOut=false;
     this.router.navigate(['/']);

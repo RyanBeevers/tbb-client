@@ -52,6 +52,11 @@ export class TaskService {
     .pipe(catchError(this.handleError));
   }
 
+  getAllTasksByAdminId(adminId): Observable<Task> {
+    return this.http.post<Task>(environment.url + '/tasks/getTasksByAdminId', adminId, httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
   getTasksByUserIdAndNoInvoice(user: User): Observable<Task> {
     return this.http.post<Task>(environment.url + '/tasks/getTasksByUserIdAndNoInvoice', user, httpOptions)
     .pipe(catchError(this.handleError));

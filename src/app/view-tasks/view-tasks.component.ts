@@ -35,15 +35,18 @@ export class ViewTasksComponent implements OnInit {
   taskUser: User = { };
   processing=false;
   selectedTask: Task = {};
+  adminId;
 
   ngOnInit() {
     window.scrollTo(0, 0)
     if(!this.userService.isAuthenticated()){
       this.router.navigate(['/not-authorized']);
     }
+    this.adminId = this.userService.getAdmin();
     this.getAllUsers();
     this.user = JSON.parse(localStorage.getItem('user'));
-    if(this.user.roleType=='admin'){
+    console.log(this.user)
+    if(this.user.admin){
       this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
       this.getAllTasks();
     }
@@ -54,13 +57,14 @@ export class ViewTasksComponent implements OnInit {
   }
 
   getAllTasks(){
+    console.log('here')
     this.viewingUser = 'All'
     this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
     this.tasks = [];
-    this.taskService.getAllTasks().pipe(first()).subscribe((tasks) => {
+    this.taskService.getAllTasksByAdminId(this.adminId).pipe(first()).subscribe((tasks) => {
+      console.log(tasks)
       if (tasks) {
         this.tasks.push(tasks);
-        console.log(this.tasks)
       }else{
         this.appComponent.alert('warning', 'No Tasks Currently Available')
       };
@@ -118,7 +122,7 @@ export class ViewTasksComponent implements OnInit {
     this.processing=true;
     if(this.viewingUser != 'All'){
       this.getTasksByUserId(this.taskUser)
-    }else if (this.user.roleType=='admin'){
+    }else if (this.user.admin){
       this.getAllTasks();
     }else{
       this.getTasksByUserId(this.user)
@@ -140,7 +144,7 @@ export class ViewTasksComponent implements OnInit {
     this.processing=true;
     if(this.viewingUser != 'All'){
       this.getTasksByUserId(this.taskUser)
-    }else if (this.user.roleType=='admin'){
+    }else if (this.user.admin){
       this.getAllTasks();
     }else{
       this.getTasksByUserId(this.user)
@@ -161,7 +165,7 @@ export class ViewTasksComponent implements OnInit {
   viewAll(){
     if(this.viewingUser != 'All'){
       this.getTasksByUserId(this.taskUser)
-    }else if (this.user.roleType=='admin'){
+    }else if (this.user.admin){
       this.getAllTasks();
     }else{
       this.getTasksByUserId(this.user)

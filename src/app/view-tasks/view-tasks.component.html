@@ -3,7 +3,7 @@
 <br>
 <div style="margin-left: 10%;">
   <div class="dropdown" style="display: inline-block;">
-    <button style=" margin-right: 3%;" *ngIf="this.user.roleType=='admin'" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button style=" margin-right: 3%;" *ngIf="this.user.admin" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       {{viewingUser}}
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -28,7 +28,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let task of tasks[0]; index as i" style="color:white">
-        <td style="width: 12%" *ngIf="this.user.roleType=='admin'">{{task.user.businessName}}</td>
+        <td style="width: 12%" *ngIf="this.user.admin">{{task.user.businessName}}</td>
         <td style="width: 8%">{{task.taskId}}</td>
         <td style="width: 30%">{{task.taskDesc}}</td>
         <td>{{task.taskDueDate}}</td>

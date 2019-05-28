@@ -5,4 +5,5 @@ export class Service{
   cardTitle2?: string;
   cardDesc?: string;
   cardPricingDetail?: number;
+  adminId?: string;
 }

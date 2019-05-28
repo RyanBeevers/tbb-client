@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { User } from './core/models/user.model'
 import { UserService } from './core/services/user.service'
 import { OktaService } from './core/services/okta.service';
+import { first } from 'rxjs/operators';
+import { isLContainer } from '@angular/core/src/render3/util';
 
 @Component({
   selector: 'app-root',
@@ -18,18 +20,58 @@ export class AppComponent {
   messageHeader='';
   messageMessage='';
   closeAlertTimeout;
+  business;
+  myAdmin;
 
   constructor(
     private userService: UserService,
-    public oktaAuth: OktaService
+    public oktaAuth: OktaService,
   ) { }
   
   ngOnInit(){
     this.isLoggedIn  = this.userService.isAuthenticated();
+    this.userService.getTokenUser();
+    setTimeout(()=>{
+      if (localStorage.getItem('user')){
+        this.user = JSON.parse(localStorage.getItem('user'));
+        if(!this.user.admin && this.user.adminPassphrase){
+          this.userService.getMyAdmin(this.user.adminPassphrase).pipe(first()).subscribe((admin) => {
+            if(admin){
+              localStorage.setItem('myAdmin', JSON.stringify(admin))
+              this.business = admin.businessName
+              this.myAdmin = admin;
+            }
+          });
+        }
+      }else{
+        this.user={}
+      }
+      setTimeout(()=>{
+        if(localStorage.getItem('myAdmin')){
+          this.myAdmin = JSON.parse(localStorage.getItem('myAdmin'));
+          this.business=this.myAdmin.businessName;
+        }else if(this.user.admin){
+          this.business=this.user.businessName;
+        }else{
+          this.business='The Busy Beevers'
+        }
+      }, 2000);
+    },2000);
   }
+
   ngDoCheck(){
     if (localStorage.getItem('user')){
       this.user = JSON.parse(localStorage.getItem('user'));
+    }else{
+      this.user={}
+    }
+    if(localStorage.getItem('myAdmin')){
+      this.myAdmin = JSON.parse(localStorage.getItem('myAdmin'));
+      this.business=this.myAdmin.businessName;
+    }else if(this.user.admin){
+      this.business=this.user.businessName;
+    }else{
+      this.business='The Busy Beevers'
     }
   }
 
@@ -65,4 +107,5 @@ export class AppComponent {
     this.iconClass='';
     this.showAlert=false;
   }
+  
 }

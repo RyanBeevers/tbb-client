@@ -1,0 +1,35 @@
+<div id='main-container'>
+    <h2 style="color: rgb(94, 216, 238); text-align: center; padding-top: 5%">My Links</h2>
+    <hr>
+    <div>
+      <label>My Website:</label>
+      <input [(ngModel)]="user.myWebsite"/>
+    </div>
+    <div>
+      <label>Facebook:</label>
+      <input [(ngModel)]="user.facebook"/>
+    </div>
+    <div>
+      <label>Instagram:</label>
+      <input [(ngModel)]="user.instagram"/>
+    </div>
+    <div>
+      <label>Youtube:</label>
+      <input [(ngModel)]="user.youtube"/>
+    </div>
+    <div>
+      <label>LinkedIn:</label>
+      <input [(ngModel)]="user.linkedIn"/>
+    </div>
+    <div>
+      <label>Twitter:</label>
+      <input [(ngModel)]="user.twitter"/>
+    </div>
+    
+    <br>
+  <button (click)="submit()" style="width: 14%; margin-right: 43%; margin-left: 43%"
+    class="btn btn-primary">Submit</button>
+    <div *ngIf="errorMessage" style="text-align: center">
+      <span style="color: white;">{{errorMessage}}</span>
+    </div>
+</div>

@@ -9,4 +9,5 @@ export class Invoice{
     invoicePaidDate?: String;
     invoicePaidFlag?: boolean;
     user?: User;
+    adminId?: String;
 }

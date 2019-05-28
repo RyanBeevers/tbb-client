@@ -42,12 +42,20 @@ export class ServicesComponent implements OnInit {
 
   loadServices(){
     this.services = [];
-    this.serviceService.getServices().pipe(first()).subscribe((services) => {
+    let adminId;
+    if(!this.user.admin){
+      let admin=JSON.parse(localStorage.getItem('myAdmin'))
+      adminId = admin.userId
+    }else{
+      adminId = this.user.userId;
+    }
+    this.serviceService.getServices(adminId).pipe(first()).subscribe((services) => {
       if (services) {
         this.services.push(services)
-      }else{
-        this.appComponent.alert('warning', 'No Services Currently Available')
-      };
+        if(!this.services[0] || !this.services[0][0]){
+          this.appComponent.alert('warning', 'No Services Currently Available')
+        }
+      }
     }, (error) => { this.appComponent.alert('danger', 'Error is retrieving services! Please try again later') });
   }
 

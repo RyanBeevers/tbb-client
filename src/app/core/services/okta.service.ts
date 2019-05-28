@@ -45,6 +45,7 @@ export class OktaService {
   }
 
   async logout() {
+    localStorage.removeItem('user')
     this.loggingOut=true;
     this.oktaAuth.tokenManager.clear();
     await this.oktaAuth.signOut();

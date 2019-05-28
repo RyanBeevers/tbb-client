@@ -12,10 +12,10 @@
         <span class="card-link" style="position: relative; bottom: 0;margin-bottom: 20px;" data-toggle="modal" data-toggle="modal" data-target="#myModal" (click)="showModal(i)">
           Click here for pricing!
         </span>
-        <span class="card-link" (click)="showModal(i)" *ngIf="this.user.roleType=='admin'" class="card-link" style="position: relative; bottom: 10px; float: right">Edit</span>
+        <span class="card-link" (click)="showModal(i)" *ngIf="this.user.admin" class="card-link" style="position: relative; bottom: 10px; float: right">Edit</span>
       </div>
     </div>
-    <div *ngIf="this.user.roleType == 'admin'" class="card" style="display: inline-block; margin-left: 6%;">
+    <div *ngIf="this.user.admin" class="card" style="display: inline-block; margin-left: 6%;">
         <h3>Create New Service</h3>
         <br>
         <a routerLink="/new-service"><i style="font-size: 80px; color: rgb(99, 98, 98); margin-left: 40%; margin-right: 40%; padding-top: 20%;" class="fas fa-plus"></i></a>
@@ -42,8 +42,8 @@
   
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button *ngIf="this.user.roleType=='admin' && !showVerification" type="button" class="btn btn-danger" (click)="showVerificationDiv()">Delete</button>
-          <button *ngIf="this.user.roleType=='admin' && !showVerification" type="button" class="btn btn-default" (click)="editCard()">Edit</button>
+          <button *ngIf="this.user.admin && !showVerification" type="button" class="btn btn-danger" (click)="showVerificationDiv()">Delete</button>
+          <button *ngIf="this.user.admin && !showVerification" type="button" class="btn btn-default" (click)="editCard()">Edit</button>
           <button *ngIf="!showVerification" type="button" class="btn btn-primary" (click)="hideModal()">Close</button>
           <div *ngIf="showVerification" style="float:right;">
             <div style="color: black">Are you sure you want to delete this Service?</div>

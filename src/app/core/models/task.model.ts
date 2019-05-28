@@ -16,4 +16,5 @@ export class Task{
     taskCompletedDate?: String;
     user?: User;
     invoice?: Invoice;
+    adminId?: String;
 }

@@ -41,6 +41,8 @@ export class NewTaskComponent implements OnInit {
   tomorrow;
   selectedServiceLabel = 'Select a Service'
   noSelectedService=false;
+  adminId;
+  showConfirmPaid = false;
 
   constructor(
     private userService: UserService,
@@ -58,11 +60,19 @@ export class NewTaskComponent implements OnInit {
       this.router.navigate(['/not-authorized']);
     }
     this.user = JSON.parse(localStorage.getItem('user'));
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       this.admin=true;
     }
+    
     this.loadServices();
-    this.getAllUsers();
+    
+    if(this.user.admin){
+      this.getAllUsers();
+      this.adminId = this.user.userId;
+    }else{
+      let adminUser = JSON.parse(localStorage.getItem('myAdmin'))
+      this.adminId = adminUser.userId;
+    }
 
     if(localStorage.getItem('selectedTask')){
       this.task=JSON.parse(localStorage.getItem('selectedTask'));
@@ -115,11 +125,15 @@ export class NewTaskComponent implements OnInit {
     if(this.task.taskDueDate){
       let dateArr1 = this.task.taskDueDate.split('-');
       let dateArr2 = this.tomorrow.split('-');
-
-      if(dateArr1[0]<dateArr2[0] || dateArr1[1]<dateArr2[1] || dateArr1[2]<dateArr2[2]){
+      if(dateArr1[0]<dateArr2[0] || dateArr1[1]<dateArr2[1]){
         this.dateError=true;
         return false;
-      }else{
+      }else if(dateArr1[1]<=dateArr2[1] && dateArr1[2]<dateArr2[2]){
+        this.dateError=true;
+        return false;
+      }
+      
+      else{
         this.dateError=false;
         return true;
       }
@@ -127,7 +141,6 @@ export class NewTaskComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.task)
     this.submitted = true;
     if(!this.task.taskName){
       if(this.selectedServiceLabel == 'Select a Service'){
@@ -147,7 +160,7 @@ export class NewTaskComponent implements OnInit {
       return;
     }
 
-    if(this.user.roleType=='admin'){
+    if(this.user.admin){
       if(!this.taskUser.userId){
         this.appComponent.alert('warning', 'Please select a user!');
         return;
@@ -162,7 +175,14 @@ export class NewTaskComponent implements OnInit {
 
   loadServices(){
     this.services = [];
-    this.serviceService.getServices().pipe(first()).subscribe((services) => {
+    let adminId;
+    if(!this.user.admin){
+      let admin=JSON.parse(localStorage.getItem('myAdmin'))
+      adminId = admin.userId
+    }else{
+      adminId = this.user.userId;
+    }
+    this.serviceService.getServices(adminId).pipe(first()).subscribe((services) => {
       if (services) {
         this.services.push(services)
       }else{
@@ -252,7 +272,7 @@ export class NewTaskComponent implements OnInit {
     this.task.taskEstimatedCost = this.estimatedCost;
     this.task.invoice = null;
     this.task.user = this.taskUser;
-
+    this.task.adminId = this.adminId;
 
     this.taskService.createTask(this.task).pipe(first()).subscribe((task) => {
       if (task) {
@@ -307,6 +327,7 @@ export class NewTaskComponent implements OnInit {
     this.task.taskEstimatedCost = this.estimatedCost;
     this.task.user = this.task.user;
     this.task.invoice = null;
+    this.task.adminId = this.adminId;
 
     this.taskService.updateTask(this.task).pipe(first()).subscribe((task) => {
       if (task) {
@@ -344,7 +365,7 @@ export class NewTaskComponent implements OnInit {
   }
 
   getAllUsers(){
-    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+    this.userService.getUsersByAdmin(this.user.myAdminPassphrase).pipe(first()).subscribe((users) => {
       if (users) {
         this.users.push(users);
       }else{

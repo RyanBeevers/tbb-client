@@ -1,0 +1,20 @@
+<div id='main-container'>
+  <div class="card" style="display: inline-block; margin-left: 6%;" *ngFor="let admin of admins[0]; index as i">
+    <h3>{{admin.firstName}} {{admin.lastName}}</h3>
+    <div class="card-body" style="align-content: center;">
+      <h5 class="card-title" style="color: white;">Location: {{admin.businessState}}</h5>
+      <h5>Services Provided</h5>
+      <div class="list">
+        <ul>
+          <li *ngFor="let service of services[i]">{{service.cardTitle}}</li>
+        </ul>
+      </div>
+    <div class="card-body">
+      <a class="card-link" href="mailto:{{admin.email}}" style="position: absolute; bottom: 0;margin-bottom: 15px;">
+        Email Me!
+      </a>
+    </div>
+  </div>
+</div>
+    
+  

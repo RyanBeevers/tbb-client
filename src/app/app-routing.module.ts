@@ -18,6 +18,11 @@ import { NewTaskComponent } from './new-task/new-task.component';
 import { OktaReturnComponent } from './okta-return/okta-return.component'
 import { ProtectedComponent } from './protected/protected.component';
 import { OktaAuthGuard } from './core/guards/okta-auth.guard';
+import { BecomeAnAdminComponent } from './become-an-admin/become-an-admin.component';
+import { OurVasComponent } from './our-vas/our-vas.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { SessionExpiredComponent } from './session-expired/session-expired.component';
+import { MyLinksComponent } from './my-links/my-links.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent},
@@ -36,7 +41,11 @@ const routes: Routes = [
   { path: 'my-account', component: MyAccountComponent},
   { path: 'callback', component: OktaReturnComponent},
   { path: 'protected', component: ProtectedComponent, canActivate: [ OktaAuthGuard ]},
-
+  { path: 'become-an-admin', component: BecomeAnAdminComponent},
+  { path: 'our-vas', component: OurVasComponent},
+  { path: 'about-us', component: AboutUsComponent},
+  { path: 'session-expired', component: SessionExpiredComponent},
+  { path: 'my-links', component: MyLinksComponent},
   { path: '404', component: NotFoundComponent},
   { path: '**', redirectTo: '/404'},
 ];

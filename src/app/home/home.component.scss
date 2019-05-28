@@ -87,3 +87,18 @@ h4{
     border-width: 0.5px;
     border-radius: 3px;
 }
+
+.link{
+    color: grey !important;
+    text-decoration: underline !important;
+}
+
+.link:hover{
+    text-decoration: underline !important;
+    color: black !important;
+    cursor: pointer !important;
+}
+.prime-accordion-override{
+        background-color: red !important;
+    
+}   

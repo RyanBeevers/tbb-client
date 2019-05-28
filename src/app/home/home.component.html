@@ -29,3 +29,103 @@
     </div>
   </div>
 </div>
+
+
+  <!-- The Modal -->
+  <div class="modal fade" data-backdrop="static" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="color: black">Complete Registration</h4>
+          <!-- <button type="button" class="close" (click)="hideModal()">&times;</button> -->
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body" style="color: black;text-align: center">
+          <div *ngIf="!firstTimeAdmin">
+            <span style="color: black; font-size: 30px; margin-left: 10%;">Enter your passphrase</span>
+            <a (click)="collapse()" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample" 
+              style="margin-bottom: 5%; font-size: 20px; color: black !important; margin-left: 5%; font-weight: 1000">
+              <i style="color: black;" class="fas fa-question-circle"></i>
+            </a>
+            <br>
+            <div class="collapse" id="collapseExample3" style="margin-left: 7%; margin-bottom: 1%">
+              <div class="card card-body" >
+                <br>
+                <p style="color: black">Please enter the passphrase your <b style="color: black">Virtual Assistant</b> gave you to complete registration.<br>This phrase will be used
+                  to link yours and their accounts together for services, then click <b style="color: black">Submit</b>
+                </p>
+              </div>
+            </div>
+            <input placeholder="Passphrase" [(ngModel)]="passphrase" style="color: black; width: 40%;">
+            <div style="width: 100%; align-content: center;">
+              <button [disabled]="!passphrase || validating"  style="width:20%; margin-left: 40%; margin-right: 40%; margin-top: 1%" type="button" class="btn btn-secondary" (click)="validateManager()">Submit</button>
+              <span style="color: red" *ngIf="showWarningMessage">{{warningMessage}}</span>
+            </div>
+            
+            <hr>
+            <span style="color: black; font-size: 30px; margin-left: 11%;">Are you an admin?</span>
+            <a (click)="collapse1()" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample" 
+              style="margin-bottom: 5%; font-size: 20px; color: black !important; margin-left: 5%; font-weight: 1000">
+              <i style="color: black;" class="fas fa-question-circle"></i>
+            </a>
+            <div class="collapse" id="collapseExample1" style="margin-left: 7%; margin-bottom: 1%">
+              <div class="card card-body" >
+                  <p style="color: black">Please click <b style="color: black"> Admin Registration</b> to enter <b style="color: black">Admin Verification</b> passphrase</p>
+              </div>
+            </div>
+            <div style="width: 100%; align-content: center;">
+                <button *ngIf="!firstTimeAdmin" type="button" class="btn btn-secondary" (click)="admin()">Admin Registration</button>
+            </div>
+            <hr>
+            <span style="color: black; font-size: 30px; margin-left: 10%;">Don't have a passphrase?</span>
+            <a (click)="collapse2()" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample" 
+              style="margin-bottom: 5%; font-size: 20px; color: black !important; margin-left: 5%; font-weight: 1000">
+              <i style="color: black;" class="fas fa-question-circle"></i>
+            </a>
+            <div class="collapse" id="collapseExample2" style="margin-left: 7%; margin-bottom: 1%">
+              <div class="card card-body" >
+                <p style="color: black">Click <b style="color: black">View VAs</b> to find a Virtual Assistant
+                  to fulfill your business needs and receive a passcode!
+                </p>
+                <button *ngIf="!firstTimeAdmin" style="margin-left: 3%;" type="button" class="btn btn-secondary" (click)="viewVas()">View VAs</button>
+             </div>
+            </div>
+          </div>
+          <div *ngIf="firstTimeAdmin">
+            <p style="color: black">Please enter the passphrase given to you when you signed up for an admin
+            account to verify admin status!</p>
+            <input placeholder="Passphrase" [(ngModel)]="adminPassphrase" style="color: black;">
+            <p style="color: black; margin-top: 4%">Please enter the passphrase you would like YOUR customers to use when
+            signing up so they can submit their tasks!</p>
+            <input placeholder="Create Your Passphrase" [(ngModel)]="myPassphrase" style="color: black;">
+            <a class="link" (click)="admin()">Not an admin?</a>
+            <div style="width: 100%; align-content: center;">
+              <button [disabled]="!adminPassphrase || !myPassphrase || validating"  style="width:20%; margin-left: 40%; margin-right: 40%; margin-top: 1%" type="button" class="btn btn-secondary" (click)="validateManager()">Submit</button>
+              <span style="color: red" *ngIf="showWarningMessage">{{warningMessage}}</span>
+            </div>
+            <hr>
+            <h4 style="color: black">How to become an admin</h4>
+            <p style="color: black">Click <b style="color: black">Learn More</b> below to learn how you can start managing your clients here!</p>
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div *ngIf="!closeModal" class="modal-footer">
+          <button  (click)="becomeAnAdmin()" *ngIf="firstTimeAdmin" style="margin-left: 3%;" type="button" class="btn btn-secondary">Learn More</button>
+          <button  (click)="verifyClose()" style="margin-left: 3%;" type="button" class="btn btn-danger">Close</button>
+        </div>
+        <div *ngIf="closeModal" style="width: 100%; text-align: center">
+          <span style="color: red;">Are you sure you want to close this? You will not have access to all features until you complete this process...</span>
+          <br>
+          <button style="width: 100px; float:right; margin-bottom: 2%; margin-right: 2%;" class="btn btn-primary" (click)="verifyClose()">No</button>
+          <button style="width: 100px; float:right; margin-right: 3%;" class="btn btn-danger" (click)="register();" >Yes</button>
+        </div>
+
+        <!-- this button is hidden, used to close from typescript -->
+        <button type="button" id="close-modal" data-dismiss="modal" style="display: none" >Close</button>
+      </div>
+    </div>
+  </div>

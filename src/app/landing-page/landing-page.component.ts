@@ -25,13 +25,13 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0)
-    if (localStorage.getItem('user')){
-      this.user = this.userService.getUser();
-      this.alreadyTexted = this.user.alreadyTexted;
-      this.username = this.user.email;
-    }else{
-      this.user=undefined;
-    }
+    // if (localStorage.getItem('user')){
+    //   this.user = this.userService.getUser();
+    //   this.alreadyTexted = this.user.alreadyTexted;
+    //   this.username = this.user.email;
+    // }else{
+    //   this.user=undefined;
+    // }
   }
 
   showLogInWarning(){

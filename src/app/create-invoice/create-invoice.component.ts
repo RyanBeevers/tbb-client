@@ -31,6 +31,8 @@ export class CreateInvoiceComponent implements OnInit {
   submitted=false;
   edit=false;
   processing=false;
+  showConfirmPaid=false;
+  paid=false;
 
   nextweek = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate()+7);
   payByDate = (this.nextweek.getMonth()+1)+'/'+(this.nextweek.getDate())+'/'+this.nextweek.getFullYear();
@@ -46,7 +48,7 @@ export class CreateInvoiceComponent implements OnInit {
   ngOnInit() {
     window.scrollTo(0, 0)
     this.user=JSON.parse(localStorage.getItem('user'))
-    if(!this.userService.isAuthenticated() || this.user.roleType!='admin'){
+    if(!this.userService.isAuthenticated() || !this.user.admin){
       this.router.navigate(['/not-authorized']);
     }else{
       this.getAllUsers();
@@ -83,7 +85,7 @@ export class CreateInvoiceComponent implements OnInit {
   }
 
   getAllUsers(){
-    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+    this.userService.getUsersByAdmin(this.user.myAdminPassphrase).pipe(first()).subscribe((users) => {
       if (users) {
         this.users.push(users);
       }else{
@@ -165,7 +167,8 @@ export class CreateInvoiceComponent implements OnInit {
     this.invoice.invoicePayByDate = this.payByDate;
     this.invoice.invoiceTotal = this.total;
     this.invoice.user = this.invoiceCustomer
-
+    this.invoice.adminId = this.user.userId;
+    
     this.invoiceService.createInvoice(this.invoice).pipe(first()).subscribe((invoice) => {
       if (invoice) {
         this.appComponent.alert('success', 'Invoice Successfully Created')
@@ -182,11 +185,17 @@ export class CreateInvoiceComponent implements OnInit {
   }
 
   update(){
+    if(this.paid){
+      this.invoice.invoicePaidFlag=true;
+      let paidDate = (this.today.getMonth()+1)+'/'+this.today.getDate()+'/'+this.today.getFullYear();
+      this.invoice.invoicePaidDate=paidDate;
+    }else{
+      this.invoice.invoicePaidDate = null;
+      this.invoice.invoicePaidFlag = null;;
+    }
     parseFloat(this.discount).toFixed(2)
     this.invoice.invoiceDateOfIssue = this.dateOfIssue;
     this.invoice.invoiceDiscount = this.discount
-    this.invoice.invoicePaidDate = null;
-    this.invoice.invoicePaidFlag = null;;
     this.invoice.invoicePayByDate = this.payByDate;
     this.invoice.invoiceTotal = this.total;
     this.invoice.user = this.invoiceCustomer
@@ -240,5 +249,18 @@ export class CreateInvoiceComponent implements OnInit {
   }
   returnToInvoices(){
     this.router.navigate(['/view-invoices']);
+  }
+
+  confirmPaid(){
+    if(!this.showConfirmPaid){
+      this.showConfirmPaid=true;
+    }else{
+      this.showConfirmPaid=false;
+    }
+  }
+
+  updatePaid(){
+    this.paid=true;
+    this.update();
   }
 }

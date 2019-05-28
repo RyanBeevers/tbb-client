@@ -41,6 +41,8 @@ export class NewServiceComponent implements OnInit {
       localStorage.removeItem('selectedService');
       this.editMode=true;
     }
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.service.adminId=this.user.userId;
     this.registerForm = this.formBuilder.group({
       serviceTitle: ['', [Validators.required]],
       serviceImg: ['', [Validators.required]],

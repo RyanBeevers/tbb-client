@@ -6,8 +6,8 @@
   <div class="row">
     <div class="column left"  id="contentToConvert">
       <div class="page">
-        <img src='' style="height: 50px; width: 150px; margin-top: 10px; margin-left: 5%;display: inline-block;">
-        <h1 style="display: inline-block; margin-left: 21%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
+        <!-- <img src='' style="height: 50px; width: 150px; margin-top: 10px; margin-left: 5%;display: inline-block;"> -->
+        <h1 style="display: inline-block; margin-left: 43%; padding-top: 10px; font-size: 50px; color: black;">Invoice</h1>
         <div id="sectionOne">
           <div id="separator"></div>
           <div id="businessInformation" style="margin-left: 7%; margin-top: 2%; display: inline-block">
@@ -93,7 +93,7 @@
             <b style="color: black;">associated with another invoice</b>, will be placed in this invoice.
           </p>
         <div class="dropdown">
-          <button [disabled]="edit || submitted" *ngIf="this.user.roleType=='admin'" style="padding-bottom: 15%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button [disabled]="edit || submitted" *ngIf="this.user.admin" style="padding-bottom: 15%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{chosenBusiness}}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -115,7 +115,17 @@
         <button *ngIf="edit" style="margin-top: 7%;" (click)="update()" [disabled]="!total || total==0 || submitted">Update</button>
         <button style="margin-top: 7%;" [disabled]="processing || !submitted" (click)="export();">Export to PDF <i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
         <button  style="margin-top: 7%;"[disabled]="processing || !submitted" (click)="emailAndExport();">Export & Email Client<i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
-
+        <button *ngIf="edit" [disabled]="showConfirmPaid" style="margin-top: 7%; background-color: green;" (click)="confirmPaid()">Mark As Paid</button>
+        <div *ngIf="showConfirmPaid">
+          <div  style="text-align:center; color: red !important;">
+          Have you received the money for this invoice?
+          <br>
+          Once you click yes, you cannot undo this.
+          <br>
+          </div>
+          <button (click)="updatePaid()">Yes, I have been paid for this invoice</button>
+          <button (click)="confirmPaid()">No, I have not been paid for this invoice!</button>
+        </div>
       </div>
     </div>
   </div>

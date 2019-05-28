@@ -1,5 +1,5 @@
 export class User{
-    userId?: number;
+    userId?: string;
     firstName?: string;
     lastName?: string;
     roleType?: string;
@@ -20,4 +20,16 @@ export class User{
 
     alreadyTexted?: boolean;
     firstTimeLogIn?: boolean;
+
+    myAdminPassphrase?: string;
+    adminPassphrase?: string;
+    admin?: boolean;
+
+    youtube?: string;
+    facebook?: string;
+    instagram?: string;
+    linkedIn?: string;
+    myWebsite?: string;
+    twitter?: string;
+
 }
