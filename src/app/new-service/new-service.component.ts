@@ -89,7 +89,7 @@ export class NewServiceComponent implements OnInit {
     }, (error) => { this.appComponent.alert('danger', 'There was a problem updating your service! Please try again later!') });
   }
   
-  showModal(i):void {
+  showModal():void {
     $("#myModal").modal('show');
 
   }
