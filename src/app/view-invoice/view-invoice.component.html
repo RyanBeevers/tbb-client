@@ -5,7 +5,7 @@
 <div *ngIf="user.roleType != 'admin'" id="buttonBackground1">
   <button [disabled]="processing" class="btn btn-primary1" (click)="export();">Export to PDF<i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
 </div>
-<div class="background" (keyup)="calculate()">
+<div class="background">
   <div class="row" >
       <div class="column left" class="largeWidth"  id="contentToConvert">
         <div class="page">

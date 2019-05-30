@@ -13,15 +13,15 @@ import { first } from 'rxjs/operators';
 export class LandingPageComponent implements OnInit {
   user: User = {};
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private appComponent: AppComponent,
     public oktaService: OktaService,
   ) {}
 
-  private alreadyTexted = false;
-  private username = undefined;
-  private showLogInWarningMessage = false;
-  private showAlreadySent = false;
+  alreadyTexted = false;
+  username = undefined;
+  showLogInWarningMessage = false;
+  showAlreadySent = false;
 
   ngOnInit() {
     window.scrollTo(0, 0)
