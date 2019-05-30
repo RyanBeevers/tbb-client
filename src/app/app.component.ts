@@ -24,7 +24,7 @@ export class AppComponent {
   myAdmin;
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     public oktaAuth: OktaService,
   ) { }
   
