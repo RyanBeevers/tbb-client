@@ -12,7 +12,7 @@ export class OktaService {
     url: 'https://dev-449097.okta.com',
     clientId: '0oame6ad5F1HzVXqC356',
     issuer: 'https://dev-449097.okta.com/oauth2/default',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'https://thebusybeevers.herokuapp.com/callback',
   });
 
   constructor(
