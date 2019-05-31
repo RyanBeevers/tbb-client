@@ -4,40 +4,53 @@
 }
 
 #main-paragraph{
-    width: 30%;
-    margin-left: 5%;
-    padding-bottom: 5%;
-    padding-top: 3%;
+    // margin-left: 5%;
+    // padding-bottom: 5%;
+    // padding-top: 3%;
     display: inline-block;
 }
 
+.textBox{
+    border-radius: 8px;
+    display: inline-block;
+    height: 350px;
+    margin-top: 25px;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-bottom: 40px;
+}
+
 #main-picture-box{
-    padding-top: 3%;
+    border-radius: 8px;
     margin-top: 25px;
     margin-bottom: 20px;
-    margin-right: 5%;
+    width: 100%;
     height: 350px;
-    width: 750px;
-    float: right;
     background-image: url('http://www.jlbsimplify.com/uploads/1/2/2/4/122426533/agenda-appointment-business-1020323_orig.jpg');
-    position: relative;
 }
 #picture-text{
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     position: absolute;
     bottom: 0;
-    height: 60px;
+    padding-bottom: 4%;
+    left: 0;
+    height: auto;
     text-align: left;
+    vertical-align: auto;
     padding-left: 15px;
     padding-top: 20px;
     margin-bottom: 10px;
 }
 .card{
+    border-radius: 8px;
+    width: 100%;
     vertical-align: top;
     height: 250px;
-    margin-left: 50px;
     background: rgba(153, 153, 153, 0.6);
+    margin-bottom: 50px;
+    align-content: center;
+    display: inline-block;
+    
 }
 .card-text{
     color: white;
@@ -57,4 +70,7 @@ p{
 }
 span:hover{
     color: black !important;
+}
+.col-md-4{
+    display: inline-block
 }

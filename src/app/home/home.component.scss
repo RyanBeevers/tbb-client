@@ -1,17 +1,17 @@
 #main-container{
-    margin-bottom: 8%;
+    margin-bottom: 10%;
 }
 .card{
     margin-top: 3%;
-    margin-left: 5%;
-    width: 22rem;
     background: rgba(153, 153, 153, 0.6);
     border-style: solid;
     border-color: rgb(59, 59, 59);
     border-width: 0.5px;
+    border-radius: 8px;
 }
 img{
-    width: 22rem; 
+    padding-left: 5%;
+    padding-right: 5%;
     height: 150px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -27,15 +27,6 @@ h3{
 a{
     color: rgb(94, 216, 238);
 }
-.column {
-    float: left;
-}  
-.left {
-    width: 50%;
-}
-.right {
-    width: 50%;
-}
 input{
     margin-left: 20%;
     margin-right: 20%;
@@ -45,15 +36,6 @@ label{
     margin-left: 20%;
     margin-right: 20%;
     width: 60%;
-}
-.invalid-feedback{
-    margin-left: 20%;
-    margin-right: 20%;
-    width: 60%;
-}
-.invalid-feedback div{
-    color: red;
-    font-size: 15px;
 }
 h4{
     text-align: center; 
@@ -79,14 +61,6 @@ h4{
     border-color: transparent;
     color: black;
 }
-.dropdown-toggle{
-    width: 80%;
-    margin-left: 10%;
-    border-style: solid;
-    border-color: lightgrey;
-    border-width: 0.5px;
-    border-radius: 3px;
-}
 
 .link{
     color: grey !important;
@@ -98,7 +72,8 @@ h4{
     color: black !important;
     cursor: pointer !important;
 }
-.prime-accordion-override{
-        background-color: red !important;
-    
-}   
+
+.col-md-4{
+    display: inline-block;
+    vertical-align: top;
+}

@@ -1,13 +1,9 @@
 #main-container{
+    margin-top: 2%;
     min-height: 100%;
     background-color: rgba(51, 51, 51, 0.7);
     padding-bottom: 5%;
-    width: 90%;
-    margin-right: 5%;
-    margin-left: 5%;
-    border-radius: 8px;
-    margin-top: 20px;
-    margin-bottom: 6%;
+    margin-bottom: 8%;
 }
 #form{
     width: 100%;
@@ -126,4 +122,13 @@ a:hover{
 }
 b{
     color: rgb(94, 216, 238) !important;
+}
+.col-md-6{
+    display: inline-block
+}
+.col-md-5{
+    display: inline-block
+}
+.col-md-1{
+    display: inline-block
 }

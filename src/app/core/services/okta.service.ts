@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as OktaAuth from '@okta/okta-auth-js';
+import { environment } from 'src/environments/environment';
+import { resolveDirective } from '@angular/core/src/render3/instructions';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +12,11 @@ export class OktaService {
   
   oktaAuth = new OktaAuth({
     url: 'https://dev-449097.okta.com',
-    clientId: '0oame6ad5F1HzVXqC356',
+    clientId: environment.oktaClientId,
     issuer: 'https://dev-449097.okta.com/oauth2/default',
-    redirectUri: 'https://thebusybeevers.herokuapp.com/callback',
+    // redirectUri: 'http://localhost:4200/callback',
+    // redirectUri: 'https://thebusybeevers.herokuapp.com/callback',
+    redirectUri: environment.oktaRedirect,
   });
 
   constructor(

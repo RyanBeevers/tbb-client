@@ -6,10 +6,10 @@
   </button>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-light" id="navbar" style="position: sticky; z-index: 99;" [ngClass]="{up: !showAlert, down: showAlert}">
+<nav class="navbar navbar-expand-lg navbar-light col-lg-12" id="navbar" style="width: 100%; position: sticky; z-index: 99;" [ngClass]="{up: !showAlert, down: showAlert}">
   <a class="navbar-brand" routerLink="/" style="font-size: 23px; color: rgb(94, 216, 238);">{{business}}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+      <i class="fa fa-bars" style="color: white;"></i>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,7 +29,7 @@
       <li>
       <div *ngIf="this.user.admin || this.user.adminPassphrase" class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Account Options
+              <i class="fas fa-calendar-plus"></i>  Account Options
           </button>
           <div class="dropdown-menu" aria-labelledBy="dropdownMenuButton">
             <a class="dropdown-item" routerLink="/view-tasks" style="color:white;"><i class="fas fa-tasks"></i>  Create/View Tasks<span class="sr-only">(current)</span></a>
@@ -39,7 +39,7 @@
       </div>
     </li>
     </ul>
-    <span *ngIf="userService.isAuthenticated()" style="padding-right: 30px;">Welcome, {{userService.getFirstName()}} {{userService.getLastName()}}<span *ngIf="this.user.admin">(ADMIN)</span></span>
+    <!-- <span *ngIf="userService.isAuthenticated()" style="margin-left: 10px;">Welcome, {{userService.getFirstName()}} {{userService.getLastName()}}<span *ngIf="this.user.admin">(ADMIN)</span></span> -->
     <div *ngIf="!userService.isAuthenticated()">
       <a class="aLink" (click)="oktaAuth.login()" style="color: rgb(94, 216, 238);">Login</a>
       <span style='margin-left: 10px; margin-right: 10px'>or</span>
@@ -48,15 +48,17 @@
     <div *ngIf="oktaAuth.loggingOut">
       <button>Logging Out...<i class="fas fa-spinner fa-spin"></i></button>
     </div>
-    <div class="dropdown" *ngIf="userService.isAuthenticated()" id="accountIcon"> 
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><i id="myAccount" style="margin-left: 15px;" class="fas fa-user-circle"></i>
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a (click)="oktaAuth.logout()" style="color: white; padding-right: 40px; margin-left: 10px; cursor: pointer;">Logout</a></li>
-          <li><a routerLink="/my-account"  style="color: white; padding-right: 40px; margin-left: 10px;">My Account</a></li>
-          <li><a *ngIf="this.user.admin" routerLink="/my-links"  style="color: white; padding-right: 40px; margin-left: 10px;">My Links</a></li>
-        </ul>
-      </div>
+    <div class="btn-group dropdown" *ngIf="userService.isAuthenticated()" id="accountIcon"> 
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          Welcome, {{userService.getFirstName()}} {{userService.getLastName()}}  <span *ngIf="this.user.admin">(admin)  </span>
+        <i id="myAccount" class="fas fa-user-circle"></i>
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a (click)="oktaAuth.logout()" style="color: white; padding-right: 40px; margin-left: 10px; cursor: pointer;">Logout</a></li>
+        <li><a routerLink="/my-account"  style="color: white; padding-right: 40px; margin-left: 10px;">My Account</a></li>
+        <li><a *ngIf="this.user.admin" routerLink="/my-links"  style="color: white; padding-right: 40px; margin-left: 10px;">My Links</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
 
@@ -64,6 +66,9 @@
 <router-outlet id="router-outlet"></router-outlet>
 
 <nav class="navbar navbar-expand-lg navbar-light just" id="footer" style="width: 100%; position: fixed; bottom: 0">
+  <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa fa-bars" style="color: white;"></i>
+  </button>
 <div class="collapse navbar-collapse" id="navbarSupportedContent1">
   <div class="navbar-nav ml-auto" *ngIf="this.user.admin">
     <ul class="navbar-nav" style="width: 100%">

@@ -1,38 +1,44 @@
-<div id='main-container'>
+<div class="row" style="margin-left: 5%; margin-right: 5%;" id='main-container'>
+  <div class="col-lg-12">
     <h2 style="color: rgb(94, 216, 238); text-align: center; padding-top: 5%">My Account</h2>
     <h4>Personal Information</h4>
     <hr>
-    <div class="row">
-      <div class="column left">
-        <label>First Name: <b>{{this.user.firstName}}</b></label>
-        <label>Email: <b>{{this.user.email}}</b></label>
+    <div class="col-lg-12">
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <label>First Name: <br><b>{{this.user.firstName}}</b></label>
+        <label>Email: <br><b>{{this.user.email}}</b></label>
       </div>
-      <div class="column right">
-        <label>Last Name: <b>{{this.user.lastName}}</b></label>
-        <label>Business Phone #: <b>{{this.user.workPhone}}</b></label>
+      <div class="col-md-6">
+        <label>Last Name: <br><b>{{this.user.lastName}}</b></label>
+        <label>Business Phone #: <br><b>{{this.user.workPhone}}</b></label>
       </div>
+      </div>
+      <h4>Business Information</h4>
+      <hr>
+      <div class="col-lg-12">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <label>Business Name: <br><b>{{this.user.businessName}}</b></label>
+          <label>Business Street Address: <br><b>{{this.user.businessStreetAddress}}</b></label>
+          <label>Business City: <br><b>{{this.user.businessCity}}</b></label>
+        </div>
+        <div class="col-md-6">
+          <label>Business State: <br><b>{{this.user.businessState}}</b></label>
+          <label>Business Country: <br><b>{{this.user.businessCountry}}</b></label>
+          <label>Business Zip: <br><b>{{this.user.businessZip}}</b></label>
+        </div>
+      </div>
+      <hr>
+      <br>
+      <div style="text-align: center; font-size: 20px">
+        If you would like to change any of your information please follow <a href="https://dev-449097.okta.com/login/login.htm" target="_blank">this link...</a>
+        then on the top right, hover over your name, and click "Settings". Changes will be reflected next time you log in.
+      </div>
+      <br>
+      <div class="col-lg-12 d-flex justify-content-center">
+        <button routerLink="/home" style="width: auto;"
+          class="btn btn-primary">Return Home</button>
     </div>
-    <h4>Business Information</h4>
-    <hr>
-    <div class="row">
-      <div class="column left">
-        <label>Business Name: <b>{{this.user.businessName}}</b></label>
-        <label>Business Street Address: <b>{{this.user.businessStreetAddress}}</b></label>
-        <label>Business City: <b>{{this.user.businessCity}}</b></label>
-      </div>
-      <div class="column right">
-        <label>Business State: <b>{{this.user.businessState}}</b></label>
-        <label>Business Country: <b>{{this.user.businessCountry}}</b></label>
-        <label>Business Zip: <b>{{this.user.businessZip}}</b></label>
-      </div>
-    </div>
-    <hr>
-    <br>
-    <div style="text-align: center; font-size: 20px">
-      If you would like to change any of your information please follow <a href="https://dev-449097.okta.com/login/login.htm" target="_blank">this link...</a>
-      then on the top right, hover over your name, and click "Settings". Changes will be reflected next time you log in.
-    </div>
-    <br>
-  <button routerLink="/home" style="width: 14%; margin-right: 43%; margin-left: 43%"
-    class="btn btn-primary">Return Home</button>
+  </div>
 </div>
