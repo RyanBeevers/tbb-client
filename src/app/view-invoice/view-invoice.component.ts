@@ -51,6 +51,10 @@ export class ViewInvoiceComponent implements OnInit {
     }else{
       this.user=JSON.parse(localStorage.getItem('user')) 
     }
+    if(window.outerWidth<=800){
+      localStorage.setItem('windowTooSmall', 'true')
+      this.router.navigate(['/view-invoices']);
+    }
     if(localStorage.getItem('invoice')){
       this.invoice=JSON.parse(localStorage.getItem('invoice'))
       localStorage.removeItem('invoice');

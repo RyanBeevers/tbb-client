@@ -4,7 +4,7 @@ import { UserService } from '../core/services/user.service';
 import { Router } from '@angular/router';
 import { ServiceService } from '../core/services/service.service';
 import { Service } from '../core/models/service.model';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, MaxLengthValidator } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AppComponent } from '../app.component';
 
@@ -45,7 +45,7 @@ export class NewServiceComponent implements OnInit {
     this.service.adminId=this.user.userId;
     this.registerForm = this.formBuilder.group({
       serviceTitle: ['', [Validators.required]],
-      serviceImg: ['', [Validators.required]],
+      serviceImg: ['', [Validators.required, Validators.maxLength(200)],],
       serviceDesc: ['', [Validators.required]],
       servicePricingDetail: ['', [Validators.required]],
     });
@@ -81,7 +81,7 @@ export class NewServiceComponent implements OnInit {
   updateService(){
     this.serviceService.updateService(this.service).pipe(first()).subscribe((service) => {
       if (service) {
-        this.appComponent.alert('success', 'Service Updated Added! YAY!')
+        this.appComponent.alert('success', 'Service Updated! YAY!')
         this.router.navigate(['/services']);
       }else{
         this.appComponent.alert('danger', 'Something went wrong... Please try again later!')

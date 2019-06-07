@@ -90,7 +90,9 @@
       <div class="form">
           <p style="color: black; text-align: center">In this section, <b style="color: black;">Choose a customer...</b> from the dropdown. The customers information will be auto-populated
             based on their profile information. Any tasks that are marked as <b style="color: black;">completed</b>, and not already
-            <b style="color: black;">associated with another invoice</b>, will be placed in this invoice.
+            <b style="color: black;">associated with another invoice</b>, will be placed in this invoice. <b>PLEASE NOTE</b> if you 
+            select export and email, it will download the PDF to <b>Your Downloads</b> and open the email. <b>You will still have 
+              to attach the file to the email!</b>
           </p>
         <div class="dropdown">
           <button [disabled]="edit || submitted" *ngIf="this.user.admin" style="padding-bottom: 15%;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -115,7 +117,7 @@
         <button *ngIf="edit" style="margin-top: 7%;" (click)="update()" [disabled]="!total || total==0 || submitted">Update</button>
         <button style="margin-top: 7%;" [disabled]="processing || !submitted" (click)="export();">Export to PDF <i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
         <button  style="margin-top: 7%;"[disabled]="processing || !submitted" (click)="emailAndExport();">Export & Email Client<i *ngIf="processing"class="fas fa-spinner fa-spin"></i></button>
-        <button *ngIf="edit" [disabled]="showConfirmPaid" style="margin-top: 7%; background-color: green;" (click)="confirmPaid()">Mark As Paid</button>
+        <button *ngIf="edit && !this.paid" [disabled]="showConfirmPaid" style="margin-top: 7%; background-color: green;" (click)="confirmPaid()">Mark As Paid</button>
         <div *ngIf="showConfirmPaid">
           <div  style="text-align:center; color: red !important;">
           Have you received the money for this invoice?

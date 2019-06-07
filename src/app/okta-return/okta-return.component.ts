@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OktaService } from './../core/services/okta.service'
 import { Router } from '@angular/router';
+import { UserService } from '../core/services/user.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-okta-return',
@@ -8,19 +10,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./okta-return.component.scss']
 })
 export class OktaReturnComponent implements OnInit {
+  ready=false;
 
   constructor(
     private okta: OktaService,
     private router: Router,
+    private userService: UserService,
+    private appComponent: AppComponent,
   ) {
     okta.handleAuthentication();
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     setTimeout(()=>{
-      this.router.navigate(['/home']);
-    }, 1000)
-    
+      this.userService.getTokenUser();
+    },2000)
+    setTimeout(()=>{
+        this.router.navigate(['/home']);
+    }, 6000);
   }
 
 }

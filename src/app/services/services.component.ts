@@ -36,6 +36,8 @@ export class ServicesComponent implements OnInit {
     window.scrollTo(0, 0)
     if(this.userService.isAuthenticated()){
       this.user=JSON.parse(localStorage.getItem('user'));
+    }else{
+      this.router.navigate(['/not-authorized']);
     }
     this.loadServices();
   }

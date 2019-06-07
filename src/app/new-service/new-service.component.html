@@ -1,68 +1,93 @@
-<div id='main-container'>
-    <form [formGroup]="registerForm">
-        <h3 *ngIf="!editMode" style="text-align: center; padding-top: 5%;">Create New Service</h3>
-        <h3 *ngIf="editMode" style="text-align: center; padding-top: 5%;">Edit Service</h3>
-        <hr>
+
+  <div class="row justify-content-center" style="margin-left: 2%;  margin-right: 2%;">
+    <div class="col-lg-12">
+      <div id='main-container'>
+      
+        <div class="col-md-8 col-centered">
+          <form [formGroup]="registerForm" class="col-lg-12">
+              <h3 *ngIf="!editMode" style="text-align: center; padding-top: 5%;">Create New Service</h3>
+              <h3 *ngIf="editMode" style="text-align: center; padding-top: 5%;">Edit Service</h3>
+              <hr>
 
 
-        <div class="form-group">
-          <label>Service Title</label>
-          <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center" type="text" formControlName="serviceTitle" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.serviceTitle.errors }" [(ngModel)]="service.cardTitle" />
-          <div *ngIf="submitted && f.serviceTitle.errors" class="invalid-feedback">
-              <div class="validationError" *ngIf="f.serviceTitle.errors.required" style="color: red;">Service Title is required</div>
-          </div>
+              <div class="form-group" class="col-lg-12">
+                <label>Service Title</label>
+                <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center" type="text" formControlName="serviceTitle" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.serviceTitle.errors }" [(ngModel)]="service.cardTitle" />
+                <div *ngIf="submitted && f.serviceTitle.errors" class="invalid-feedback">
+                    <div class="validationError" *ngIf="f.serviceTitle.errors.required" style="color: red;">Service Title is required</div>
+                </div>
+              </div>
+
+              <div class="form-group" class="col-lg-12">
+                <label>Image URL</label>
+                <label>NOTE: The link cannot be more than 200 characters. I reccomend right clicking on your image, and clicking "Copy Image Address" and pasting it into this field. If the picture shows up, you're good to go!</label>
+                <input style="width: 90%; margin-left: 5%; margin-right: 5%; text-align: center" type="text" formControlName="serviceImg" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.serviceImg.errors }" [(ngModel)]="service.cardImg" />
+                <img src='{{service.cardImg}}' style="width:50%; height: 20%; margin-left: 25%;" alt="Your Image">     
+                <div *ngIf="submitted && f.serviceImg.errors" class="invalid-feedback">
+                    <div class="validationError" *ngIf="f.serviceImg.errors.required" style="color: red;">Service Image is required</div>
+                    <div class="validationError" *ngIf="f.serviceImg.errors.maxlength" style="color: red;">Exceeds maximum character length</div>
+                </div>
+                <label>DISCLAIMER: You, the uploader, are responsible for ensuring the photo you choose is not copyrighted. The photo will be attached to your account.<br>
+                  <br>For this website, i used free stock photos from <a href="https://unsplash.com/" target="_blank">https://unsplash.com/</a></label>
+              </div>
+              
+              <div class="col-lg-12">
+                <label>Service Title 2 (optional)</label>
+                <br>
+                <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center"  [(ngModel)]="service.cardTitle2" [ngModelOptions]="{standalone: true}">
+              </div>
+              
+              <div class="form-group" class="col-lg-12">
+                <label>Service Description</label>
+                <textarea style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center; height: 140px" maxlength="250" type="text" formControlName="serviceDesc" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.serviceDesc.errors }" [(ngModel)]="service.cardDesc" ></textarea>
+                <div *ngIf="submitted && f.serviceDesc.errors" class="invalid-feedback">
+                    <div class="validationError" *ngIf="f.serviceDesc.errors.required" style="color: red;">Service Description is required</div>
+                </div>
+              </div>
+
+              <div class="form-group" class="col-lg-12">
+                <label>Service Price Per Hour</label>
+                <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center" type="number" formControlName="servicePricingDetail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.servicePricingDetail.errors }" [(ngModel)]="service.cardPricingDetail" />
+                <div *ngIf="submitted && f.servicePricingDetail.errors" class="invalid-feedback">
+                    <div class="validationError" *ngIf="f.servicePricingDetail.errors.required" style="color: red;">Service Price is required</div>
+                </div>
+              </div>
+              <div class="form-group" class="col-lg-12">
+                <div class="row justify-content-center">
+                  <div class="col-12">
+                    <button style="margin-left: 33%; width: 33%;" class="btn btn-secondary" data-toggle="modal" data-toggle="modal" data-target="#myModal" (click)="showModal()">Preview</button>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-12">
+                    <button style="margin-left: 33%; width: 33%;" (click)="onSubmit()" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-12">
+                    <a style="margin-left: 33%; width: 33%;" routerLink="/services"><button class="btn btn-danger">Cancel</button></a>
+                  </div>
+                </div>
+              </div>
+            </form>
+           </div>
         </div>
-
-        <div class="form-group">
-          <label>Image URL</label>
-          <input style="width: 90%; margin-left: 5%; margin-right: 5%; text-align: center" type="text" formControlName="serviceImg" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.serviceImg.errors }" [(ngModel)]="service.cardImg" />
-          <img src='{{service.cardImg}}' style="width:50%; height: 20%; margin-left: 25%;" alt="Your Image">     
-          <div *ngIf="submitted && f.serviceImg.errors" class="invalid-feedback">
-              <div class="validationError" *ngIf="f.serviceImg.errors.required" style="color: red;">Service Image is required</div>
-          </div>
-        </div>
-        
-        <label>Service Title 2 (optional)</label>
-        <br>
-        <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center"  [(ngModel)]="service.cardTitle2" [ngModelOptions]="{standalone: true}">
-
-        <div class="form-group">
-          <label>Service Description</label>
-          <textarea style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center; height: 140px" maxlength="250" type="text" formControlName="serviceDesc" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.serviceDesc.errors }" [(ngModel)]="service.cardDesc" ></textarea>
-          <div *ngIf="submitted && f.serviceDesc.errors" class="invalid-feedback">
-              <div class="validationError" *ngIf="f.serviceDesc.errors.required" style="color: red;">Service Description is required</div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Service Price Per Hour</label>
-          <input style="width: 90%; margin-right: 5%; margin-left: 5%; text-align: center" type="number" formControlName="servicePricingDetail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.servicePricingDetail.errors }" [(ngModel)]="service.cardPricingDetail" />
-          <div *ngIf="submitted && f.servicePricingDetail.errors" class="invalid-feedback">
-              <div class="validationError" *ngIf="f.servicePricingDetail.errors.required" style="color: red;">Service Price is required</div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <button style="margin-left: 41%; margin-right: 40%;" class="btn btn-secondary" data-toggle="modal" data-toggle="modal" data-target="#myModal" (click)="showModal()">Preview</button>
-          <button (click)="onSubmit()" style="margin-left: 41%; margin-right: 40%; margin-top: 0.7%" class="btn btn-primary">Submit</button>
-          <a href="/services" style="margin-left: 40%; margin-right: 40%;"><button class="btn btn-danger">Cancel</button></a>
-        </div>
-      </form>
+    </div>
   </div>
 
     <!-- The Modal -->
     <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
+        <div class="modal-dialog col-lg-12">
+          <div class="modal-content col-lg-12">
       
             <!-- Modal Header -->
-            <div class="modal-header">
+            <div class="modal-header col-lg-12">
               <h4 class="modal-title" style="color: black;">Preview</h4>
               <button type="button" class="close" (click)="hideModal()">&times;</button>
             </div>
       
             <!-- Modal body -->
-            <div class="card" style="display: inline-block; margin-left: 6%; background-color: rgb(54, 54, 54); margin-left: 14%;">
+            <div class="card col-lg-12" style="display: inline-block; background-color: rgb(54, 54, 54);">
                 <h3>{{service.cardTitle}}</h3>
               <img class="card-img-top"
                 src={{service.cardImg}}

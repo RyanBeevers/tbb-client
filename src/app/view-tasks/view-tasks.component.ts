@@ -43,12 +43,11 @@ export class ViewTasksComponent implements OnInit {
       this.router.navigate(['/not-authorized']);
     }
     this.adminId = this.userService.getAdmin();
-    this.getAllUsers();
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user)
     if(this.user.admin){
       this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
       this.getAllTasks();
+      this.getAllUsers();
     }
     else{
       this.columns=['Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
@@ -57,12 +56,10 @@ export class ViewTasksComponent implements OnInit {
   }
 
   getAllTasks(){
-    console.log('here')
     this.viewingUser = 'All'
     this.columns=['Business Name', 'Task ID', 'Description', 'Due Date', 'Status', 'Submitted', 'Cost*', '']
     this.tasks = [];
     this.taskService.getAllTasksByAdminId(this.adminId).pipe(first()).subscribe((tasks) => {
-      console.log(tasks)
       if (tasks) {
         this.tasks.push(tasks);
       }else{
@@ -103,7 +100,8 @@ export class ViewTasksComponent implements OnInit {
   }
 
   getAllUsers(){
-    this.userService.getAllUsers().pipe(first()).subscribe((users) => {
+    // this.invoices = [];
+    this.userService.getUsersByAdmin(this.user.myAdminPassphrase).pipe(first()).subscribe((users) => {
       if (users) {
         this.users.push(users);
       }else{

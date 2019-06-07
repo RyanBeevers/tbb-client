@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as OktaAuth from '@okta/okta-auth-js';
-import { environment } from 'src/environments/environment';
-import { resolveDirective } from '@angular/core/src/render3/instructions';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +10,15 @@ export class OktaService {
   
   oktaAuth = new OktaAuth({
     url: 'https://dev-449097.okta.com',
-    clientId: environment.oktaClientId,
     issuer: 'https://dev-449097.okta.com/oauth2/default',
-    // redirectUri: 'http://localhost:4200/callback',
+    
+    //dev
+    clientId: '0oanqa9witXkvvvcw356',
+    redirectUri: 'http://localhost:4200/callback',
+    
+    //prod
+    // clientId: '0oame6ad5F1HzVXqC356',
     // redirectUri: 'https://thebusybeevers.herokuapp.com/callback',
-    redirectUri: environment.oktaRedirect,
   });
 
   constructor(
@@ -32,7 +34,8 @@ export class OktaService {
     // Launches the login redirect.
     this.oktaAuth.token.getWithRedirect({
       responseType: ['id_token', 'token'],
-      scopes: ['openid', 'email', 'profile']
+      scopes: ['openid',
+       'email', 'profile']
     });
   }
 
@@ -48,15 +51,41 @@ export class OktaService {
     });
   }
 
+  isTokenValid(){
+    let token = JSON.parse(localStorage.getItem('okta-token-storage'))
+    let expire = token.idToken.expiresAt;
+    let now = (Date.now()/1000).toFixed(0);
+    if(expire<now){
+      this.timeOut();
+    }else{
+      let now1 = (parseInt(now)+(60*60))
+      token.idToken.expiresAt = now1;
+      localStorage.setItem('okta-token-storage', JSON.stringify(token));
+      return true;
+    }
+  }
+
   async logout() {
+    localStorage.removeItem('user')
+    this.loggingOut=true;
+    this.oktaAuth.tokenManager.clear();
+    this.oktaAuth.signOut();
+    setTimeout(()=>{
+      this.loggingOut=false;
+      this.router.navigate(['/logout']);
+    }, 1000)
+  }
+
+  async timeOut(){
     localStorage.removeItem('user')
     this.loggingOut=true;
     this.oktaAuth.tokenManager.clear();
     await this.oktaAuth.signOut();
     setTimeout(()=>{
+      this.loggingOut=false;
+      localStorage.setItem('timeout', 'true')
       this.router.navigate(['/logout']);
     }, 1000)
   }
-
 
 }

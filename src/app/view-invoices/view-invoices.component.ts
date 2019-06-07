@@ -8,6 +8,7 @@ import { TaskService } from '../core/services/task.service'
 import { Task } from './../core/models/task.model'
 import { first } from 'rxjs/operators';
 import { timeout } from 'q';
+import { AppComponent } from '../app.component';
 
 // This lets me use jquery
 declare var $: any;
@@ -19,13 +20,13 @@ declare var $: any;
 })
 export class ViewInvoicesComponent implements OnInit {
   user: User = {};
-  appComponent: any;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private taskService: TaskService,
     private invoiceService: InvoiceService,
+    private appComponent: AppComponent,
   ) { }
 
   admin;
@@ -44,7 +45,10 @@ export class ViewInvoicesComponent implements OnInit {
       this.router.navigate(['/not-authorized']);
     }
     this.user=JSON.parse(localStorage.getItem('user'));
-
+    if(localStorage.getItem('windowTooSmall')){
+      this.appComponent.alert('warning', 'Page not optimized for mobile use. Please access on desktop or tablet!')
+      localStorage.removeItem('windowTooSmall')
+    }
     if(this.user.admin){
       this.loadManagerInvoices();
       this.getAllUsers();

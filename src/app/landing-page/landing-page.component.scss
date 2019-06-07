@@ -4,16 +4,16 @@
 }
 
 #main-paragraph{
-    // margin-left: 5%;
-    // padding-bottom: 5%;
-    // padding-top: 3%;
     display: inline-block;
 }
 
 .textBox{
+    padding-top: 25px;
     border-radius: 8px;
     display: inline-block;
-    height: 350px;
+    height: auto;
+    min-height: 350px;
+    padding-bottom: 25px;
     margin-top: 25px;
     background-color: rgba(0, 0, 0, 0.3);
     margin-bottom: 40px;
@@ -25,7 +25,9 @@
     margin-bottom: 20px;
     width: 100%;
     height: 350px;
-    background-image: url('http://www.jlbsimplify.com/uploads/1/2/2/4/122426533/agenda-appointment-business-1020323_orig.jpg');
+    background-image: url('https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/landing.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat
 }
 #picture-text{
     width: 100%;

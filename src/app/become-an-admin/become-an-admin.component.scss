@@ -1,0 +1,73 @@
+.main-container{
+    margin-bottom: 15%;
+}
+
+.headerText{
+    background-color: rgba(20, 20, 20, 0.7);
+    margin-top: 1%;
+    border-radius: 8px;
+}
+
+.header{
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),  url("https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/becomeanadmin.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.sections{
+    justify-content: center;
+    text-align: center;
+    width: 25%;
+    height: 25%;
+    margin-top: 100px;
+    display: inline-block;
+    height: 100px;
+    margin-bottom: 10%;
+}
+.section1{
+    background-color: rgba(94, 216, 238, 0.774);
+    border-radius: 120px;
+    width: 80px;
+    height: 80px;
+    padding-top: 10px;
+    font-size: 40px;
+    padding-bottom: 5%;
+}
+
+.section1:hover{
+    background-color: rgba(70,70,70,0.774);
+    cursor: pointer;
+}
+
+.image2 {
+    // background-image: url('./../../resources/registration1.gif');
+    display: inline-block;
+    padding-top: 25px;
+    border-radius: 8px;
+    padding-bottom: 50px;
+}
+
+.contactInfo{
+    display: inline-block; 
+    height: 87%;
+    margin-top: 25px; 
+    background-color: rgba(70,70,70,0.774); 
+    vertical-align: top;
+    border-radius: 8px;
+}
+li{ 
+    text-align: left;
+}
+.btn-primary{
+    background-color: rgb(83, 83, 83);
+    color:rgb(94, 216, 238) !important;
+    border-color: rgb(153, 153, 153);
+}
+.btn-primary:hover{
+    background-color: rgb(94, 216, 238);
+    border-color: transparent;
+    color: black !important;
+}

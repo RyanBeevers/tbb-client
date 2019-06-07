@@ -8,9 +8,12 @@
       <div class="col-md-5" style="display: inline-block; top:0">
         <div class="col-md-12 textBox" style="color: white;" id='main-paragraph'>
           <h1 style="color: rgb(94, 216, 238)">Welcome!</h1>
-          <h3 style="padding-left: 30px; color: rgb(94, 216, 238)">You are here!</h3>
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          <h3 style="padding-left: 30px; color: rgb(94, 216, 238)">VA's Client Management Tool</h3>
+          <br>
+          <div style="padding-left: 10%; padding-right: 10%;">
+            Here you will find all the tools you need to manage tasks and invoices whether you 
+            are a virtual assistant, or are working with a virtual assistant! You can easily 
+            add and track tasks and invoices as a virtual assistant, and track progress as a client.
           </div>
         </div>
     </div>
@@ -30,11 +33,10 @@
       <div class="col-md-4">
         <div class="card col-md-12">
           <div class="card-body">
-            <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Services Offered</h5>
-            <p class="card-text">Here you can see some details about the services I provide along with
-              some standard pricing information!
+            <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">Have Clients?</h5>
+            <p class="card-text">Here you can learn about becoming an admin to organize your clients tasks and invoices!
             </p>
-            <a routerLink="services" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px">Services</a>
+            <a routerLink="become-an-admin" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px">Learn More!</a>
           </div>
         </div>
       </div>  
@@ -42,7 +44,7 @@
         <div class="card col-md-12">
           <div class="card-body">
             <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">New Here?</h5>
-            <p class="card-text">Create an account and connect with me! Easily keep track of tasks and invoices!</p>
+            <p class="card-text">Create an account and connect with me! Easily manage your or your clients tasks and invoices!</p>
             <a (click)="login()" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px;">Register</a>
           </div>
         </div>
@@ -50,9 +52,9 @@
       <div class="col-md-4" *ngIf="userService.isAuthenticated()">
         <div class="card col-md-12">
           <div class="card-body">
-            <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">My Account</h5>
-            <p class="card-text">Edit your personal or business information here!</p>
-            <a routerLink="my-account" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px">My Account</a>
+            <h5 class="card-title" style="color: rgb(94, 216, 238); font-size: 25px;">My Services</h5>
+            <p class="card-text">Add and Edit your services here to automatically add to assigned tasks!</p>
+            <a routerLink="services" class="btn btn-primary" style="position: absolute; bottom: 0; margin-bottom: 15px; width: 120px">My Services</a>
           </div>
         </div>
       </div>

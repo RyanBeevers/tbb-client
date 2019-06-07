@@ -1,7 +1,11 @@
-<h1 style="margin-left: 10%; margin-top: 1%; margin-bottom: 10px; display:inline-block">Create, View, & Edit Tasks</h1>
-<div class="plusBack" style="float: right; margin-bottom: 10px; font-size: 50px; margin-right: 12%; margin-top: 3%; cursor: pointer;"><i class="fas fa-plus"  title="New Task" (click)="createOrEditTask(-1)"></i></div>
+<div class="row" style="margin-right: 2%; margin-left: 2%">
+  <div class="col-lg-12">
+
+
+<h1 style="margin-top: 1%; margin-bottom: 10px; display:inline-block">Create, View, & Edit Tasks</h1>
+<div class="plusBack" style="float: right; margin-bottom: 10px; font-size: 50px; margin-top: 3%; cursor: pointer;"><i class="fas fa-plus"  title="New Task" (click)="createOrEditTask(-1)"></i></div>
 <br>
-<div style="margin-left: 10%;">
+<div>
   <div class="dropdown" style="display: inline-block;">
     <button style=" margin-right: 3%;" *ngIf="this.user.admin" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       {{viewingUser}}
@@ -18,9 +22,11 @@
     <button *ngIf="processing" type="button" class="btn btn-secondary"><i class="fas fa-spinner fa-spin"></i>   Processing Filter</button>
   </div>
 </div>  
-<div style="color: white !important; float: left !important; margin-left: 10% !important; margin-top: 1%; margin-bottom: 1%">*If Task is incomplete, estimated cost is shown. If Task is complete, final cost is shown</div>
-<div id="table" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-bottom: 8%;">
-  <table style="margin-top: 2%;" class="table table-striped table-hover table-bordered table-dark">
+
+<div class="col-12">
+<div style="color: white !important; float: left !important; margin-top: 1%; margin-bottom: 1%">*If Task is incomplete, estimated cost is shown. If Task is complete, final cost is shown</div>
+<div id="table" class="table-responsive" style="margin-bottom: 8%;">
+  <table style="margin-top: 2%;" class="col-lg-12 table table-striped table-hover table-bordered table-dark">
     <thead>
       <tr>
         <th scope="col" *ngFor="let col of columns;">{{col}}</th>
@@ -28,59 +34,63 @@
     </thead>
     <tbody>
       <tr *ngFor="let task of tasks[0]; index as i" style="color:white">
-        <td style="width: 12%" *ngIf="this.user.admin">{{task.user.businessName}}</td>
-        <td style="width: 8%">{{task.taskId}}</td>
-        <td style="width: 30%">{{task.taskDesc}}</td>
+        <td style="width: auto" *ngIf="this.user.admin">{{task.user.businessName}}</td>
+        <td style="width: auto">{{task.taskId}}</td>
+        <td style="width: auto">{{task.taskDesc}}</td>
         <td>{{task.taskDueDate}}</td>
-        <td style="width: 12%">{{task.taskStatus}}</td>
+        <td style="width: auto">{{task.taskStatus}}</td>
         <td>{{task.taskSubmittedDate}}</td>
         <td *ngIf="!task.taskFinalCost">${{task.taskEstimatedCost.toFixed(2)}}</td>
         <td *ngIf="task.taskFinalCost">${{task.taskFinalCost.toFixed(2)}}</td>
-        <td style="width: 3%; text-align: center" *ngIf="!task.invoices" ><i class="fas fa-edit" (click)="createOrEditTask(i)" style="cursor: pointer;"  title="Edit Task"></i></td>
-        <td style="width: 3%; text-align: center" *ngIf="task.invoices" ><i class="fas fa-file-alt" (click)="showModal(i)" style="cursor: pointer;"  title="View Task Details"></i></td>
+        <td style="width: auto; text-align: center" *ngIf="!task.invoices" ><i class="fas fa-edit" (click)="createOrEditTask(i)" style="cursor: pointer;"  title="Edit Task"></i></td>
+        <td style="width: auto; text-align: center" *ngIf="task.invoices" ><i class="fas fa-file-alt" (click)="showModal(i)" style="cursor: pointer;"  title="View Task Details"></i></td>
       </tr>
     </tbody>
   </table>
 </div>
-
+</div>
+</div>
+</div>
 
   <!-- The Modal -->
   <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
+    <div class="modal-dialog col-lg-12">
+      <div class="modal-content col-lg-12">
   
         <!-- Modal Header -->
-        <div class="modal-header">
+        <div class="modal-header col-lg-12">
           <h4 class="modal-title" style="color: black">{{selectedTask.taskName}}</h4>
           <button type="button" class="close" (click)="hideModal()">&times;</button>
         </div>
   
         <!-- Modal body -->
-        <div class="modal-body" style="color: black" *ngIf="this.selectedTask.invoice">
+        <div *ngIf="selectedTask.taskDesc" class="modal-body col-lg-12" style="color: black">
           <h4 style="color: black">Description</h4>
           {{selectedTask.taskDesc}}
           <h4 style="padding-top: 20px; color: black">Pricing</h4>
-          Estimated: ${{selectedTask.taskEstimatedCost}}
+          Estimated: ${{selectedTask.taskEstimatedCost.toFixed(2)}}
           <br>
-          Actual: ${{selectedTask.taskFinalCost}}
-          <h4 style="padding-top: 20px; color: black">Invoice Information</h4>
-          Invoice Id: {{selectedTask.invoices.invoiceId}}
-          <br>
-          Date Issued: {{selectedTask.invoices.invoiceDateOfIssue}}
-          <br>
-          Invoice Due Date: {{selectedTask.invoices.invoicePayByDate}}
-          <br>
-          Invoice Discount Applied: ${{selectedTask.invoices.invoiceDiscount}}
-          <br>
-          Invoice Total: ${{selectedTask.invoices.invoiceTotal}}
-          <h4 style="padding-top: 20px; color:black">Payment Information</h4>
-          <div *ngIf="selectedTask.invoices.invoicePaidFlag" style="color:black">
-            Paid Amount: ${{selectedTask.invoices.invoiceTotal}}
+          Actual: ${{selectedTask.taskFinalCost.toFixed(2)}}
+          <div  *ngIf="this.selectedTask.invoice" style="color: black;">
+            <h4 style="padding-top: 20px; color: black">Invoice Information</h4>
+            Invoice Id: {{selectedTask.invoice.invoiceId}}
             <br>
-            Paid Date: {{selectedTask.invoices.invoicePaidDate}}
-          </div>
-          <div style="color: black" *ngIf="!selectedTask.invoices.invoicePaidFlag">
-            Not Paid Yet.
+            Date Issued: {{selectedTask.invoice.invoiceDateOfIssue}}
+            <br>
+            Invoice Due Date: {{selectedTask.invoice.invoicePayByDate}}
+            <br>
+            Invoice Discount Applied: ${{selectedTask.invoice.invoiceDiscount.toFixed(2)}}
+            <br>
+            Invoice Total: ${{selectedTask.invoice.invoiceTotal.toFixed(2)}}
+            <h4 style="padding-top: 20px; color:black">Payment Information</h4>
+            <div *ngIf="selectedTask.invoice.invoicePaidFlag" style="color:black">
+              Paid Amount: ${{selectedTask.invoice.invoiceTotal.toFixed(2)}}
+              <br>
+              Paid Date: {{selectedTask.invoices.invoicePaidDate}}
+            </div>
+            <div style="color: black" *ngIf="!selectedTask.invoices.invoicePaidFlag">
+              Not Paid Yet.
+            </div>
           </div>
         </div>
   
@@ -93,3 +103,4 @@
       </div>
     </div>
   </div>
+  

@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders({
+    'Access-Control-Allow-Origin':'*',
     'Content-Type': 'application/json'
   })
 };
@@ -24,6 +25,7 @@ export class UserService {
   user: User = { };
   challengeQuestions: ChallengeQuestions = { };
   userObservable : Observable<User[]>;
+
   constructor( 
     private http: HttpClient, 
     private oktaService: OktaService, 
@@ -102,15 +104,6 @@ export class UserService {
     this.user=null;
   }
 
-  // setUser(user){
-  //   this.user=user;
-  // }
-
-  // getUser(){
-  //   this.user = JSON.parse(localStorage.getItem('user'))
-  //   return this.user;
-  // }
-
   isAuthenticated(): boolean{
     if(localStorage.getItem('okta-token-storage')){
       let token=JSON.parse(localStorage.getItem('okta-token-storage'));
@@ -119,13 +112,13 @@ export class UserService {
         let loggedInTimestamp = token.accessToken.expiresAt;
         if(currentTimestamp<loggedInTimestamp){
           localStorage.clear;
-          this.router.navigate(['session-expired']);
+          this.router.navigate(['/session-expired']);
           return false;
         }
       }
     }
     if (localStorage.getItem('user')){
-      return true;
+      return true;  
     }
     else{
       return false;
@@ -181,15 +174,15 @@ export class UserService {
     if(newUser){
       dbUser.email=newUser.email;
       if(!localStorage.getItem('user')){
-        this.getUserByEmail(dbUser).pipe(first()).subscribe((user) =>{
+        this.getUserByEmail(dbUser).pipe(first()).subscribe(async (user) =>{
           if(user){
             this.user = user;
             localStorage.setItem('user', JSON.stringify(this.user));
             if(this.user.adminPassphrase && !this.user.admin){
               this.getMyAdmin(this.user.adminPassphrase).pipe(first()).subscribe((admin) =>{
                 if(admin){
-                  let adminDetails;
                   console.log(admin)
+                  let adminDetails: User = {};
                   adminDetails.userId = admin.userId;
                   adminDetails.businessName = admin.businessName;
                   adminDetails.email = admin.email;
@@ -200,13 +193,16 @@ export class UserService {
                   adminDetails.myWebsite = admin.myWebsite;
                   adminDetails.linkedIn = admin.linkedIn;
                   localStorage.setItem('myAdmin', JSON.stringify(adminDetails));
-                  
+                  return true;
                 }
               })
             }
             
           }else{
-            this.prepRegister(newUser);
+            let ready = await this.prepRegister(newUser);
+            if(ready){
+              return true;
+            }
           }
         }, (error) => {});
       }else{
@@ -224,16 +220,15 @@ export class UserService {
               adminDetails.myWebsite = admin.myWebsite;
               adminDetails.linkedIn = admin.linkedIn;
               localStorage.setItem('myAdmin', JSON.stringify(adminDetails));
-              
+              return true;
             }
           })
         }
       }
-    }
+    }else{return false}
   }
 
   prepRegister(newUser){
-    console.log(newUser)
     this.user.firstName = newUser.firstName;
     this.user.lastName = newUser.lastName;
     this.user.email = newUser.email;
@@ -246,6 +241,7 @@ export class UserService {
     this.user.businessName = newUser.organization;
     this.user.userId = newUser.id;
     localStorage.setItem('preppedUser', JSON.stringify(this.user))
+    return true;
 }
 }
 

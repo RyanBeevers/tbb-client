@@ -53,6 +53,10 @@ export class CreateInvoiceComponent implements OnInit {
     }else{
       this.getAllUsers();
     }
+    if(window.outerWidth<=800){
+      localStorage.setItem('windowTooSmall', 'true')
+      this.router.navigate(['/view-invoices']);
+    }
 
     if(localStorage.getItem('invoice')){
       this.edit =true;
@@ -237,11 +241,11 @@ export class CreateInvoiceComponent implements OnInit {
     this.export();
     setTimeout(()=>{
       let link = "mailto:" + this.invoiceCustomer.email + 
-      '?subject=Your TBB Invoice is here!&body='
+      '?subject=Your Invoice is here!&body='
       + 'Invoice Total Due: $' + this.invoice.invoiceTotal
       + '%0D%0ADue By: ' + this.payByDate
       + '%0D%0A %0D%0A'
-      +'Thank you for choosing The Busy Beevers! %0D%0A %0D%0A'
+      +'Thank you for choosing '+ this.user.businessName +'! %0D%0A %0D%0A'
       this.processing=false;
       window.location.href=link
     }, 3000);
@@ -261,6 +265,7 @@ export class CreateInvoiceComponent implements OnInit {
 
   updatePaid(){
     this.paid=true;
+    this.showConfirmPaid=false;
     this.update();
   }
 }

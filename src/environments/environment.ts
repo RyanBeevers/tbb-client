@@ -5,8 +5,6 @@
 export const environment = {
   production: false,
   url: 'http://localhost:8000',
-  oktaRedirect:'http://localhost:4200/callback',
-  oktaClientId: '0oanqa9witXkvvvcw356',
 };
 
 /*

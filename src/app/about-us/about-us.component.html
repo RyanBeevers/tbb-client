@@ -1,3 +1,131 @@
-<p>
-  about-us works!
-</p>
+<div id="main-container">
+  <div class="row" style="margin-left: 2%; margin-right: 2%; margin-top: 3%; margin-bottom: 15%;">
+    <div class="col-lg-12">
+      <div class="col-lg-12 header" style="text-align: center; padding-top: 2%;">
+        <h1 style="text-decoration: underline;">Welcome</h1>
+        <h4>We are The Busy Beevers VA!</h4>
+        <h4 style="padding-bottom: 3%;">A tool to help manage your, or your clients tasks and invoices.</h4>
+      </div>
+    </div>
+    <div class="col-lg-12" style="margin-top: 20px;">
+      <img src="https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/about+us+main.jpg" style="width: 100%; height: auto; border-radius: 8px;">
+    </div>
+    <div class="col-lg-12">
+      <div class="col-lg-8" style="display: inline-block; height: auto; margin-top: 25px; background-color: rgba(5,5,5,0.3); vertical-align: top; border-radius: 8px;">
+          <p id="aboutUs">We are working to provide a solution to simplify the communication of 
+            tasks and invoices between Virtual Assistants and their Clients! <br><br>We offer 
+            solutions that streamline the process of assigning tasks to a Virtual Assistant, 
+            tracking the status of that task, and eventually, once completed, moving that task 
+            to an automatically generated invoice for the client!<br>
+            <br>In this application you will find tools to manage these tasks and invoices, 
+            export the invoices and email them to the client. Once payment is received, you 
+            can set the invoice as paid, and always come back to it later! Feel free to click 
+            <b style="color: white">Contact Me</b> at the bottom of the page to reach out for 
+            more information!            
+          </p>
+      </div>
+      <div routerLink="/our-vas" class="col-sm-4" style="display: inline-block; margin-bottom: 0px; margin-top: 25px; vertical-align: top;">
+        <div class="col-sm-12 imageLink1" style="height: 285px;">
+          <div class="col-sm-12">
+            <span class="imgLink"><b style="color: black;">Our VA's</b></span>
+          </div>
+        </div>
+        <div routerLink="/become-an-admin" class="col-sm-12 imageLink2"style="height: 285px; margin-top: 30px;">
+          <div class="col-sm-12">
+            <span class="imgLink1"><b style="color: black;">Become an Admin</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="col-md-4 contactInfo">
+          <div class="col-md-12" style="text-align: center;">
+            <h1 style="color: black; padding-top: 20px;">What You'll Get</h1>
+            <ul>
+              <br>
+              <li>Manage Your Provided Services</li>
+              <br>
+              <li>Manage Your Tasks</li>
+              <br>
+              <li>Generate Invoices</li>
+              <br>
+              <li>Keep Track of Invoices</li>
+              <br>
+              <li>Link to Accounts</li>
+              <br>
+            </ul>
+            <button (click)="login()" class="btn btn-primary" style="bottom: 0; margin-bottom: 15px;">Join Now</button>
+          </div>
+        </div>
+        <div class="col-sm-8 image2">
+          <div class="col-sm-12">
+            <img src="https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/about+us+image+two.jpg" style="width: 100%; height: auto; border-radius: 8px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 3%;">
+      <div class="col-sm-12 lastBox" style="margin-top: 25px;">
+        <div class="col-sm-12 col-lg-3 columns">
+          <div class="col-sm-12 additionalInfo">
+            <ul>
+              <h4 class="listHeaders">Services</h4>
+              <li>As a User</li>  
+                <ul>
+                  <li>View Details and Pricing of Services Provided by Your VA</li>
+                  <li>Create custom tasks for your VA if there is something they're doing that
+                    isn't in their list of tasks provided
+                  </li>
+                </ul>
+              <li>As an Admin</li>
+                <ul>
+                  <li>Create, Edit, and Delete Services Your Clients Will Use</li>
+                  <li>Create Custom Tasks With Custom Prices specific to a Client</li>
+                </ul>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3 columns">
+          <div class="col-sm-12 additionalInfo">
+            <ul>
+              <h4 class="listHeaders">Tasks</h4>
+              <li>Create and Edit Tasks to be completed</li>
+              <li>View Total Estimates for Individual Tasks Assigned to a VA</li>
+              <li>Track or Update Task Progress as your VA Updates the Task</li>
+              <li>Set Due Dates to Tasks for Your VA to Manage Their Time Effectively</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3 columns">
+          <div class="col-sm-12 additionalInfo">
+            <ul>
+              <h4 class="listHeaders">Invoices</h4>
+              <li>Create Automaticly Generated Invoices Based On Completed Tasks</li>
+              <li>Export and Email Client Invoices</li>
+              <li>Always Have Access to Past Paid Invoices for Filing Taxes for Your Business, or Just Reviewing at a Later Time</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3 columns">
+          <div class="col-sm-12 additionalInfo">
+            <ul>
+              <h4 class="listHeaders">Accounts</h4>
+                <li>As a User</li>  
+                  <ul>
+                    <li>Immediate Access to All of Your VA's Services</li>
+                    <li>Easy and Quick Contact With Your VA</li>
+                  </ul>
+                <li>As an Admin</li>
+                  <ul>
+                    <li>Link Website and Social Media Accounts for Ease of Access to Your Clients</li>
+                    <li>Automaticly Added to Our List of Virtual Assistants for New Clients</li>
+                    <li>Manage Your Clients and Find New Ones All In One Place</li>
+                  </ul>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

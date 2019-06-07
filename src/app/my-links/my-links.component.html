@@ -1,6 +1,7 @@
-<div id='main-container'>
+<div id='main-container' style="text-align: center;">
     <h2 style="color: rgb(94, 216, 238); text-align: center; padding-top: 5%">My Links</h2>
     <hr>
+    <span style="color: white;">*Make sure to enter <b style="color:white;">http://</b> for the link to work!</span>
     <div>
       <label>My Website:</label>
       <input [(ngModel)]="user.myWebsite"/>
@@ -27,7 +28,7 @@
     </div>
     
     <br>
-  <button (click)="submit()" style="width: 14%; margin-right: 43%; margin-left: 43%"
+  <button (click)="submit()" style="width: 33% !important;"
     class="btn btn-primary">Submit</button>
     <div *ngIf="errorMessage" style="text-align: center">
       <span style="color: white;">{{errorMessage}}</span>

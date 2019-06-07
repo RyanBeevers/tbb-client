@@ -15,6 +15,7 @@ declare var $: any;
 })
 export class MyAccountComponent implements OnInit {
   user: User = {};
+  selectedFiles: FileList;
 
   constructor(
     private userService: UserService,

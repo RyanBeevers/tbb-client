@@ -1,0 +1,135 @@
+.main-container{
+    margin-bottom: 8%;
+}
+.row{
+    display: flex;
+}
+
+.header{
+    background-color: rgba(5,5,5,0.3);
+    border-radius: 8px;
+}
+p{
+    padding: 90px 0;
+    border-radius: 8px;
+}
+#aboutUs{
+    font-size: 20px; 
+    width: 75%; 
+    height: 75%; 
+    margin: auto;
+    margin-top: auto;
+    border-radius: 8px;
+}
+
+.imageLink1{
+    background-image: linear-gradient( rgba(94, 238, 159, 0.0), rgba(94, 238, 159, 0.7) ), url("https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/about+us+overlay+1.jpg");
+    background-size: 100%;
+    text-align: center;
+    line-height: 285px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.imageLink2{
+    background-image: linear-gradient( rgba(94, 216, 238, 0.0), rgba(94, 216, 238, 0.7) ), url("https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/about+us+overlay.jpg");
+    background-size: 100%;
+    text-align: center;
+    line-height: 285px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.imageLink1:hover{
+    background-image: linear-gradient( rgba(94, 238, 159, 0.3), rgba(94, 238, 159, 0.9) ), url("https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/about+us+overlay+1.jpg");
+    text-align: center;
+    line-height: 285px;;
+}
+
+.imageLink2:hover{
+    background-image: linear-gradient( rgba(94, 216, 238, 0.3), rgba(94, 216, 238, 0.9) ), url("https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/about+us+overlay.jpg");
+    text-align: center;
+    line-height: 285px;;
+}
+
+.imgLink{
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    width: 100%;
+    font-size: 15px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    vertical-align: center;
+    text-decoration: underline;
+    border-radius: 8px;
+}
+
+.imgLink1{
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    width: 100%;
+    font-size: 15px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    vertical-align: center;
+    text-decoration: underline;
+    border-radius: 8px;
+}
+
+.image2 {
+    display: inline-block;
+    padding-top: 25px;
+    border-radius: 8px;
+    height: 0%;
+}
+
+.contactInfo{
+    display: inline-block; 
+    height: auto;
+    margin-top: 25px; 
+    background-color: rgba(5,5,5,0.3);
+    vertical-align: top;
+    border-radius: 8px;
+    padding-bottom: 7.75%;
+}
+
+.lastBox{
+    background-color: rgba(5,5,5,0.3);
+    border-radius: 8px;
+}
+
+.columns{
+    vertical-align: top;
+    display: inline-block
+}
+
+.additionalInfo{
+    width: 100%;
+}
+
+li{
+    margin-top: 10px;
+    text-align: left !important;
+}
+
+.btn-primary{
+    background-color: rgb(83, 83, 83);
+    color:rgb(94, 216, 238) !important;
+    border-color: rgb(153, 153, 153);
+}
+.btn-primary:hover{
+    background-color: rgb(94, 216, 238);
+    border-color: transparent;
+    color: black !important;
+}
+
+h1{
+    color: white !important;
+}
+.listHeaders{
+    padding-top: 20px;
+}

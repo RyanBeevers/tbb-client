@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   admins = []
   closeModal=false;
   business =''; 
+  registering;
 
   constructor(
     private userService: UserService,
@@ -43,10 +44,11 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.getTokenUser();
-    setTimeout(()=>{
+    // this.userService.getTokenUser();
+    // setTimeout(()=>{
       if(!localStorage.getItem('user')){
         if(localStorage.getItem('preppedUser')){
+          console.log('here')
           this.user = JSON.parse(localStorage.getItem('preppedUser'))
           if(this.user.email == 'ryan2914@gmail.com'){
             this.user.myAdminPassphrase = 'test';
@@ -54,16 +56,25 @@ export class HomeComponent implements OnInit {
             this.register();
           }else{
             this.showModal(); 
+            this.registering=true;
           }
+        }else{
+          console.log('here1')
+          this.router.navigate(['/not-authorized']);
         }
       }
       if(localStorage.getItem('user')){
         this.user=JSON.parse(localStorage.getItem('user'))
         if(!this.user.admin && !this.user.adminPassphrase){
           this.showModal();
+          this.registering=true;
         }
       }
-    }, 2000)
+
+      // if(!localStorage.getItem('user') && !this.registering){
+      //   this.router.navigate(['/not-authorized']);
+      // }
+    // }, 2000)
     window.scrollTo(0, 0)
   }
   showModal():void {
@@ -75,6 +86,7 @@ export class HomeComponent implements OnInit {
   }
 
   hideModal():void {
+    this.user.myAdminPassphrase='';
     document.getElementById('close-modal').click();
   }
 
@@ -227,16 +239,4 @@ export class HomeComponent implements OnInit {
       this.closeModal=true;
     }
   }
-
-  // getMyAdmin(){
-  //   let passphrase = this.user.adminPassphrase
-  //   this.userService.getMyAdmin(passphrase).pipe(first()).subscribe((admin) =>{
-  //     if(admin){
-  //       let myAdmin: User = {};
-  //       myAdmin = admin;
-  //       this.business = myAdmin.businessName
-  //     }
-  //   }, (error) => { this.validPassphrase = false; this.appComponent.alert('danger', 'Something went wrong! Please try again later.');});
-  // }
-
 }

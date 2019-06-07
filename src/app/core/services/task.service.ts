@@ -9,6 +9,7 @@ import { Invoice } from '../models/invoice.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
+    'Access-Control-Allow-Origin':'*',
     'Content-Type': 'application/json'
   })
 };

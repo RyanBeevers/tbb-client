@@ -1,3 +1,114 @@
-<p>
-  become-an-admin works!
-</p>
+<div class="main-container">
+  <div class="row" style="margin-left: 2%; margin-right: 2%">
+    <div class="col-lg-12 headerText" style="text-align: center">
+      <h1 style="z-index: 99">Interested In Becoming An Admin?</h1>
+      <h4>Learn More Below!</h4>
+    </div>
+    <div class="col-lg-12 header" style="margin-top: 1%;">
+      <div class="col-lg-12">
+        <div class="col-sm-3 sections">
+          <div class="section1" (mouseover)="changeText1=true" (mouseout)="changeText1=false" (click)="users()"><i class="fas fa-user-friends"></i></div>
+          <span *ngIf="changeText1" style="float: left"><b>Link Users</b></span>
+        </div>
+        <div class="col-sm-3 sections">
+          <div class="section1"(mouseover)="changeText4=true" (mouseout)="changeText4=false" (click)="accounts()"><i class="fas fa-concierge-bell"></i></div>
+          <span *ngIf="changeText4" style="float: left"><b>Manage Services</b></span>
+        </div>
+        <div class="col-sm-3 sections">
+          <div class="section1" (mouseover)="changeText3=true" (mouseout)="changeText3=false" (click)="tasks()"><i class="fas fa-tasks"></i></div>
+          <span *ngIf="changeText3" style="float: left"><b>Manage Tasks</b></span>
+        </div>
+        <div class="col-sm-3 sections">
+          <div class="section1" (mouseover)="changeText2=true" (mouseout)="changeText2=false" (click)="invoices()"><i class="fas fa-file-invoice"></i></div>
+          <span *ngIf="changeText2" style="float: left"><b>Create Invoices</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 pageInfo" *ngIf="linkUsers">
+      <div class="col-md-4 contactInfo">
+        <div class="col-md-12" style="text-align: center;">
+          <h1 style="color: white;">Link Your Users</h1>
+            <ul>
+              <li>Some stuff</li>
+              <li>Some More stuff</li>
+              <li>Access to this feature</li>
+              <li>Access to that feature</li>
+              <li>Access to this additional feature</li>
+              <li>Customer Service</li>
+              
+            </ul>
+            <a href="mailto:busybeevers@gmail.com?subject=I%20want%20to%20become%20an%20admin!" class="btn btn-primary" style="bottom: 4">Sign Up</a>
+        </div>
+      </div>
+      <div class="col-md-8 image2">
+        <img src="https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/registration1.gif" style="width: 100%; height: auto; border-radius: 8px;">
+      </div>
+    </div>
+
+
+    <div class="col-lg-12 pageInfo" *ngIf="createInvoices">
+      <div class="col-md-4 contactInfo">
+        <div class="col-md-12" style="text-align: center;">
+          <h1 style="color: white;">Create Invoices</h1>
+            <ul>
+              <li>Some stuff</li>
+              <li>Some More stuff</li>
+              <li>Access to this feature</li>
+              <li>Access to that feature</li>
+              <li>Access to this additional feature</li>
+              <li>Customer Service</li>
+            </ul>
+            <a href="mailto:busybeevers@gmail.com?subject=I%20want%20to%20become%20an%20admin!" class="btn btn-primary" style="bottom: 4">Sign Up</a>
+        </div>
+      </div>
+      <div class="col-md-8 image2">
+        <img src="https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/create+invoice1.gif" style="width: 100%; height: auto; border-radius: 8px;">
+      </div>
+    </div>
+
+
+
+    <div class="col-lg-12 pageInfo" *ngIf="manageTasks">
+      <div class="col-md-4 contactInfo">
+        <div class="col-md-12" style="text-align: center;">
+          <h1 style="color: white;">Manage Tasks</h1>
+            <ul>
+              <li>Some stuff</li>
+              <li>Some More stuff</li>
+              <li>Access to this feature</li>
+              <li>Access to that feature</li>
+              <li>Access to this additional feature</li>
+              <li>Customer Service</li>
+            </ul>
+            <a href="mailto:busybeevers@gmail.com?subject=I%20want%20to%20become%20an%20admin!" class="btn btn-primary" style="bottom: 4">Sign Up</a>
+        </div>
+      </div>
+      <div class="col-md-8 image2">
+        <img src="https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/create+task1.gif" style="width: 100%; height: auto; border-radius: 8px;">
+      </div>
+    </div>
+
+
+
+    <div class="col-lg-12 pageInfo" *ngIf="linkYourAccounts">
+      <div class="col-md-4 contactInfo">
+        <div class="col-md-12" style="text-align: center;">
+          <h1 style="color: white;">Manage Your Services</h1>
+            <ul>
+              <li>Some stuff</li>
+              <li>Some More stuff</li>
+              <li>Access to this feature</li>
+              <li>Access to that feature</li>
+              <li>Access to this additional feature</li>
+              <li>Customer Service</li>
+            </ul>
+            <a href="mailto:busybeevers@gmail.com?subject=I%20want%20to%20become%20an%20admin!" class="btn btn-primary" style="bottom: 4">Sign Up</a>
+        </div>
+      </div>
+      <div class="col-md-8 image2">
+        <img src="https://elasticbeanstalk-us-east-2-048152887334.s3.us-east-2.amazonaws.com/create+service1.gif" style="width: 100%; height: auto; border-radius: 8px;">
+      </div>
+    </div>
+
+  </div>
+</div>
