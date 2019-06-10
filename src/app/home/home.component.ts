@@ -44,8 +44,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.userService.getTokenUser();
-    // setTimeout(()=>{
       if(!localStorage.getItem('user')){
         if(localStorage.getItem('preppedUser')){
           console.log('here')
@@ -59,7 +57,6 @@ export class HomeComponent implements OnInit {
             this.registering=true;
           }
         }else{
-          console.log('here1')
           this.router.navigate(['/not-authorized']);
         }
       }
@@ -70,11 +67,6 @@ export class HomeComponent implements OnInit {
           this.registering=true;
         }
       }
-
-      // if(!localStorage.getItem('user') && !this.registering){
-      //   this.router.navigate(['/not-authorized']);
-      // }
-    // }, 2000)
     window.scrollTo(0, 0)
   }
   showModal():void {
@@ -110,8 +102,34 @@ export class HomeComponent implements OnInit {
       }else{
         this.appComponent.alert('danger', 'Your account could not be created! Please try again later!')
       }
-    })
+    }, (error) => {})
+  }
 
+  registerIncomplete(){
+    this.user.myAdminPassphrase=null;
+    this.user.admin=false;
+    this.user.adminPassphrase=null;
+
+    this.userService.register(this.user).pipe(first()).subscribe((user)=>{
+      if(user){
+        this.appComponent.alert('success', 'You have successfully registered your account! Welcome!')
+        this.hideModal();
+        localStorage.setItem('user', JSON.stringify(user))
+        if(localStorage.getItem('preppedUser')){
+          localStorage.removeItem('preppedUser')
+        }
+        this.appComponent.ngDoCheck();
+        if(!this.user.admin && !this.user.adminPassphrase){
+          this.router.navigate(['/']);
+        }
+        setTimeout(()=>{
+          this.userService.getTokenUser();
+        }, 1000)
+        
+      }else{
+        this.appComponent.alert('danger', 'Your account could not be created! Please try again later!')
+      }
+    }, (error) => {})
   }
 
   validateManager(){
@@ -228,7 +246,13 @@ export class HomeComponent implements OnInit {
             this.validPassphrase=false;
           }
         }
-      }, (error) => { this.validPassphrase = false; this.appComponent.alert('danger', 'Something went wrong! Please try again later.');});
+      }, (error) => {
+        this.user.admin=false;
+        this.user.myAdminPassphrase=null;
+        this.showWarningMessage=true;
+        this.warningMessage="Matches another VAs passphrase. Please enter another one!."
+        this.validPassphrase=false;
+        });
     } 
   }
 
